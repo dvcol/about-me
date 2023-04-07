@@ -1,3 +1,4 @@
-import { App } from './components';
+import type { App } from './components';
+
 declare const app: App<any, any, any>;
 export default app;
