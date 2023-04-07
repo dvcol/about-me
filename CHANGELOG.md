@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/dvcol/about-me/compare/v1.1.0...v1.1.1) (2023-04-07)
+
+
+### Bug Fixes
+
+* **style:** move scss to App component ([e7a32da](https://github.com/dvcol/about-me/commit/e7a32da9648a35be2ac61a14781ea35e63dbe1ca))
+
 ## 1.1.0 (2023-04-07)
 
 
