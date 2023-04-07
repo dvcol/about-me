@@ -2,7 +2,6 @@
   "name": "@dvcol/about-me",
   "type": "module",
   "version": "1.0.0",
-  "private": true,
   "author": "dvcol",
   "homepage": "https://github.com/dvcol/about-me",
   "repository": {
