@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.2](https://github.com/dvcol/about-me/compare/v1.1.1...v1.1.2) (2023-04-08)
+
+
+### Bug Fixes
+
+* **wc:** fix style encapsulation in wc ([acb6528](https://github.com/dvcol/about-me/commit/acb65280dc61dae5fc4d65a71d6aaf6f5e62371d))
+
 ### [1.1.1](https://github.com/dvcol/about-me/compare/v1.1.0...v1.1.1) (2023-04-07)
 
 
