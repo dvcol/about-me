@@ -24,6 +24,7 @@
   },
   "scripts": {
     "prepare": "husky install",
+    "dev:wc": "VITE_WEB_COMPONENT=true vite",
     "dev": "vite",
     "build": "vite build",
     "serve": "pnpm run build && vite preview",

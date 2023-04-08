@@ -10,7 +10,9 @@ export default defineConfig({
     dtsPlugin({
       outputDir: 'dist/types',
     }),
-    svelte(),
+    svelte({
+      emitCss: false,
+    }),
     viteI18nPlugin({
       path: 'src/i18n',
       out: true,
