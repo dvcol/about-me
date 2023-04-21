@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.3](https://github.com/dvcol/about-me/compare/v1.1.2...v1.1.3) (2023-04-21)
+
+
+### Bug Fixes
+
+* **wc:** fix define component function ([b398dc9](https://github.com/dvcol/about-me/commit/b398dc9b1eeef432e51a4e6a3b445265f638dd5d))
+
 ### [1.1.2](https://github.com/dvcol/about-me/compare/v1.1.1...v1.1.2) (2023-04-08)
 
 
