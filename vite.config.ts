@@ -1,8 +1,8 @@
-import { fileURLToPath, URL } from 'url';
+import {fileURLToPath, URL} from 'url';
 
-import { viteI18nPlugin } from '@dvcol/vite-plugin-i18n';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
-import { defineConfig } from 'vite';
+import {viteI18nPlugin} from '@dvcol/vite-plugin-i18n';
+import {svelte} from '@sveltejs/vite-plugin-svelte';
+import {defineConfig} from 'vite';
 import dtsPlugin from 'vite-plugin-dts';
 
 export default defineConfig({
@@ -25,7 +25,6 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: 'src/main.ts',
         index: 'src/index.ts',
       },
       output: {

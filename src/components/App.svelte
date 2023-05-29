@@ -1,17 +1,29 @@
 <script lang="ts">
-    import {Section} from '~/components/layout';
+    import {I18nProvider} from "~/components/common";
+    import {ContactView, HeroView, ProjectsView, SkillsView, TimelineView} from "~/components/view";
 </script>
 
 <article id="app">
-    <Section></Section>
+    <I18nProvider/>
+    <HeroView/>
+    <ProjectsView/>
+    <SkillsView/>
+    <TimelineView/>
+    <ContactView/>
 </article>
 
 <style lang="scss">
   :root {
-    scroll-behavior: smooth;
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    scroll-behavior: smooth;
     text-rendering: optimizelegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  #app {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
   }
 </style>

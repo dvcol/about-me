@@ -7,9 +7,29 @@
     <title>Vite + Svelte + TS</title>
   </head>
   <body>
-    <wc-about-me>
-      <div id="app-container-root"></div>
-    </wc-about-me>
-    <script type="module" src="/src/main.ts"></script>
+    <wc-about-me id="app-container-root"></wc-about-me>
   </body>
 </html>
+
+<script type="module">
+  const script = document.createElement('script')
+  script.type = 'module'
+  script.src = import.meta.env.VITE_WEB_COMPONENT ? 'src/main-wc.ts' : 'src/main.ts'
+  document.head.appendChild(script)
+</script>
+
+<style>
+  #app-container-root{
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+  }
+
+  body {
+    display: flex;
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    place-items: center;
+  }
+</style>

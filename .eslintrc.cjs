@@ -5,4 +5,7 @@ module.exports = {
   parserOptions: {
     project: './tsconfig.eslint.json',
   },
+  rules: {
+    "prettier/prettier": 0
+  }
 };
