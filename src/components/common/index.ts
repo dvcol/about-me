@@ -1,1 +1,2 @@
-export {default as I18nProvider} from './I18nProvider.svelte'
+export * from './i18n'
+export * from './sunburst'
