@@ -125,8 +125,6 @@
     }
 
     const data = normalizeData(skills)
-
-    console.info(data)
 </script>
 
 <Section>

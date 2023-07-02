@@ -27,12 +27,8 @@ export const normalizeData = (data: SunburstData) => ({
 })
 
 
-const arcVisible = (d: DefaultObject) => d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
-const labelVisible = (d: DefaultObject) => d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
-
-function isVisible(d: SunburstNode) {
-    return !!+this.getAttribute("fill-opacity") || arcVisible(d.target);
-}
+const arcVisible = (d: DefaultObject, depth = 3) => d.y1 <= depth && d.y0 >= 1 && d.x1 > d.x0;
+const labelVisible = (d: DefaultObject, depth = 3) => d.y1 <= depth && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
 
 const isClickable = (d: SunburstNode) => !!d.children?.length
 
@@ -52,8 +48,14 @@ const getLabelTransform = (radius: number) => (d: DefaultObject) => {
 
 const getColor = (data) => d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, data.children.length + 1))
 
-
-export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, width: number) => {
+export type SunburstOptions<T extends SunburstData = SunburstData> = {
+    width?: number,
+    depth?: number,
+    onClick?: (data: T) => void,
+    onHover?: (data?: T) => void
+}
+export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, options: SunburstOptions<T>) => {
+    const { width, depth, onClick, onHover } = { width: 1200, depth:3, ...options}
     const radius = width / 6
     const arc = getArc(radius)
     const labelTransform = getLabelTransform(radius)
@@ -82,10 +84,10 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, wid
             return color(d.data.name);
         })
         .attr("fill-opacity", d => {
-            if (arcVisible(d.current)) return (d.children ? 0.6 : 0.4)
+            if (arcVisible(d.current, depth)) return (d.children ? 0.6 : 0.4)
             return 0
         })
-        .attr("pointer-events", d => arcVisible(d.current) ? "auto" : "none")
+        .attr("pointer-events", d => arcVisible(d.current, depth) ? "auto" : "none")
 
         .attr("d", d => arc(d.current));
 
@@ -103,7 +105,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, wid
         .data<SunburstNode>(root.descendants().slice(1))
         .join("text")
         .attr("dy", "0.35em")
-        .attr("fill-opacity", d => +labelVisible(d.current))
+        .attr("fill-opacity", d => +labelVisible(d.current, depth))
         .attr("transform", d => labelTransform(d.current))
         .text(d => d.data.name);
 
@@ -113,7 +115,12 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, wid
         .attr("fill", "none")
         .attr("pointer-events", "all")
 
+    const isVisible = function isVisible(d: SunburstNode) {
+        return !!+this.getAttribute("fill-opacity") || arcVisible(d.target, depth);
+    }
+
     const onClicked = (event: PointerEvent, p: SunburstNode) => {
+        onClick?.(p.data as T)
         if (!isClickable(p)) return
 
         parent.datum(p.parent || root);
@@ -141,16 +148,16 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, wid
             })
             .filter(isVisible)
             .attr("fill-opacity", d => {
-                if (arcVisible(d.target)) return d.children ? 0.6 : 0.4;
+                if (arcVisible(d.target, depth)) return d.children ? 0.6 : 0.4;
                 return 0
             })
-            .attr("pointer-events", d => arcVisible(d.target) ? "auto" : "none")
+            .attr("pointer-events", d => arcVisible(d.target, depth) ? "auto" : "none")
             .attrTween("d", d => () => arc(d.current));
 
         label
             .filter(isVisible)
             .transition(t)
-            .attr("fill-opacity", (d: SunburstNode) => +labelVisible(d.target))
+            .attr("fill-opacity", (d: SunburstNode) => +labelVisible(d.target, depth))
             .attrTween("transform", (d: SunburstNode) => () => labelTransform(d.current));
     }
 
@@ -158,13 +165,18 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, wid
     path.on("click", onClicked);
 
     function onMouseOver(_: MouseEvent, d: SunburstNode) {
-        path.filter(e => e !== d && d.ancestors().every(c => c !== e)).style('opacity', '0.75')
+        onHover?.(d.data as T)
+        path.filter(e => e !== d && d.ancestors()
+            .every(c => c !== e))
+            .style('opacity', '0.75')
+
         if (!isClickable(d)) return
         const _node = d3.select(this)
         _node.attr('fill-opacity', `${+_node.attr('fill-opacity') + 0.05}`);
     }
 
     function onMouseLeave(_: MouseEvent, d: SunburstNode) {
+        onHover?.()
         path.filter(e => e !== d).style('opacity', null)
         if (!isClickable(d)) return
         const _node = d3.select(this)
