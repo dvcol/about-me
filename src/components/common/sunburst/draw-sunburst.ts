@@ -8,7 +8,7 @@ type DefaultObject = {
     current?: SunburstNode,
     target?: SunburstNode,
 }
-export type SunburstData = { name?: string, title?:string, value?: number, children?: SunburstData[] }
+export type SunburstData = { name?: string, title?: string, value?: number, children?: SunburstData[] }
 export type SunburstNode<T extends SunburstData = SunburstData> = d3.HierarchyRectangularNode<T> & DefaultObject
 
 const partition = <T extends SunburstData = SunburstData>(_data: T) => {
@@ -20,7 +20,7 @@ const partition = <T extends SunburstData = SunburstData>(_data: T) => {
         (root);
 }
 
-export const normalizeData = (data:SunburstData) => ({
+export const normalizeData = (data: SunburstData) => ({
     ...data,
     value: data.value ?? 1,
     children: data?.children?.map(normalizeData)
@@ -157,13 +157,15 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, wid
     parent.on("click", onClicked);
     path.on("click", onClicked);
 
-    function onMouseOver(_: MouseEvent,d:SunburstNode) {
+    function onMouseOver(_: MouseEvent, d: SunburstNode) {
+        path.filter(e => e !== d && d.ancestors().every(c => c !== e)).style('opacity', '0.75')
         if (!isClickable(d)) return
         const _node = d3.select(this)
         _node.attr('fill-opacity', `${+_node.attr('fill-opacity') + 0.05}`);
     }
 
-    function onMouseLeave(_: MouseEvent,d:SunburstNode) {
+    function onMouseLeave(_: MouseEvent, d: SunburstNode) {
+        path.filter(e => e !== d).style('opacity', null)
         if (!isClickable(d)) return
         const _node = d3.select(this)
         _node.attr('fill-opacity', `${+_node.attr('fill-opacity') - 0.05}`);
