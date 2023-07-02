@@ -20,6 +20,12 @@ const partition = <T extends SunburstData = SunburstData>(_data: T) => {
         (root);
 }
 
+export const normalizeData = (data:SunburstData) => ({
+    ...data,
+    value: data.value ?? 1,
+    children: data?.children?.map(normalizeData)
+})
+
 
 const arcVisible = (d: DefaultObject) => d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
 const labelVisible = (d: DefaultObject) => d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
@@ -49,7 +55,6 @@ const getColor = (data) => d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, da
 
 export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, width: number) => {
     const radius = width / 6
-    const format = d3.format(",d")
     const arc = getArc(radius)
     const labelTransform = getLabelTransform(radius)
 
@@ -119,7 +124,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, wid
                 x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
                 y0: Math.max(0, d.y0 - p.depth),
                 y1: Math.max(0, d.y1 - p.depth)
-            }
+            } as any
         });
 
         const t = g.transition().duration(750);
