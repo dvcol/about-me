@@ -8,7 +8,7 @@ type DefaultObject = {
     current?: SunburstNode,
     target?: SunburstNode,
 }
-export type SunburstData = { name?: string, title?: string, value?: number, children?: SunburstData[] }
+export type SunburstData = { name?: string, title?: string, value?: number, children?: SunburstData[], depth?: number, color?:string }
 export type SunburstNode<T extends SunburstData = SunburstData> = d3.HierarchyRectangularNode<T> & DefaultObject
 
 const partition = <T extends SunburstData = SunburstData>(_data: T) => {
@@ -48,14 +48,20 @@ const getLabelTransform = (radius: number) => (d: DefaultObject) => {
 
 const getColor = (data) => d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, data.children.length + 1))
 
+function setData(d) {
+    d.data.depth = d.depth
+    d.data.color = this.getAttribute('fill')
+}
+
 export type SunburstOptions<T extends SunburstData = SunburstData> = {
     width?: number,
     depth?: number,
+    onInit?: (data: T) => void,
     onClick?: (data: T) => void,
     onHover?: (data?: T) => void
 }
 export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, options: SunburstOptions<T>) => {
-    const { width, depth, onClick, onHover } = { width: 1200, depth:3, ...options}
+    const { width, depth, onInit, onClick, onHover } = { width: 1200, depth:3, ...options}
     const radius = width / 6
     const arc = getArc(radius)
     const labelTransform = getLabelTransform(radius)
@@ -89,7 +95,8 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
         })
         .attr("pointer-events", d => arcVisible(d.current, depth) ? "auto" : "none")
 
-        .attr("d", d => arc(d.current));
+        .attr("d", d => arc(d.current))
+        .each(setData);
 
     path.filter((d) => !!d.children)
         .style("cursor", "pointer");
@@ -115,7 +122,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
         .attr("fill", "none")
         .attr("pointer-events", "all")
 
-    const isVisible = function isVisible(d: SunburstNode) {
+    function isVisible(d: SunburstNode) {
         return !!+this.getAttribute("fill-opacity") || arcVisible(d.target, depth);
     }
 
@@ -186,6 +193,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
     path.on("mouseover", onMouseOver)
         .on("mouseout", onMouseLeave);
 
+    onInit?.(root.data as T)
 
     return svg.node();
 }

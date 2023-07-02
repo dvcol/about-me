@@ -10,9 +10,11 @@
     export let data: SunburstData | (() => Promise<SunburstData>);
     export let width = 1800
     export let depth = 3
+
     let element: HTMLDivElement;
 
     const dispatch = createEventDispatcher();
+    const onInit = (_data:SunburstData) => dispatch('init', _data)
     const onClick = (_data:SunburstData) => dispatch('click', _data)
     const onHover = (_data:SunburstData) => dispatch('hover', _data)
 
@@ -21,7 +23,7 @@
 
         const _data = typeof data == 'function' ? (await data()) : data
 
-        const chart = drawSunburst(_data, {width, depth, onClick, onHover});
+        const chart = drawSunburst(_data, {width, depth, onInit, onClick, onHover});
 
         d3.select(element).append(() => chart);
     })
