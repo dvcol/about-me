@@ -16,6 +16,9 @@
     const onClick = (_data:SunburstData) => dispatch('click', _data)
     const onHover = (_data:SunburstData) => dispatch('hover', _data)
 
+    export let height: string = null;
+    export let width: string = null;
+
     export let select: SunburstApi['select']
     export let back: SunburstApi['back']
 
@@ -24,7 +27,7 @@
 
         const _data = typeof data == 'function' ? (await data()) : data
 
-        const chart = drawSunburst(normalizeData(_data), { onInit, onClick, onHover});
+        const chart = drawSunburst(normalizeData(_data), { height, width, onInit, onClick, onHover});
         
         select = chart.select
         back = chart.back

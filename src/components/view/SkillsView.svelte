@@ -37,6 +37,8 @@
     <div slot="main" class="row">
         <div class="column sunburst">
             <SunBurst {data}
+                      height="50vh"
+                      width="60vw"
                       bind:select={select}
                       bind:back={back}
                       on:init={e => {
@@ -88,6 +90,7 @@
   .column {
     display: flex;
     flex-direction: column;
+    max-height: 50vh;
   }
 
   .sunburst {
@@ -96,7 +99,6 @@
 
   .chips {
     flex: 0 1 40%;
-    max-height: 60%;
     overflow: auto;
   }
 </style>

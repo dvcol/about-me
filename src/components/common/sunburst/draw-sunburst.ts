@@ -76,7 +76,9 @@ function setData(d) {
 }
 
 export type SunburstOptions<T extends SunburstData = SunburstData> = {
-    width?: number,
+    height?: string,
+    width?: string,
+    viewBox?:number,
     depth?: number,
     onInit?: (data: T) => void,
     onClick?: (data: T) => void,
@@ -90,12 +92,12 @@ export type SunburstApi<T extends SunburstData = SunburstData> = {
 }
 
 export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, options: SunburstOptions<T>): SunburstApi<T> => {
-    const {width, depth, onInit, onClick, onHover} = {
+    const {height, width,viewBox, depth, onInit, onClick, onHover} = {
         ...options,
-        width: options?.width ?? 1000,
+        viewBox: options?.viewBox ?? 1000,
         depth: options?.depth ?? 3
     }
-    const radius = width / 6
+    const radius = viewBox / 6
     const arc = getArc(radius)
     const labelTransform = getLabelTransform(radius)
 
@@ -108,11 +110,13 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
     });
 
     const svg = d3.create("svg")
-        .attr("viewBox", [0, 0, width, width])
+        .attr('height', height)
+        .attr('width', width)
+        .attr("viewBox", [0, 0, viewBox, viewBox])
         .style("font", "10px sans-serif");
 
     const g = svg.append("g")
-        .attr("transform", `translate(${width / 2},${width / 2})`);
+        .attr("transform", `translate(${viewBox / 2},${viewBox / 2})`);
 
     const path = g.append("g")
         .selectAll("path")
