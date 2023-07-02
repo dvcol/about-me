@@ -1,5 +1,9 @@
 import * as d3 from "d3";
 
+import {v4 as uuid} from 'uuid'
+
+import {isDarkTheme} from "~/utils";
+
 type DefaultObject = {
     x0: number,
     x1: number,
@@ -8,7 +12,16 @@ type DefaultObject = {
     current?: SunburstNode,
     target?: SunburstNode,
 }
-export type SunburstData = { name?: string, title?: string, value?: number, children?: SunburstData[], depth?: number, color?:string }
+export type SunburstData = {
+    id?:string,
+    name?: string,
+    title?: string,
+    value?: number,
+    children?: SunburstData[],
+    depth?: number,
+    color?: string,
+    node?: SunburstNode<SunburstData>
+}
 export type SunburstNode<T extends SunburstData = SunburstData> = d3.HierarchyRectangularNode<T> & DefaultObject
 
 const partition = <T extends SunburstData = SunburstData>(_data: T) => {
@@ -22,6 +35,7 @@ const partition = <T extends SunburstData = SunburstData>(_data: T) => {
 
 export const normalizeData = (data: SunburstData) => ({
     ...data,
+    id: uuid(),
     value: data.value ?? 1,
     children: data?.children?.map(normalizeData)
 })
@@ -46,7 +60,15 @@ const getLabelTransform = (radius: number) => (d: DefaultObject) => {
     return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
 }
 
-const getColor = (data) => d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, data.children.length + 1))
+const getColor = (data) => d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, data.children.length + 1))
+
+const spliceNode = <T extends SunburstData = SunburstData>(p: SunburstNode<T>): T => (
+    {
+        ...p.data,
+        node: p,
+        children: p.children?.map(spliceNode)
+    }
+)
 
 function setData(d) {
     d.data.depth = d.depth
@@ -60,8 +82,19 @@ export type SunburstOptions<T extends SunburstData = SunburstData> = {
     onClick?: (data: T) => void,
     onHover?: (data?: T) => void
 }
-export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, options: SunburstOptions<T>) => {
-    const { width, depth, onInit, onClick, onHover } = { width: 1200, depth:3, ...options}
+
+export type SunburstApi<T extends SunburstData = SunburstData> = {
+    svg: SVGSVGElement,
+    select: (node: SunburstNode<T>) => void,
+    back: () => void
+}
+
+export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, options: SunburstOptions<T>): SunburstApi<T> => {
+    const {width, depth, onInit, onClick, onHover} = {
+        ...options,
+        width: options?.width ?? 1000,
+        depth: options?.depth ?? 3
+    }
     const radius = width / 6
     const arc = getArc(radius)
     const labelTransform = getLabelTransform(radius)
@@ -114,6 +147,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
         .attr("dy", "0.35em")
         .attr("fill-opacity", d => +labelVisible(d.current, depth))
         .attr("transform", d => labelTransform(d.current))
+        .attr('fill', () => isDarkTheme() ? 'white' : 'black')
         .text(d => d.data.name);
 
     const parent = g.append("circle")
@@ -126,9 +160,9 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
         return !!+this.getAttribute("fill-opacity") || arcVisible(d.target, depth);
     }
 
-    const onClicked = (event: PointerEvent, p: SunburstNode) => {
-        onClick?.(p.data as T)
+    const onClicked = (event: PointerEvent, p: SunburstNode<T>) => {
         if (!isClickable(p)) return
+        onClick?.(spliceNode<T>(p))
 
         parent.datum(p.parent || root);
 
@@ -171,8 +205,8 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
     parent.on("click", onClicked);
     path.on("click", onClicked);
 
-    function onMouseOver(_: MouseEvent, d: SunburstNode) {
-        onHover?.(d.data as T)
+    function onMouseOver(_: MouseEvent, d: SunburstNode<T>) {
+        onHover?.(spliceNode<T>(d))
         path.filter(e => e !== d && d.ancestors()
             .every(c => c !== e))
             .style('opacity', '0.75')
@@ -193,7 +227,11 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
     path.on("mouseover", onMouseOver)
         .on("mouseout", onMouseLeave);
 
-    onInit?.(root.data as T)
+    onInit?.(spliceNode<T>(root as SunburstNode<T>))
 
-    return svg.node();
+    return {
+        svg: svg.node(),
+        select: (node) => onClicked(undefined, node),
+        back:()=>onClicked(undefined, parent.datum() as SunburstNode<T>)
+    };
 }

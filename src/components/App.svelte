@@ -3,6 +3,18 @@
     import {ContactView, HeroView, ProjectsView, SkillsView, TimelineView} from "~/components/view";
 </script>
 
+<!-- SMUI Styles -->
+<link
+        rel="stylesheet"
+        href="node_modules/svelte-material-ui/themes/svelte.css"
+        media="(prefers-color-scheme: light)"
+/>
+<link
+        rel="stylesheet"
+        href="node_modules/svelte-material-ui/themes/svelte-dark.css"
+        media="screen and (prefers-color-scheme: dark)"
+/>
+
 <article id="app">
     <I18nProvider/>
     <HeroView/>

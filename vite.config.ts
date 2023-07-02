@@ -1,9 +1,11 @@
 import {fileURLToPath, URL} from 'url';
 
 import {viteI18nPlugin} from '@dvcol/vite-plugin-i18n';
+import svgPlugin from '@poppanator/sveltekit-svg'
 import {svelte} from '@sveltejs/vite-plugin-svelte';
 import {defineConfig} from 'vite';
 import dtsPlugin from 'vite-plugin-dts';
+
 
 export default defineConfig({
   plugins: [
@@ -17,6 +19,7 @@ export default defineConfig({
       path: 'src/i18n',
       out: true,
     }),
+    svgPlugin()
   ],
   server: {
     port: 3003,

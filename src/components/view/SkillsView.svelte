@@ -1,136 +1,32 @@
 <script lang="ts">
+    import Chip, {LeadingIcon, Set, Text} from '@smui/chips';
+    import SmallLeftArrowSvg from 'line-md/svg/arrow-small-left.svg?component'
     import {writable} from "svelte/store";
     import {_} from 'svelte-i18n'
 
-    import type {SunburstData} from "~/components/common";
+    import type {SunburstApi, SunburstData} from "~/components/common";
 
     import {Section} from "~/components";
     import {SunBurst} from "~/components/common";
 
 
 
-    import {normalizeData} from "~/components/common/sunburst/draw-sunburst";
+    import {skill} from "~/components/view/skills";
 
-    const skills: SunburstData = {
-        name: "Skills",
-        value: 0,
-        children: [
-            {
-                name: "Frontend",
-                children: [
-                    {
-                        name: 'Angular',
-                        children: [
-                            {name: 'NgRx'},
-                            {name: 'NgXs'},
-                            {name: 'Angular animation'},
-                            {name: 'Angular service worker'},
-                        ]
-                    },
-                    {
-                        name: 'Vue',
-                        children: [
-                            {name: 'Vue 2'},
-                            // { name: 'Vue 3'},
-                            {name: 'Composition API'},
-                            {name: 'Vuex'},
-                            // { name: 'Pinia'},
-                            // { name: 'Vuetify'},
-                            {name: 'Vue i18n'},
-                        ]
-                    },
-                    {
-                        name: 'Svelte',
-                        children: [
-                            {name: 'Svelte navigator'},
-                            {name: 'Svelte shell'},
-                            {name: 'Svelte i18n'},
-                        ]
-                    },
-                    {
-                        name: 'React',
-                        children: [
-                            {name: 'React Material UI (5+)'},
-                            {name: 'dnd-kit'},
-                            {name: 'React-redux'},
-                            {name: 'React-router'},
-                            {name: 'React-transition-group'},
-                        ]
-                    },
-                    {name: 'Solid'},
-                    {name: 'Stencil'},
-                    {
-                        name: 'Web extension',
-                        children: [
-                            {name: 'Manifest V3'},
-                            {name: 'Content script'},
-                            {name: 'Background script'},
-                            {name: 'Multi script communication'},
-                            {name: 'Chrome synch storage'}
-                        ]
-                    },
-                    {
-                        name: 'Micro Frontend',
-                        children: [
-                            {name: 'Module federation'},
-                            {name: 'Web components'},
-                            {name: 'Remote entry'},
-                            {name: 'Shell architecture'},
-                            {name: 'Iframe isolation'},
-                            {name: 'Multi framework runtime'},
-                            {name: 'Multi framework routing'}
-                        ]
-                    },
-                    {name: 'd3'},
-                    {name: 'Sass'},
-                    {name: 'Rxjs'},
-                    {name: 'Redux'},
-                    {name: 'Typescript'},
-                    {name: 'Eslint'},
-                    {name: 'Stylelint'},
-                    {name: 'Webpack'},
-                    {name: 'Vite'},
-                ]
-            },
-            {
-                name: "Devops",
-                children: [
-                    {name: 'Jhipster'},
-                    {name: 'Jenkins'},
-                    {name: 'GitLab'},
-                    {name: 'Github Action'},
-                    {name: 'Openshift'},
-                    {name: 'Docker'}
-                ]
-            },
-            {
-                name: "Backend",
-                children: [
-                    {name: 'Microservice'},
-                    {name: 'SQL'},
-                    {
-                        name: "Spring",
-                        children: [
-                            {name: 'Spring Boot'},
-                            {name: 'Spring Data JPA'},
-                            {name: 'Spring Web MVC'},
-                            {name: 'Spring Batch'}
-                        ]
-                    },
-                    {name: 'Hibernate'},
-                    {name: 'Liquidbase'},
-                    {name: 'NestJs'},
-                ]
-            },
-        ]
-    }
+    const data: SunburstData = skill
 
-    const data = normalizeData(skills)
-
-    const parse = (_skills: SunburstData) => [_skills.depth ? _skills : undefined, _skills?.children?.map(parse)?.flat()].filter(Boolean).flat()
+    const parse = (_skills: SunburstData, {min, max} = {min: 0, max: 2}) => [
+        _skills.depth > min ? _skills : undefined,
+        (_skills.depth ?? 0) <= max ? _skills?.children?.map(c=> parse(c, {min, max}))?.flat() : undefined
+    ].filter(Boolean).flat()
 
     const selected$ = writable([])
     const hover$ = writable([])
+
+    const parent$ = writable()
+
+    let select: SunburstApi['select']
+    let back: SunburstApi['back']
 
 </script>
 
@@ -141,25 +37,44 @@
     <div slot="main" class="row">
         <div class="column sunburst">
             <SunBurst {data}
+                      bind:select={select}
+                      bind:back={back}
                       on:init={e => {
+                          $parent$ = e.detail;
                           const parsed = parse(e.detail)
                           $selected$ = parsed;
                           $hover$ = parsed.map(s=>s.name);
                       }}
-                      on:click={e => {$selected$ = parse(e.detail)}}
+                      on:click={e => {
+                          $parent$ = e.detail;
+                          $selected$ = parse(e.detail)
+                      }}
                       on:hover={e => {
                           const parsed = e.detail ? parse(e.detail) : $selected$;
                           $hover$ = parsed.map(s=>s.name)
                       }}
-                      class="column"
             />
         </div>
 
-        <ul class="column">
-            {#each $selected$ as skill}
-                <li class:hover={!$hover$.includes(skill.name)} style={`color: ${skill.color}`}>{skill.name}</li>
-            {/each}
-        </ul>
+        <div class="column chips">
+            <Set chips={$selected$} let:chip choice>
+                <Chip style={`color: ${chip.color}; ${!$hover$.includes(chip.name) ? 'opacity: 0.6' : ''}`}
+                      chip={chip}
+                      on:SMUIChip:interaction={(e) => {
+                          const _selected = e.detail.chipId
+                          if(_selected === $parent$) return back()
+                          select(_selected.node);
+                      }}
+                >
+                    {#if chip.id === $parent$.id}
+                        <LeadingIcon style={`color: ${chip.color}; display: flex; align-items: center;`}>
+                            <SmallLeftArrowSvg/>
+                        </LeadingIcon>
+                    {/if}
+                    <Text>{chip.id === $parent$.id ? 'Back' : chip.name}</Text>
+                </Chip>
+            </Set>
+        </div>
     </div>
 </Section>
 
@@ -167,6 +82,7 @@
   .row {
     display: flex;
     flex-direction: row;
+    width: 100%;
   }
 
   .column {
@@ -175,10 +91,12 @@
   }
 
   .sunburst {
-    flex: 1 1 auto;
+    flex: 0 1 60%;
   }
 
-  .hover {
-    opacity: 0.5;
+  .chips {
+    flex: 0 1 40%;
+    max-height: 60%;
+    overflow: auto;
   }
 </style>
