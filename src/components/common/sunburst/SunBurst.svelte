@@ -20,6 +20,8 @@
     export let width: string = null;
 
     export let select: SunburstApi['select']
+    export let hover: SunburstApi['hover']
+    export let leave: SunburstApi['leave']
     export let back: SunburstApi['back']
 
     onMount(async () => {
@@ -28,8 +30,10 @@
         const _data = typeof data == 'function' ? (await data()) : data
 
         const chart = drawSunburst(normalizeData(_data), { height, width, onInit, onClick, onHover});
-        
+
         select = chart.select
+        hover = chart.hover
+        leave = chart.leave
         back = chart.back
 
         d3.select(element).append(() => chart.svg);

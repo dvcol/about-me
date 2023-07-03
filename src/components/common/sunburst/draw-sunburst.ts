@@ -13,7 +13,7 @@ type DefaultObject = {
     target?: SunburstNode,
 }
 export type SunburstData = {
-    id?:string,
+    id?: string,
     name?: string,
     title?: string,
     value?: number,
@@ -44,7 +44,7 @@ export const normalizeData = (data: SunburstData) => ({
 const arcVisible = (d: DefaultObject, depth = 3) => d.y1 <= depth && d.y0 >= 1 && d.x1 > d.x0;
 const labelVisible = (d: DefaultObject, depth = 3) => d.y1 <= depth && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
 
-const isClickable = (d: SunburstNode) => !!d.children?.length
+export const hasChildren = (d: SunburstNode) => !!d?.children?.length
 
 const getArc = (radius: number) => d3.arc<DefaultObject>()
     .startAngle(d => d.x0)
@@ -78,7 +78,7 @@ function setData(d) {
 export type SunburstOptions<T extends SunburstData = SunburstData> = {
     height?: string,
     width?: string,
-    viewBox?:number,
+    viewBox?: number,
     depth?: number,
     onInit?: (data: T) => void,
     onClick?: (data: T) => void,
@@ -88,11 +88,13 @@ export type SunburstOptions<T extends SunburstData = SunburstData> = {
 export type SunburstApi<T extends SunburstData = SunburstData> = {
     svg: SVGSVGElement,
     select: (node: SunburstNode<T>) => void,
+    hover: (node: SunburstNode<T>) => void,
+    leave: (node: SunburstNode<T>) => void,
     back: () => void
 }
 
 export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, options: SunburstOptions<T>): SunburstApi<T> => {
-    const {height, width,viewBox, depth, onInit, onClick, onHover} = {
+    const {height, width, viewBox, depth, onInit, onClick, onHover} = {
         ...options,
         viewBox: options?.viewBox ?? 1000,
         depth: options?.depth ?? 3
@@ -133,6 +135,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
         .attr("pointer-events", d => arcVisible(d.current, depth) ? "auto" : "none")
 
         .attr("d", d => arc(d.current))
+        .style("transition","opacity 0.5s")
         .each(setData);
 
     path.filter((d) => !!d.children)
@@ -165,8 +168,8 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
     }
 
     const onClicked = (event: PointerEvent, p: SunburstNode<T>) => {
-        if (!isClickable(p)) return
         onClick?.(spliceNode<T>(p))
+        if (!hasChildren(p)) return
 
         parent.datum(p.parent || root);
 
@@ -215,16 +218,16 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
             .every(c => c !== e))
             .style('opacity', '0.75')
 
-        if (!isClickable(d)) return
-        const _node = d3.select(this)
+        if (!hasChildren(d)) return
+        const _node = path.filter(n => n ===d)
         _node.attr('fill-opacity', `${+_node.attr('fill-opacity') + 0.05}`);
     }
 
     function onMouseLeave(_: MouseEvent, d: SunburstNode) {
         onHover?.()
         path.filter(e => e !== d).style('opacity', null)
-        if (!isClickable(d)) return
-        const _node = d3.select(this)
+        if (!hasChildren(d)) return
+        const _node = path.filter(n => n ===d)
         _node.attr('fill-opacity', `${+_node.attr('fill-opacity') - 0.05}`);
     }
 
@@ -236,6 +239,8 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
     return {
         svg: svg.node(),
         select: (node) => onClicked(undefined, node),
-        back:()=>onClicked(undefined, parent.datum() as SunburstNode<T>)
+        hover: (node) => onMouseOver(undefined, node),
+        leave: (node) => onMouseLeave(undefined, node),
+        back: () => onClicked(undefined, parent.datum() as SunburstNode<T>)
     };
 }

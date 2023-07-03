@@ -1,31 +1,54 @@
 <script lang="ts">
     import Chip, {LeadingIcon, Set, Text} from '@smui/chips';
     import SmallLeftArrowSvg from 'line-md/svg/arrow-small-left.svg?component'
+    import {createEventDispatcher} from "svelte";
     import {writable} from "svelte/store";
     import {_} from 'svelte-i18n'
 
     import type {SunburstApi, SunburstData} from "~/components/common";
 
-    import {Section} from "~/components";
-    import {SunBurst} from "~/components/common";
+    import {hasChildren, SunBurst} from "~/components/common";
 
+    import {Section,} from "~/components/layout";
 
 
     import {skill} from "~/components/view/skills";
 
     const data: SunburstData = skill
 
-    const parse = (_skills: SunburstData, {min, max} = {min: 0, max: 2}) => [
-        _skills.depth > min ? _skills : undefined,
-        (_skills.depth ?? 0) <= max ? _skills?.children?.map(c=> parse(c, {min, max}))?.flat() : undefined
-    ].filter(Boolean).flat()
+    const parse = (_skills: SunburstData, options: {
+        current?: number,
+        min?: number,
+        max?: number
+    } = {}) => {
 
-    const selected$ = writable([])
-    const hover$ = writable([])
+        const current = options.current ?? _skills.depth ?? 0
+        const min = options.min ?? 0
+        const max = options.max ?? 2
 
-    const parent$ = writable()
+        const parsed = []
+        const {depth} = _skills;
+
+        if (depth < current + min) return parsed
+        if (depth > current + max) return parsed
+
+        if (depth) parsed.push(_skills)
+        if (_skills?.children) parsed.push(..._skills.children.map(c => parse(c, {current, min, max})).flat())
+
+        return parsed.flat()
+    }
+
+    const dispatch = createEventDispatcher();
+    const selected = (chip: SunburstData) => dispatch('selected', chip)
+
+    const chips$ = writable<SunburstData[]>([])
+    const hover$ = writable<string[]>([])
+
+    const parent$ = writable<SunburstData>()
 
     let select: SunburstApi['select']
+    let hover: SunburstApi['hover']
+    let leave: SunburstApi['hover']
     let back: SunburstApi['back']
 
 </script>
@@ -40,32 +63,43 @@
                       height="50vh"
                       width="60vw"
                       bind:select={select}
+                      bind:hover={hover}
+                      bind:leave={leave}
                       bind:back={back}
                       on:init={e => {
                           $parent$ = e.detail;
                           const parsed = parse(e.detail)
-                          $selected$ = parsed;
+                          $chips$ = parsed;
                           $hover$ = parsed.map(s=>s.name);
                       }}
                       on:click={e => {
-                          $parent$ = e.detail;
-                          $selected$ = parse(e.detail)
+                          if(hasChildren(e.detail.node)) {
+                              $parent$ = e.detail;
+                              $chips$ = parse(e.detail)
+                          }
+
+                           selected(e.detail)
                       }}
                       on:hover={e => {
-                          const parsed = e.detail ? parse(e.detail) : $selected$;
+                          const parsed = e.detail ? parse(e.detail) : $chips$;
                           $hover$ = parsed.map(s=>s.name)
                       }}
             />
         </div>
 
         <div class="column chips">
-            <Set chips={$selected$} let:chip choice>
-                <Chip style={`color: ${chip.color}; ${!$hover$.includes(chip.name) ? 'opacity: 0.6' : ''}`}
+            <Set chips={$chips$} let:chip>
+                <Chip style={`transition: opacity 0.5s; color: ${chip.color}; ${!$hover$.includes(chip.name) ? 'opacity: 0.6' : ''}`}
                       chip={chip}
-                      on:SMUIChip:interaction={(e) => {
-                          const _selected = e.detail.chipId
-                          if(_selected === $parent$) return back()
-                          select(_selected.node);
+                      on:SMUIChip:interaction={() => {
+                          if(chip.id === $parent$.id) return back()
+                          select(chip.node);
+                      }}
+                      on:mouseenter={() => {
+                          hover(chip.node);
+                      }}
+                      on:mouseleave={() => {
+                          leave(chip.node);
                       }}
                 >
                     {#if chip.id === $parent$.id}
@@ -73,7 +107,7 @@
                             <SmallLeftArrowSvg/>
                         </LeadingIcon>
                     {/if}
-                    <Text>{chip.id === $parent$.id ? 'Back' : chip.name}</Text>
+                    <Text>{chip.id === $parent$.id ? $_('common.button.back') : chip.name}</Text>
                 </Chip>
             </Set>
         </div>
