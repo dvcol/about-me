@@ -4,6 +4,14 @@ import {v4 as uuid} from 'uuid'
 
 import {isDarkTheme} from "~/utils";
 
+enum Opacity {
+    Full = 1,
+    Inactive = 0.4,
+    Parent = 0.75,
+    Child = 0.5,
+    Step = 0.2
+}
+
 type DefaultObject = {
     x0: number,
     x1: number,
@@ -129,7 +137,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
             return color(d.data.name);
         })
         .attr("fill-opacity", d => {
-            if (arcVisible(d.current, depth)) return (d.children ? 0.6 : 0.4)
+            if (arcVisible(d.current, depth)) return (d.children ? Opacity.Parent : Opacity.Child)
             return 0
         })
         .attr("pointer-events", d => arcVisible(d.current, depth) ? "auto" : "none")
@@ -196,7 +204,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
             })
             .filter(isVisible)
             .attr("fill-opacity", d => {
-                if (arcVisible(d.target, depth)) return d.children ? 0.6 : 0.4;
+                if (arcVisible(d.target, depth)) return d.children ? Opacity.Parent: Opacity.Child;
                 return 0
             })
             .attr("pointer-events", d => arcVisible(d.target, depth) ? "auto" : "none")
@@ -214,13 +222,12 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
 
     function onMouseOver(_: MouseEvent, d: SunburstNode<T>) {
         onHover?.(spliceNode<T>(d))
-        path.filter(e => e !== d && d.ancestors()
-            .every(c => c !== e))
-            .style('opacity', '0.75')
+        path.filter(e => e !== d && d.ancestors().every(c => c !== e))
+            .style('opacity', Opacity.Inactive)
 
         if (!hasChildren(d)) return
         const _node = path.filter(n => n ===d)
-        _node.attr('fill-opacity', `${+_node.attr('fill-opacity') + 0.05}`);
+        _node.attr('fill-opacity', `${+_node.attr('fill-opacity') + Opacity.Step}`);
     }
 
     function onMouseLeave(_: MouseEvent, d: SunburstNode) {
@@ -228,7 +235,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
         path.filter(e => e !== d).style('opacity', null)
         if (!hasChildren(d)) return
         const _node = path.filter(n => n ===d)
-        _node.attr('fill-opacity', `${+_node.attr('fill-opacity') - 0.05}`);
+        _node.attr('fill-opacity', `${+_node.attr('fill-opacity') - Opacity.Step}`);
     }
 
     path.on("mouseover", onMouseOver)
