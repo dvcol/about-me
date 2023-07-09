@@ -2,32 +2,29 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/dvco.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + Svelte + TS</title>
   </head>
   <body>
-    <wc-about-me id="app-container-root"></wc-about-me>
+  <script type="module" src="/src/main.ts"></script>
+  <wc-about-me id="app-container-root"></wc-about-me>
   </body>
 </html>
-
-<script type="module">
-  const script = document.createElement('script')
-  script.type = 'module'
-  script.src = import.meta.env.VITE_WEB_COMPONENT ? 'src/main-wc.ts' : 'src/main.ts'
-  document.head.appendChild(script)
-</script>
 
 <style>
   #app-container-root{
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
+    height: 100%;
   }
 
+  html,
   body {
     display: flex;
     min-width: 320px;
+    height: 100%;
     min-height: 100vh;
     margin: 0;
     place-items: center;

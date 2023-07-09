@@ -1,7 +1,9 @@
-import {App} from '~/components';
+// eslint-disable-next-line import/no-mutable-exports
+let application;
+if (import.meta.env.VITE_WEB) {
+  application = import('./main-web')
+} else {
+  application = import('./main-wc')
+}
 
-const app = new App({
-  target: document.getElementById('app-container-root'),
-});
-
-export default app;
+export default application;

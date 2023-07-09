@@ -1,0 +1,35 @@
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+     width="512" height="512" viewBox="0 0 280 280" preserveAspectRatio="xMidYMid meet"
+     color-interpolation-filters="sRGB" style="margin: auto;">
+
+
+    <g id="D" transform="translate(0, 0)" >
+        <path fill="#c71343" d="M0 0h62.37v122.94H0z"/>
+        <path d="M62.37 0A61.47 61.47 0 1 1 .9 61.47 61.47 61.47 0 0 1 62.37 0z"
+              fill="#cfb371"/>
+        <path d="M62.37 122.64A61.32 61.32 0 1 1 62.37 0z" fill="#45207b"/>
+    </g>
+    <g id="V" transform="translate(120, 0)" >
+        <path fill="#eb6700" d="M0 0h50.38l47.37 83.06-25.19 44.08L0 0z"/>
+        <path fill="#008296"
+              d="M144.83 0H94.45L47.38 83.06l25.18 44.08L144.83 0z"/>
+        <path fill="#45207b"
+              d="M72.56 38.69l25.19 44.37-25.19 44.08-25.18-44.08 25.18-44.37z"/>
+    </g>
+
+    <g id="C" transform="translate(0, 140)" >
+        <path d="M19.19 112.45a66.25 66.25 0 0 1 0-93.26L66 66z"
+              fill="#00234b"/>
+        <path d="M66 0a65.73 65.73 0 0 1 46.78 19.19L66 66 19.19 19.19A65.71 65.71 0 0 1 66 0z"
+              fill="#f3ce00"/>
+        <path d="M112.75 112.45a65.89 65.89 0 0 1-93.56 0L66 66z"
+              fill="#4195d2"/>
+    </g>
+
+    <g id="O" transform="translate(130, 140)" >
+        <path d="M66 0A66 66 0 1 1 0 66 66 66 0 0 1 66 0z" fill="#f3ce00"/>
+        <path d="M66 0a65.95 65.95 0 0 1 46.48 112.75L19.19 19.19A67 67 0 0 1 66 0z"
+              fill="#45207b"/>
+    </g>
+
+</svg>
