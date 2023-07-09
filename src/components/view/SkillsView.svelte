@@ -7,11 +7,8 @@
 
     import type {SunburstApi, SunburstData} from "~/components/common";
 
-    import {hasChildren, SunBurst} from "~/components/common";
-
+    import {hasChildren, ScrollShadow, SunBurst} from "~/components/common"
     import {Section,} from "~/components/layout";
-
-
     import {skill} from "~/components/view/skills";
 
     const data: SunburstData = skill
@@ -51,6 +48,8 @@
     let leave: SunburstApi['hover']
     let back: SunburstApi['back']
 
+    let scrollContainer: HTMLDivElement;
+    let onScroll: (scrollContainer: HTMLDivElement)=>void;
 </script>
 
 <Section>
@@ -71,14 +70,16 @@
                           const parsed = parse(e.detail)
                           $chips$ = parsed;
                           $hover$ = parsed.map(s=>s.name);
+
+                          setTimeout(() => onScroll(scrollContainer))
                       }}
                       on:click={e => {
                           if(hasChildren(e.detail.node)) {
                               $parent$ = e.detail;
                               $chips$ = parse(e.detail)
                           }
-
-                           selected(e.detail)
+                          selected(e.detail)
+                          setTimeout(() => onScroll(scrollContainer))
                       }}
                       on:hover={e => {
                           const parsed = e.detail ? parse(e.detail) : $chips$;
@@ -87,30 +88,32 @@
             />
         </div>
 
-        <div class="column chips">
-            <Set chips={$chips$} let:chip>
-                <Chip style={`transition: opacity 0.5s; color: ${chip.color}; ${!$hover$.includes(chip.name) ? 'opacity: 0.6' : ''}`}
-                      chip={chip}
-                      on:SMUIChip:interaction={() => {
+        <ScrollShadow bind:onScroll={onScroll}>
+            <div class="column chips" bind:this={scrollContainer} on:scroll={() => onScroll(scrollContainer)}>
+                <Set chips={$chips$} let:chip>
+                    <Chip style={`transition: opacity 0.5s; color: ${chip.color}; ${!$hover$.includes(chip.name) ? 'opacity: 0.6' : ''}`}
+                          chip={chip}
+                          on:SMUIChip:interaction={() => {
                           if(chip.id === $parent$.id) return back()
                           select(chip.node);
                       }}
-                      on:mouseenter={() => {
+                          on:mouseenter={() => {
                           hover(chip.node);
                       }}
-                      on:mouseleave={() => {
+                          on:mouseleave={() => {
                           leave(chip.node);
                       }}
-                >
-                    {#if chip.id === $parent$.id}
-                        <LeadingIcon style={`color: ${chip.color}; display: flex; align-items: center;`}>
-                            <SmallLeftArrowSvg/>
-                        </LeadingIcon>
-                    {/if}
-                    <Text>{chip.id === $parent$.id ? $_('common.button.back') : chip.name}</Text>
-                </Chip>
-            </Set>
-        </div>
+                    >
+                        {#if chip.id === $parent$.id}
+                            <LeadingIcon style={`color: ${chip.color}; display: flex; align-items: center;`}>
+                                <SmallLeftArrowSvg/>
+                            </LeadingIcon>
+                        {/if}
+                        <Text>{chip.id === $parent$.id ? $_('common.button.back') : chip.name}</Text>
+                    </Chip>
+                </Set>
+            </div>
+        </ScrollShadow>
     </div>
 </Section>
 
