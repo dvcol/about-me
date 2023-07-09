@@ -1,5 +1,4 @@
 import * as d3 from "d3";
-
 import {v4 as uuid} from 'uuid'
 
 import {isDarkTheme} from "~/utils";
@@ -7,6 +6,7 @@ import {isDarkTheme} from "~/utils";
 enum Opacity {
     Full = 1,
     Inactive = 0.4,
+    Selected = 0.7,
     Parent = 0.75,
     Child = 0.5,
     Step = 0.2
@@ -114,6 +114,15 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
     const root = partition(data);
     const color = getColor(data)
 
+    let selected: T;
+
+    const fillOpacity = (node: 'target' | 'current') => (d: SunburstNode<T>) => {
+        if (!arcVisible(d[node], depth)) return 0
+        if (selected && selected?.id === d?.data?.id) return Opacity.Selected
+        return d.children ? Opacity.Parent : Opacity.Child;
+    }
+
+    const arcVisibility =  (node: 'target' | 'current') => (d: SunburstNode<T>)=> arcVisible(d[node], depth) ? "auto" : "none"
 
     root.each((d: SunburstNode) => {
         d.current = d
@@ -136,12 +145,8 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
             while (d.depth > 1) d = d.parent;
             return color(d.data.name);
         })
-        .attr("fill-opacity", d => {
-            if (arcVisible(d.current, depth)) return (d.children ? Opacity.Parent : Opacity.Child)
-            return 0
-        })
-        .attr("pointer-events", d => arcVisible(d.current, depth) ? "auto" : "none")
-
+        .attr("fill-opacity", fillOpacity('current'))
+        .attr("pointer-events", arcVisibility('current'))
         .attr("d", d => arc(d.current))
         .style("transition","opacity 0.5s")
         .each(setData);
@@ -175,9 +180,18 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
         return !!+this.getAttribute("fill-opacity") || arcVisible(d.target, depth);
     }
 
+    const onSelect =  (_node: SunburstNode<T>) => {
+        if(selected?.id !== _node?.data?.id) {
+            selected = spliceNode(_node)
+        } else {
+            selected = undefined;
+        }
+        onClick?.(selected);
+    }
+
     const onClicked = (event: PointerEvent, p: SunburstNode<T>) => {
-        onClick?.(spliceNode<T>(p))
-        if (!hasChildren(p)) return
+        onSelect(p)
+        if (!hasChildren(p)) return onMouseOver(undefined,p)
 
         parent.datum(p.parent || root);
 
@@ -203,11 +217,8 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
                 };
             })
             .filter(isVisible)
-            .attr("fill-opacity", d => {
-                if (arcVisible(d.target, depth)) return d.children ? Opacity.Parent: Opacity.Child;
-                return 0
-            })
-            .attr("pointer-events", d => arcVisible(d.target, depth) ? "auto" : "none")
+            .attr("fill-opacity", fillOpacity('target'))
+            .attr("pointer-events", arcVisibility('target'))
             .attrTween("d", d => () => arc(d.current));
 
         label
@@ -220,13 +231,18 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
     parent.on("click", onClicked);
     path.on("click", onClicked);
 
+    const filterInactives = (d: SunburstNode) =>  path.filter(e => {
+        if(e === d) return false
+        if(selected?.id && selected?.id === e?.data?.id) return false
+        if(d.ancestors().some(c => c === e)) return false
+        return !selected?.node.ancestors().some(c => c === e);
+    })
+
     function onMouseOver(_: MouseEvent, d: SunburstNode<T>) {
         onHover?.(spliceNode<T>(d))
-        path.filter(e => e !== d && d.ancestors().every(c => c !== e))
-            .style('opacity', Opacity.Inactive)
-
+        filterInactives(d).style('opacity', Opacity.Inactive)
         if (!hasChildren(d)) return
-        const _node = path.filter(n => n ===d)
+        const _node = path.filter(n => n === d)
         _node.attr('fill-opacity', `${+_node.attr('fill-opacity') + Opacity.Step}`);
     }
 

@@ -17,7 +17,7 @@
         current?: number,
         min?: number,
         max?: number
-    } = {}) => {
+    } = {}): SunburstData[] => {
 
         const current = options.current ?? _skills.depth ?? 0
         const min = options.min ?? 0
@@ -35,8 +35,13 @@
         return parsed.flat()
     }
 
+    const selected$ = writable()
     const dispatch = createEventDispatcher();
-    const selected = (chip: SunburstData) => dispatch('selected', chip)
+    const selected = (chip: SunburstData) => {
+        $selected$ = chip;
+        dispatch('selected', chip)
+        console.info('selected', $selected$)
+    }
 
     const chips$ = writable<SunburstData[]>([])
     const hover$ = writable<string[]>([])
@@ -49,7 +54,7 @@
     let back: SunburstApi['back']
 
     let scrollContainer: HTMLDivElement;
-    let onScroll: (scrollContainer: HTMLDivElement)=>void;
+    let onScroll: (scrollContainer: HTMLDivElement) => void;
 </script>
 
 <Section>
@@ -69,12 +74,12 @@
                           $parent$ = e.detail;
                           const parsed = parse(e.detail)
                           $chips$ = parsed;
-                          $hover$ = parsed.map(s=>s.name);
+                          $hover$ = parsed.map(s=>s.id);
 
                           setTimeout(() => onScroll(scrollContainer))
                       }}
                       on:click={e => {
-                          if(hasChildren(e.detail.node)) {
+                          if(hasChildren(e.detail?.node)) {
                               $parent$ = e.detail;
                               $chips$ = parse(e.detail)
                           }
@@ -83,7 +88,7 @@
                       }}
                       on:hover={e => {
                           const parsed = e.detail ? parse(e.detail) : $chips$;
-                          $hover$ = parsed.map(s=>s.name)
+                          $hover$ = parsed.map(s=>s.id)
                       }}
             />
         </div>
@@ -91,18 +96,24 @@
         <ScrollShadow bind:onScroll={onScroll}>
             <div class="column chips" bind:this={scrollContainer} on:scroll={() => onScroll(scrollContainer)}>
                 <Set chips={$chips$} let:chip>
-                    <Chip style={`transition: opacity 0.5s; color: ${chip.color}; ${!$hover$.includes(chip.name) ? 'opacity: 0.6' : ''}`}
+                    <Chip ripple={false}
                           chip={chip}
+                          style={`
+                                    transition: opacity 0.5s;
+                                    color: ${chip.color};
+                                    ${!$hover$.includes(chip.id) ? `opacity: ${$selected$?.id === chip.id ? 1 : 0.6}` : ''};
+                                    border: ${$selected$?.id === chip.id ? `solid 1px ${chip.color}` : ''}
+                                `}
                           on:SMUIChip:interaction={() => {
-                          if(chip.id === $parent$.id) return back()
-                          select(chip.node);
-                      }}
+                              if(chip.id === $parent$.id) return back()
+                              select(chip.node);
+                          }}
                           on:mouseenter={() => {
-                          hover(chip.node);
-                      }}
+                              hover(chip.node);
+                          }}
                           on:mouseleave={() => {
-                          leave(chip.node);
-                      }}
+                              leave(chip.node);
+                          }}
                     >
                         {#if chip.id === $parent$.id}
                             <LeadingIcon style={`color: ${chip.color}; display: flex; align-items: center;`}>
