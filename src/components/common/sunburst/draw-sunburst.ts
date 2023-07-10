@@ -49,8 +49,8 @@ export const normalizeData = (data: SunburstData) => ({
 })
 
 
-const arcVisible = (d: DefaultObject, depth = 3, root= 0) => d.y1 <= depth && d.y0 >= root && d.x1 > d.x0;
-const labelVisible = (d: DefaultObject, depth = 3, root= 1) => d.y1 <= depth && d.y0 >= root && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
+const arcVisible = (d: DefaultObject, depth = 3, root = 0) => d.y1 <= depth && d.y0 >= root && d.x1 > d.x0;
+const labelVisible = (d: DefaultObject, depth = 3, root = 1) => d.y1 <= depth && d.y0 >= root && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
 
 export const hasChildren = (d: SunburstNode) => !!d?.children?.length
 
@@ -115,14 +115,15 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
     const color = getColor(data)
 
     let selected: T;
+    const isSelected = (n: SunburstNode) => n?.data?.id && selected?.id && selected?.id === n?.data?.id
 
     const fillOpacity = (node: 'target' | 'current') => (d: SunburstNode<T>) => {
         if (!arcVisible(d[node], depth)) return 0
-        if (selected && selected?.id === d?.data?.id) return Opacity.Selected
+        if (isSelected(d)) return Opacity.Selected
         return d.children ? Opacity.Parent : Opacity.Child;
     }
 
-    const arcVisibility =  (node: 'target' | 'current') => (d: SunburstNode<T>)=> arcVisible(d[node], depth) ? "auto" : "none"
+    const arcVisibility = (node: 'target' | 'current') => (d: SunburstNode<T>) => arcVisible(d[node], depth) ? "auto" : "none"
 
     root.each((d: SunburstNode) => {
         d.current = d
@@ -148,7 +149,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
         .attr("fill-opacity", fillOpacity('current'))
         .attr("pointer-events", arcVisibility('current'))
         .attr("d", d => arc(d.current))
-        .style("transition","opacity 0.5s")
+        .style("transition", "opacity 0.5s")
         .each(setData);
 
     path.filter((d) => !!d.children)
@@ -180,18 +181,46 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
         return !!+this.getAttribute("fill-opacity") || arcVisible(d.target, depth);
     }
 
-    const onSelect =  (_node: SunburstNode<T>) => {
-        if(selected?.id !== _node?.data?.id) {
-            selected = spliceNode(_node)
-        } else {
+    const filterInactives = (d: SunburstNode) => path.filter(e => {
+        if (e === d) return false
+        if (isSelected(e)) return false
+        if (d.ancestors().some(c => c === e)) return false
+        return !selected?.node.ancestors().some(c => c === e);
+    })
+
+    const onMouseOver = (_: MouseEvent, d: SunburstNode<T>) => {
+        onHover?.(spliceNode<T>(d))
+        filterInactives(d).style('opacity', Opacity.Inactive)
+        if (!hasChildren(d)) return
+        const _node = path.filter(n => n === d)
+        _node.attr('fill-opacity', `${+_node.attr('fill-opacity') + Opacity.Step}`);
+    }
+
+    const onMouseLeave = (_: MouseEvent, d: SunburstNode) => {
+        onHover?.()
+        path.filter(e => e !== d).style('opacity', null)
+        if (!hasChildren(d)) return
+        const _node = path.filter(n => n === d)
+        _node.attr('fill-opacity', `${+_node.attr('fill-opacity') - Opacity.Step}`);
+    }
+
+    path.on("mouseover", onMouseOver)
+        .on("mouseout", onMouseLeave);
+
+    onInit?.(spliceNode<T>(root as SunburstNode<T>))
+
+    const onSelect = (_node: SunburstNode<T>) => {
+        if (isSelected(_node)) {
             selected = undefined;
+        } else if (_node?.data?.id) {
+            selected = spliceNode(_node)
         }
         onClick?.(selected);
     }
 
     const onClicked = (event: PointerEvent, p: SunburstNode<T>) => {
         onSelect(p)
-        if (!hasChildren(p)) return onMouseOver(undefined,p)
+        if (!hasChildren(p)) return onMouseOver(undefined, p)
 
         parent.datum(p.parent || root);
 
@@ -230,34 +259,6 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
 
     parent.on("click", onClicked);
     path.on("click", onClicked);
-
-    const filterInactives = (d: SunburstNode) =>  path.filter(e => {
-        if(e === d) return false
-        if(selected?.id && selected?.id === e?.data?.id) return false
-        if(d.ancestors().some(c => c === e)) return false
-        return !selected?.node.ancestors().some(c => c === e);
-    })
-
-    function onMouseOver(_: MouseEvent, d: SunburstNode<T>) {
-        onHover?.(spliceNode<T>(d))
-        filterInactives(d).style('opacity', Opacity.Inactive)
-        if (!hasChildren(d)) return
-        const _node = path.filter(n => n === d)
-        _node.attr('fill-opacity', `${+_node.attr('fill-opacity') + Opacity.Step}`);
-    }
-
-    function onMouseLeave(_: MouseEvent, d: SunburstNode) {
-        onHover?.()
-        path.filter(e => e !== d).style('opacity', null)
-        if (!hasChildren(d)) return
-        const _node = path.filter(n => n ===d)
-        _node.attr('fill-opacity', `${+_node.attr('fill-opacity') - Opacity.Step}`);
-    }
-
-    path.on("mouseover", onMouseOver)
-        .on("mouseout", onMouseLeave);
-
-    onInit?.(spliceNode<T>(root as SunburstNode<T>))
 
     return {
         svg: svg.node(),
