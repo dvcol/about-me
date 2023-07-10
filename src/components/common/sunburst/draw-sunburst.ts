@@ -3,7 +3,7 @@ import {v4 as uuid} from 'uuid'
 
 import {isDarkTheme} from "~/utils";
 
-enum Opacity {
+export enum Opacity {
     Full = 1,
     Inactive = 0.4,
     Selected = 0.7,
@@ -70,7 +70,7 @@ const getLabelTransform = (radius: number) => (d: DefaultObject) => {
 
 const getColor = (data) => d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, data.children.length + 1))
 
-const spliceNode = <T extends SunburstData = SunburstData>(p: SunburstNode<T>): T => (
+export const spliceNode = <T extends SunburstData = SunburstData>(p: SunburstNode<T>): T => (
     {
         ...p.data,
         node: p,

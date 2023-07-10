@@ -7,16 +7,22 @@
 
     import type {SunburstApi, SunburstData} from "~/components/common";
 
-    import {hasChildren, ScrollShadow, SunBurst} from "~/components/common"
+    import {hasChildren, Opacity, ScrollShadow, spliceNode, SunBurst} from "~/components/common"
     import {Section,} from "~/components/layout";
     import {skill} from "~/components/view/skills";
 
     const data: SunburstData = skill
 
+    /**
+     * Extracts visible nodes from selected path
+     * @param _skills the selected root node
+     * @param options optional filters
+     */
     const parse = (_skills: SunburstData, options: {
         current?: number,
         min?: number,
-        max?: number
+        max?: number,
+        ancestors?: boolean
     } = {}): SunburstData[] => {
 
         const current = options.current ?? _skills.depth ?? 0
@@ -31,6 +37,7 @@
 
         if (depth) parsed.push(_skills)
         if (_skills?.children) parsed.push(..._skills.children.map(c => parse(c, {current, min, max})).flat())
+        if(options.ancestors && _skills?.node) parsed.push(...(_skills.node.ancestors()?.map(spliceNode) ?? []))
 
         return parsed.flat()
     }
@@ -40,7 +47,6 @@
     const selected = (chip: SunburstData) => {
         $selected$ = chip;
         dispatch('selected', chip)
-        console.info('selected', $selected$)
     }
 
     const chips$ = writable<SunburstData[]>([])
@@ -76,6 +82,8 @@
                           $chips$ = parsed;
                           $hover$ = parsed.map(s=>s.id);
 
+                          console.info('init parsed', {parsed, e: e.detail} )
+
                           setTimeout(() => onScroll(scrollContainer))
                       }}
                       on:click={e => {
@@ -87,7 +95,7 @@
                           setTimeout(() => onScroll(scrollContainer))
                       }}
                       on:hover={e => {
-                          const parsed = e.detail ? parse(e.detail) : $chips$;
+                          const parsed = e.detail ? parse(e.detail, {ancestors:true}) : $chips$;
                           $hover$ = parsed.map(s=>s.id)
                       }}
             />
@@ -101,8 +109,9 @@
                           style={`
                                     transition: opacity 0.5s;
                                     color: ${chip.color};
-                                    ${!$hover$.includes(chip.id) ? `opacity: ${$selected$?.id === chip.id ? 1 : 0.6}` : ''};
-                                    border: ${$selected$?.id === chip.id ? `solid 1px ${chip.color}` : ''}
+                                    ${!$hover$.includes(chip.id) ? `opacity: ${$selected$?.id === chip.id ? Opacity.Full : Opacity.Child}` : ''};
+                                    ${$selected$?.id === chip.id ? `border: solid 1px ${chip.color.replace(')',', 0.3)')}` : ''};
+                                    ${$selected$?.id === chip.id ? `background-color: ${chip.color.replace(')',', 0.15)')};` : ''}
                                 `}
                           on:SMUIChip:interaction={() => {
                               if(chip.id === $parent$.id) return back()
@@ -120,7 +129,9 @@
                                 <SmallLeftArrowSvg/>
                             </LeadingIcon>
                         {/if}
-                        <Text>{chip.id === $parent$.id ? $_('common.button.back') : chip.name}</Text>
+                        <Text>
+                            {chip.id === $parent$.id ? $_('common.button.back') : chip.name}
+                        </Text>
                     </Chip>
                 </Set>
             </div>
