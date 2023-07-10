@@ -82,8 +82,6 @@
                           $chips$ = parsed;
                           $hover$ = parsed.map(s=>s.id);
 
-                          console.info('init parsed', {parsed, e: e.detail} )
-
                           setTimeout(() => onScroll(scrollContainer))
                       }}
                       on:click={e => {

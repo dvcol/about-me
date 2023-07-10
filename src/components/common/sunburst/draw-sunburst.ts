@@ -49,8 +49,8 @@ export const normalizeData = (data: SunburstData) => ({
 })
 
 
-const arcVisible = (d: DefaultObject, depth = 3) => d.y1 <= depth && d.y0 >= 1 && d.x1 > d.x0;
-const labelVisible = (d: DefaultObject, depth = 3) => d.y1 <= depth && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
+const arcVisible = (d: DefaultObject, depth = 3, root= 0) => d.y1 <= depth && d.y0 >= root && d.x1 > d.x0;
+const labelVisible = (d: DefaultObject, depth = 3, root= 1) => d.y1 <= depth && d.y0 >= root && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
 
 export const hasChildren = (d: SunburstNode) => !!d?.children?.length
 
