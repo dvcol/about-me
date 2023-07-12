@@ -102,13 +102,13 @@
         <ScrollShadow bind:onScroll={onScroll}>
             <div class="column chips" bind:this={scrollContainer} on:scroll={() => onScroll(scrollContainer)}>
                 <Set chips={$chips$} let:chip>
-                    <Chip ripple={false}
+                    <Chip class="chip"
+                          ripple={false}
                           chip={chip}
                           style={`
-                                    transition: opacity 0.5s;
                                     color: ${chip.color};
                                     ${!$hover$.includes(chip.id) ? `opacity: ${$selected$?.id === chip.id ? Opacity.Full : Opacity.Child}` : ''};
-                                    ${$selected$?.id === chip.id ? `border: solid 1px ${chip.color.replace(')',', 0.3)')}` : ''};
+                                    ${$selected$?.id === chip.id ? `border-color: ${chip.color.replace(')',', 0.3)')}` : ''};
                                     ${$selected$?.id === chip.id ? `background-color: ${chip.color.replace(')',', 0.15)')};` : ''}
                                 `}
                           on:SMUIChip:interaction={() => {
@@ -157,5 +157,12 @@
   .chips {
     flex: 0 1 40%;
     overflow: auto;
+
+    :global(.mdc-chip) {
+      border-color: transparent;
+      border-style: solid;
+      border-width: 1px;
+      transition: opacity 0.5s, background-color 0.3s, border-color 0.15s;
+    }
   }
 </style>
