@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Chip, { LeadingIcon, Set, Text } from '@smui/chips';
+  import { LeadingIcon, Set, Text } from '@smui/chips';
 
   import SmallLeftArrowSvg from 'line-md/svg/arrow-small-left.svg?component';
 
@@ -11,7 +11,7 @@
 
   import type { SunburstData } from '~/models';
 
-  import { hasChildren, Opacity, ScrollShadow, spliceNode, SunBurst } from '~/components/common';
+  import { hasChildren, ScrollShadow, spliceNode, SunBurst, Tag } from '~/components/common';
 
   import { Section } from '~/components/layout';
   import { skills } from '~/data';
@@ -110,23 +110,18 @@
     <ScrollShadow bind:onScroll>
       <div class="column chips" bind:this={scrollContainer} on:scroll={() => onScroll(scrollContainer)}>
         <Set chips={$chips$} let:chip>
-          <Chip
-            class="chip"
-            ripple={false}
-            {chip}
-            style={` color: ${chip.color};
-                     ${!$hover$.includes(chip.id) ? `opacity: ${$selected$?.id === chip.id ? Opacity.Full : Opacity.Child}` : ''};
-                     ${$selected$?.id === chip.id ? `border-color: ${chip.color.replace(')', ', 0.3)')}` : ''};
-                     ${$selected$?.id === chip.id ? `background-color: ${chip.color.replace(')', ', 0.15)')};` : ''}
-                    `}
-            on:SMUIChip:interaction={() => {
+          <Tag
+            skill={chip}
+            hover={$hover$.includes(chip.id)}
+            selected={$selected$?.id === chip.id}
+            on:select={() => {
               if (chip.id === $parent$.id) return back();
               select(chip.node);
             }}
-            on:mouseenter={() => {
+            on:enter={() => {
               hover(chip.node);
             }}
-            on:mouseleave={() => {
+            on:leave={() => {
               leave(chip.node);
             }}
           >
@@ -138,7 +133,7 @@
             <Text>
               {chip.id === $parent$.id ? $_('common.button.back') : chip.name}
             </Text>
-          </Chip>
+          </Tag>
         </Set>
       </div>
     </ScrollShadow>
@@ -165,12 +160,5 @@
   .chips {
     flex: 0 1 40%;
     overflow: auto;
-
-    :global(.mdc-chip) {
-      border-color: transparent;
-      border-style: solid;
-      border-width: 1px;
-      transition: opacity 0.5s, background-color 0.3s, border-color 0.15s;
-    }
   }
 </style>
