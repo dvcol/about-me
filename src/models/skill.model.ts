@@ -1,7 +1,7 @@
 export type Skill = {
   id?: string;
   name?: string;
-  title?: string;
+  label?: string;
   children?: Skill[];
   color?: string;
 };

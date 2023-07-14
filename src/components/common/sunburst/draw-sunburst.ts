@@ -24,7 +24,7 @@ const partition = <T extends SunburstData = SunburstData>(_data: T) => {
 
 export const normalizeData = (data: SunburstData) => ({
   ...data,
-  id: uuid(),
+  id: data.id ?? uuid(),
   value: data.value ?? 1,
   children: data?.children?.map(normalizeData),
 });
@@ -130,7 +130,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
 
   path.filter(d => !!d.children).style('cursor', 'pointer');
 
-  path.append('title').text(d => d.data.title ?? d.data.name);
+  path.append('title').text(d => d.data.label ?? d.data.name);
 
   const label = g
     .append('g')

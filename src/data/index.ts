@@ -1,1 +1,1 @@
-export * from '~/data/skills';
+export * from '~/data/skills.data';
