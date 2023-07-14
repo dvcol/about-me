@@ -1,10 +1,10 @@
 <section class="section">
-    <div class="section_header">
-        <slot name="header"/>
-    </div>
-    <div class="section_main">
-        <slot name="main"/>
-    </div>
+  <div class="section_header">
+    <slot name="header" />
+  </div>
+  <div class="section_main">
+    <slot name="main" />
+  </div>
 </section>
 
 <style lang="scss">
@@ -22,6 +22,5 @@
       display: flex;
       flex-direction: column;
     }
-
   }
 </style>

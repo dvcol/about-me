@@ -1,12 +1,11 @@
-import {fileURLToPath, URL} from 'url';
+import { fileURLToPath, URL } from 'url';
 
-import {viteI18nPlugin} from '@dvcol/vite-plugin-i18n';
-import svgPlugin from '@poppanator/sveltekit-svg'
-import {svelte} from '@sveltejs/vite-plugin-svelte';
+import { viteI18nPlugin } from '@dvcol/vite-plugin-i18n';
+import svgPlugin from '@poppanator/sveltekit-svg';
+import { svelte } from '@sveltejs/vite-plugin-svelte';
 import preprocess from 'svelte-preprocess';
-import {defineConfig} from 'vite';
+import { defineConfig } from 'vite';
 import dtsPlugin from 'vite-plugin-dts';
-
 
 export default defineConfig({
   plugins: [
@@ -21,7 +20,7 @@ export default defineConfig({
       path: 'src/i18n',
       out: true,
     }),
-    svgPlugin()
+    svgPlugin(),
   ],
   server: {
     port: 3003,
@@ -31,7 +30,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         index: 'src/index.ts',
-        html: 'index.html'
+        html: 'index.html',
       },
       output: {
         assetFileNames: 'assets/[name].[extname]',
@@ -44,7 +43,6 @@ export default defineConfig({
       name: 'about-me',
       formats: ['es'],
     },
-
   },
   resolve: {
     alias: {

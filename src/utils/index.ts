@@ -1,1 +1,1 @@
-export * from './media-query.utils'
+export * from './media-query.utils';

@@ -1,20 +1,20 @@
 <script lang="ts">
-    import {I18nProvider} from "~/components/common";
-    import {ContactView, HeroView, ProjectsView, SkillsView, TimelineView} from "~/components/view";
+  import { I18nProvider } from '~/components/common';
+  import { ContactView, HeroView, ProjectsView, SkillsView, TimelineView } from '~/components/view';
 </script>
 
 <article id="app">
-    <I18nProvider/>
-    <HeroView/>
-    <ProjectsView/>
-    <SkillsView/>
-    <TimelineView/>
-    <ContactView/>
+  <I18nProvider />
+  <HeroView />
+  <ProjectsView />
+  <SkillsView />
+  <TimelineView />
+  <ContactView />
 </article>
 
 <style lang="scss" global>
-  @import "src/styles/smui-light.css" screen;
-  @import "src/styles/smui-dark.css" screen and (prefers-color-scheme: dark);
+  @import 'src/styles/smui-light.css' screen;
+  @import 'src/styles/smui-dark.css' screen and (prefers-color-scheme: dark);
 
   :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

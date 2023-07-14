@@ -1,1 +1,1 @@
-export { default as ScrollShadow } from './scroll-shadow.svelte'
+export { default as ScrollShadow } from './scroll-shadow.svelte';

@@ -1,3 +1,3 @@
-import defineComponent from "~/index";
+import defineComponent from '~/index';
 
-defineComponent()
+defineComponent();

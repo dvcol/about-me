@@ -1,4 +1,4 @@
-import {App} from '~/components';
+import { App } from '~/components';
 
 const app = new App({
   target: document.getElementById('app-container-root'),
