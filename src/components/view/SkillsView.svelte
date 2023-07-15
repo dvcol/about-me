@@ -67,7 +67,6 @@
   let leave: SunburstApi['hover'];
   let back: SunburstApi['back'];
 
-  let scrollContainer: HTMLDivElement;
   let onScroll: (scrollContainer: HTMLDivElement) => void;
 
   let direction: 'in' | 'out' = 'in';
@@ -97,7 +96,6 @@
       <SunBurst
         {data}
         height="50vh"
-        width="60vw"
         bind:select
         bind:hover
         bind:leave
@@ -108,7 +106,7 @@
           $chips$ = parsed;
           $hover$ = parsed.map(s => s.id);
 
-          setTimeout(() => onScroll(scrollContainer), Animation.Speed);
+          setTimeout(onScroll, Animation.Speed);
         }}
         on:click={({ detail }) => {
           if (detail?.id) {
@@ -120,7 +118,7 @@
           }
 
           selected(detail);
-          setTimeout(() => onScroll(scrollContainer), Animation.Speed);
+          setTimeout(onScroll, Animation.Speed);
         }}
         on:hover={e => {
           const parsed = e.detail ? parse(e.detail, { ancestors: true }) : $chips$;
@@ -129,8 +127,8 @@
       />
     </div>
 
-    <ScrollShadow bind:onScroll>
-      <div class="column chips" bind:this={scrollContainer} on:scroll={() => onScroll(scrollContainer)}>
+    <div class="column chips">
+      <ScrollShadow bind:onScroll>
         <Set chips={$chips$} let:chip>
           <div in:fly|global={animations.in} out:fly|global={animations.out}>
             <Tag
@@ -164,12 +162,14 @@
             </Tag>
           </div>
         </Set>
-      </div>
-    </ScrollShadow>
+      </ScrollShadow>
+    </div>
   </div>
 </Section>
 
 <style lang="scss">
+  @use 'src/styles/breakpoint';
+
   .row {
     display: flex;
     flex-direction: row;
@@ -188,6 +188,20 @@
 
   .chips {
     flex: 0 1 40%;
-    overflow: auto;
+  }
+
+  @media screen and (max-width: breakpoint.$sm + px) {
+    .row {
+      flex-direction: column;
+    }
+
+    .sunburst {
+      flex: 0 1 50%;
+    }
+
+    .chips {
+      flex: 0 1 30%;
+      max-height: 30vh;
+    }
   }
 </style>

@@ -50,7 +50,7 @@
   bind:this={element}
   use:inView
   on:enter={e => {
-    if (e.detail.count > 0) visible = true;
+    visible = true;
   }}
 >
   <!--  sunburst injected here -->
@@ -58,6 +58,7 @@
 
 <style lang="scss">
   .sunburst-container {
+    text-align: center;
     opacity: 0;
     transition: opacity 1s, scale 1s;
     scale: 0.25;
