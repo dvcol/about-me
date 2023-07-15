@@ -5,13 +5,14 @@
 
   import { createEventDispatcher } from 'svelte';
   import { writable } from 'svelte/store';
+  import { fly } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
 
   import type { SunburstApi } from '~/components/common';
 
   import type { SunburstData } from '~/models';
 
-  import { hasChildren, ScrollShadow, spliceNode, SunBurst, Tag } from '~/components/common';
+  import { Animation, hasChildren, ScrollShadow, spliceNode, SunBurst, Tag } from '~/components/common';
 
   import { Section } from '~/components/layout';
   import { skills } from '~/data';
@@ -68,6 +69,23 @@
 
   let scrollContainer: HTMLDivElement;
   let onScroll: (scrollContainer: HTMLDivElement) => void;
+
+  let direction: 'in' | 'out' = 'in';
+  const animations = {
+    in: {
+      get x() {
+        return (direction === 'in' ? 1 : -1) * 200;
+      },
+      y: 0,
+      duration: Animation.HalfSpeed,
+      delay: Animation.HalfSpeed + 100,
+    },
+    out: {
+      get x() {
+        return (direction === 'in' ? -1 : 1) * 200;
+      },
+    },
+  };
 </script>
 
 <Section>
@@ -90,15 +108,19 @@
           $chips$ = parsed;
           $hover$ = parsed.map(s => s.id);
 
-          setTimeout(() => onScroll(scrollContainer));
+          setTimeout(() => onScroll(scrollContainer), Animation.Speed);
         }}
-        on:click={e => {
-          if (hasChildren(e.detail?.node)) {
-            $parent$ = e.detail;
-            $chips$ = parse(e.detail);
+        on:click={({ detail }) => {
+          if (detail?.id) {
+            direction = $parent$?.children?.some(c => c.id === detail?.id) ? 'in' : 'out';
           }
-          selected(e.detail);
-          setTimeout(() => onScroll(scrollContainer));
+          if (hasChildren(detail?.node)) {
+            $parent$ = detail;
+            $chips$ = parse(detail);
+          }
+
+          selected(detail);
+          setTimeout(() => onScroll(scrollContainer), Animation.Speed);
         }}
         on:hover={e => {
           const parsed = e.detail ? parse(e.detail, { ancestors: true }) : $chips$;
@@ -110,30 +132,37 @@
     <ScrollShadow bind:onScroll>
       <div class="column chips" bind:this={scrollContainer} on:scroll={() => onScroll(scrollContainer)}>
         <Set chips={$chips$} let:chip>
-          <Tag
-            skill={chip}
-            hover={$hover$.includes(chip.id)}
-            selected={$selected$?.id === chip.id}
-            on:select={() => {
-              if (chip.id === $parent$.id) return back();
-              select(chip.node);
-            }}
-            on:enter={() => {
-              hover(chip.node);
-            }}
-            on:leave={() => {
-              leave(chip.node);
-            }}
-          >
-            {#if chip.id === $parent$.id}
-              <LeadingIcon style={`color: ${chip.color}; display: flex; align-items: center;`}>
-                <SmallLeftArrowSvg />
-              </LeadingIcon>
-            {/if}
-            <Text>
-              {chip.id === $parent$.id ? $_('common.button.back') : chip.name}
-            </Text>
-          </Tag>
+          <div in:fly|global={animations.in} out:fly|global={animations.out}>
+            <Tag
+              skill={chip}
+              hover={$hover$.includes(chip.id)}
+              selected={$selected$?.id === chip.id}
+              on:select={() => {
+                if (chip.id === $parent$.id) {
+                  direction = 'out';
+                  back();
+                } else {
+                  direction = 'in';
+                  select(chip.node);
+                }
+              }}
+              on:enter={() => {
+                hover(chip.node);
+              }}
+              on:leave={() => {
+                leave(chip.node);
+              }}
+            >
+              {#if chip.id === $parent$.id}
+                <LeadingIcon style={`color: ${chip.color}; display: flex; align-items: center;`}>
+                  <SmallLeftArrowSvg />
+                </LeadingIcon>
+              {/if}
+              <Text>
+                {chip.id === $parent$.id ? $_('common.button.back') : chip.name}
+              </Text>
+            </Tag>
+          </div>
         </Set>
       </div>
     </ScrollShadow>

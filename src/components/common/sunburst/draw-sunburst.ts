@@ -5,6 +5,11 @@ import type { DefaultObject, SunburstData, SunburstNode } from '~/models';
 
 import { isDarkTheme } from '~/utils';
 
+export enum Animation {
+  Speed = 750,
+  HalfSpeed = 750 / 2,
+}
+
 export enum Opacity {
   Full = 1,
   Inactive = 0.4,
@@ -204,13 +209,13 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
       } as any;
     });
 
-    const t = g.transition().duration(750);
+    const transition = g.transition().duration(Animation.Speed);
 
     // Transition the data on all arcs, even the ones that aren’t visible,
     // so that if this transition is interrupted, entering arcs will start
     // the next transition from the desired position.
     path
-      .transition(t)
+      .transition(transition)
       .tween('data', d => {
         const i = d3.interpolate(d.current, d.target);
         return _t => {
@@ -224,7 +229,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
 
     label
       .filter(isVisible)
-      .transition(t)
+      .transition(transition)
       .attr('fill-opacity', (d: SunburstNode) => +labelVisible(d.target, depth))
       .attrTween('transform', (d: SunburstNode) => () => labelTransform(d.current));
   };

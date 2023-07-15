@@ -5,6 +5,7 @@
 
   import { setObserver } from '~/actions';
 
+  export let count = 0;
   export let margin: MarginOptions = {};
   export let options: IntersectionObserverInit = {};
 
@@ -14,15 +15,22 @@
   let observer: IntersectionObserver;
   let element: Element;
 
-  onMount(() => setObserver(element, observer, { options, margin }));
-  onDestroy(() => observer.disconnect());
+  onMount(() => {
+    observer = setObserver(element, observer, { options, margin });
+  });
+
+  onDestroy(() => {
+    observer?.disconnect();
+  });
 </script>
 
 <div
   bind:this={element}
   on:enter={({ detail }) => {
-    inView = true;
-    dispatch('enter', detail);
+    if (detail.count >= count) {
+      inView = true;
+      dispatch('enter', detail);
+    }
   }}
   on:leave={({ detail }) => {
     inView = false;

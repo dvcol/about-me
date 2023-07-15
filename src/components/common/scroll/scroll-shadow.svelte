@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { writable } from 'svelte/store';
+  import { derived, writable } from 'svelte/store';
 
   const scrollable$ = writable<boolean>(false);
   const offset$ = writable(0);
@@ -12,13 +12,22 @@
     $scrollable$ = !!max;
     $offset$ = max ? scrollContainer.scrollTop / max : 0;
   };
+
+  const offsetTop$ = derived([scrollable$, offset$], ([_scrollable, _offset]) => {
+    return _scrollable ? _offset : 0;
+  });
+  const offsetBottom$ = derived([scrollable$, offset$], ([_scrollable, _offset]) => {
+    return _scrollable ? 1 - _offset : 0;
+  });
 </script>
 
 <div class="scroll-container">
-  {#if $scrollable$}
-    <div class="shadow shadow-top" style:opacity={$offset$} />
-    <div class="shadow shadow-bottom" style:opacity={1 - $offset$} />
-  {/if}
+  <div class="shadow shadow-top" style:opacity={$offsetTop$}>
+    <!--  top shadow  -->
+  </div>
+  <div class="shadow shadow-bottom" style:opacity={$offsetBottom$}>
+    <!--  bottom shadow  -->
+  </div>
   <slot />
 </div>
 
@@ -30,7 +39,7 @@
     width: 100%;
     height: 10px;
     background: red;
-    transition: opacity 10ms;
+    transition: opacity 500ms;
   }
 
   .scroll-container {
