@@ -8,15 +8,28 @@
   import type { SunburstData } from '~/models';
 
   import { inView } from '~/actions';
+  import { colors$, nodes$ } from '~/stores';
 
-  export let data: SunburstData | (() => Promise<SunburstData>);
+  type DataProp = SunburstData | (() => Promise<SunburstData>);
+  export let data: DataProp;
 
   let element: HTMLDivElement;
 
   const dispatch = createEventDispatcher();
-  const onInit = (_data: SunburstData) => dispatch('init', _data);
   const onClick = (_data: SunburstData) => dispatch('click', _data);
   const onHover = (_data: SunburstData) => dispatch('hover', _data);
+
+  const parseNodes = (_data: SunburstData, map?: Map<string, SunburstData>) => {
+    const _map: Map<string, SunburstData> = map ?? new Map();
+    if (_data) _map.set(_data.id, _data);
+    _data?.children?.forEach(c => parseNodes(c, _map));
+    return _map;
+  };
+
+  const onInit = (_data: SunburstData) => {
+    nodes$.set(parseNodes(_data));
+    dispatch('init', _data);
+  };
 
   export let height: string = null;
   export let width: string = null;
@@ -28,12 +41,12 @@
 
   export let visible = false;
 
-  onMount(async () => {
+  const drawChart = async () => {
     if (!data) return;
 
-    const _data = typeof data == 'function' ? await data() : data;
-
-    const chart = drawSunburst(normalizeData(_data), { height, width, onInit, onClick, onHover });
+    const { data: normalized, colorMap } = normalizeData(typeof data == 'function' ? await data() : data);
+    colors$.set(colorMap);
+    const chart = drawSunburst(normalized, { height, width, onInit, onClick, onHover });
 
     select = chart.select;
     hover = chart.hover;
@@ -41,7 +54,9 @@
     back = chart.back;
 
     d3.select(element).append(() => chart.svg);
-  });
+  };
+
+  onMount(drawChart);
 </script>
 
 <div
@@ -49,7 +64,7 @@
   class:sunburst-container--visible={visible}
   bind:this={element}
   use:inView
-  on:enter={e => {
+  on:enter={() => {
     visible = true;
   }}
 >

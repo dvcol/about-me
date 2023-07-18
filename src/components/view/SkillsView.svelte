@@ -16,6 +16,7 @@
 
   import { Section } from '~/components/layout';
   import { skills } from '~/data';
+  import { useSkillsStore } from '~/stores';
 
   const data: SunburstData = { ...skills, value: 0 };
 
@@ -24,7 +25,7 @@
    * @param _skills the selected root node
    * @param options optional filters
    */
-  const parse = (
+  const parseData = (
     _skills: SunburstData,
     options: {
       current?: number;
@@ -44,27 +45,22 @@
     if (depth > current + max) return parsed;
 
     if (depth) parsed.push(_skills);
-    if (_skills?.children) parsed.push(..._skills.children.map(c => parse(c, { current, min, max })).flat());
+    if (_skills?.children) parsed.push(..._skills.children.map(c => parseData(c, { current, min, max })).flat());
     if (options.ancestors && _skills?.node) parsed.push(...(_skills.node.ancestors()?.map(spliceNode) ?? []));
 
-    return parsed.flat();
+    return parsed.flat().filter((item, index, array) => array.findIndex(e => e.id === item.id) === index);
   };
 
-  const selected$ = writable();
+  const { selected$, visible$, hover$, onSelect$, onHover$, onLeave$ } = useSkillsStore();
+
   const dispatch = createEventDispatcher();
   const selected = (chip: SunburstData) => {
     $selected$ = chip;
     dispatch('selected', chip);
   };
 
-  const chips$ = writable<SunburstData[]>([]);
-  const hover$ = writable<string[]>([]);
-
   const parent$ = writable<SunburstData>();
 
-  let select: SunburstApi['select'];
-  let hover: SunburstApi['hover'];
-  let leave: SunburstApi['hover'];
   let back: SunburstApi['back'];
 
   let onScroll: (scrollContainer: HTMLDivElement) => void;
@@ -96,15 +92,13 @@
       <SunBurst
         {data}
         height="50vh"
-        bind:select
-        bind:hover
-        bind:leave
+        bind:select={$onSelect$}
+        bind:hover={$onHover$}
+        bind:leave={$onLeave$}
         bind:back
         on:init={e => {
           $parent$ = e.detail;
-          const parsed = parse(e.detail);
-          $chips$ = parsed;
-          $hover$ = parsed.map(s => s.id);
+          $visible$ = parseData(e.detail);
 
           setTimeout(onScroll, Animation.Speed);
         }}
@@ -114,14 +108,14 @@
           }
           if (hasChildren(detail?.node)) {
             $parent$ = detail;
-            $chips$ = parse(detail);
+            $visible$ = parseData(detail);
           }
 
           selected(detail);
           setTimeout(onScroll, Animation.Speed);
         }}
         on:hover={e => {
-          const parsed = e.detail ? parse(e.detail, { ancestors: true }) : $chips$;
+          const parsed = e.detail ? parseData(e.detail) : [];
           $hover$ = parsed.map(s => s.id);
         }}
       />
@@ -129,11 +123,11 @@
 
     <div class="column chips">
       <ScrollShadow bind:onScroll>
-        <Set chips={$chips$} let:chip>
+        <Set chips={$visible$} let:chip>
           <div in:fly|global={animations.in} out:fly|global={animations.out}>
             <Tag
-              skill={chip}
-              hover={$hover$.includes(chip.id)}
+              tag={chip}
+              hover={!$hover$.length || $hover$.includes(chip.id)}
               selected={$selected$?.id === chip.id}
               on:select={() => {
                 if (chip.id === $parent$.id) {
@@ -141,15 +135,11 @@
                   back();
                 } else {
                   direction = 'in';
-                  select(chip.node);
+                  $onSelect$(chip.node);
                 }
               }}
-              on:enter={() => {
-                hover(chip.node);
-              }}
-              on:leave={() => {
-                leave(chip.node);
-              }}
+              on:enter={() => $onHover$(chip.node)}
+              on:leave={() => $onLeave$(chip.node)}
             >
               {#if chip.id === $parent$.id}
                 <LeadingIcon style={`color: ${chip.color}; display: flex; align-items: center;`}>

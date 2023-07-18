@@ -27,12 +27,39 @@ const partition = <T extends SunburstData = SunburstData>(_data: T) => {
   return d3.partition().size([2 * Math.PI, root.height + 1])(root);
 };
 
-export const normalizeData = (data: SunburstData) => ({
-  ...data,
-  id: data.id ?? uuid(),
-  value: data.value ?? 1,
-  children: data?.children?.map(normalizeData),
-});
+const getColor = <T extends SunburstData = SunburstData>(data: T) => d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, data.children.length + 1));
+
+export const colorizeData = <T extends SunburstData = SunburstData>(data: T, color?: (key: string) => string) => {
+  const _color: (key: string) => string = color ?? getColor(data);
+
+  data.color ??= _color(data.name);
+  data?.children?.forEach(c => colorizeData(c, _color));
+  return data;
+};
+
+export type ColorFunction = (key: string) => string;
+export const _normalizeData = (data: SunburstData, { colorFn, colorMap }: { colorFn?: ColorFunction; colorMap: Map<string, string> }) => {
+  const _colorFn: ColorFunction = colorFn ?? getColor(data);
+
+  data.color = _colorFn(data.name);
+  data.id = data.id ?? uuid();
+
+  colorMap?.set(data.id, data.color);
+
+  return {
+    ...data,
+    value: data.value ?? 1,
+    children: data?.children?.map(c => _normalizeData(c, { colorFn: _colorFn, colorMap })),
+  };
+};
+
+export const normalizeData = (data: SunburstData) => {
+  const colorMap = new Map<string, string>();
+  return {
+    data: _normalizeData(data, { colorMap }),
+    colorMap,
+  };
+};
 
 const arcVisible = (d: DefaultObject, depth = 3, root = 0) => d.y1 <= depth && d.y0 >= root && d.x1 > d.x0;
 const labelVisible = (d: DefaultObject, depth = 3, root = 1) => d.y1 <= depth && d.y0 >= root && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
@@ -54,8 +81,6 @@ const getLabelTransform = (radius: number) => (d: DefaultObject) => {
   const y = ((d.y0 + d.y1) / 2) * radius;
   return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
 };
-
-const getColor = data => d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, data.children.length + 1));
 
 export const spliceNode = <T extends SunburstData = SunburstData>(p: SunburstNode<T>): T => ({
   ...p.data,
@@ -80,7 +105,7 @@ export type SunburstOptions<T extends SunburstData = SunburstData> = {
 
 export type SunburstApi<T extends SunburstData = SunburstData> = {
   svg: SVGSVGElement;
-  select: (node: SunburstNode<T>) => void;
+  select: (node: SunburstNode<T>, navigate?: boolean) => void;
   hover: (node: SunburstNode<T>) => void;
   leave: (node: SunburstNode<T>) => void;
   back: () => void;
@@ -125,7 +150,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
     .join('path')
     .attr('fill', d => {
       while (d.depth > 1) d = d.parent;
-      return color(d.data.name);
+      return d.data.color ?? color(d.data.name);
     })
     .attr('fill-opacity', fillOpacity('current'))
     .attr('pointer-events', arcVisibility('current'))
@@ -194,9 +219,13 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
     onClick?.(selected);
   };
 
-  const onClicked = (event: PointerEvent, p: SunburstNode<T>) => {
+  const onClicked = (event: PointerEvent, p: SunburstNode<T>, navigate?: boolean) => {
     onSelect(p);
-    if (!hasChildren(p)) return onMouseOver(undefined, p);
+
+    if (!hasChildren(p)) {
+      if (!navigate) return onMouseOver(undefined, p);
+      if (p.parent) p = p.parent;
+    }
 
     parent.datum(p.parent || root);
 
@@ -239,7 +268,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
 
   return {
     svg: svg.node(),
-    select: node => onClicked(undefined, node),
+    select: (node, navigate) => onClicked(undefined, node, navigate),
     hover: node => onMouseOver(undefined, node),
     leave: node => onMouseLeave(undefined, node),
     back: () => onClicked(undefined, parent.datum() as SunburstNode<T>),

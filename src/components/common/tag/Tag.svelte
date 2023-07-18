@@ -3,32 +3,32 @@
 
   import { createEventDispatcher } from 'svelte';
 
-  import type { Skill } from '~/models';
+  import type { Tag } from '~/models';
 
   import { Opacity } from '~/components/index.js';
 
-  export let skill: Skill;
+  export let tag: Tag;
   export let hover: boolean;
   export let selected: boolean;
 
   const dispatch = createEventDispatcher();
-  const onEvent = (event: 'select' | 'enter' | 'leave', _skill: Skill) => dispatch(event, _skill);
+  const onEvent = (event: 'select' | 'enter' | 'leave', _tag: Tag) => dispatch(event, _tag);
 </script>
 
-{#if skill}
+{#if tag}
   <Chip
     class="chip"
     ripple={false}
-    chip={skill}
+    chip={tag}
     style={`
-          color: ${skill?.color ?? ''};
-          ${!hover ? `opacity: ${selected ? Opacity.Full : Opacity.Child}` : ''};
-          ${selected ? `border-color: ${skill.color?.replace(')', ', 0.3)')}` : ''};
-          ${selected ? `background-color: ${skill.color?.replace(')', ', 0.15)')};` : ''}
+          color: ${tag?.color ?? ''};
+          ${!hover ? `opacity: ${selected !== false ? Opacity.Full : Opacity.Child}` : ''};
+          ${selected ? `border-color: ${tag.color?.replace(')', ', 0.3)')}` : ''};
+          ${selected ? `background-color: ${tag.color?.replace(')', ', 0.15)')};` : ''}
          `}
-    on:SMUIChip:interaction={onEvent('select', skill)}
-    on:mouseenter={onEvent('enter', skill)}
-    on:mouseleave={onEvent('leave', skill)}
+    on:SMUIChip:interaction={onEvent('select', tag)}
+    on:mouseenter={onEvent('enter', tag)}
+    on:mouseleave={onEvent('leave', tag)}
   >
     <slot />
   </Chip>

@@ -1,7 +1,10 @@
-export type Skill = {
-  id?: string;
-  name?: string;
-  label?: string;
+import { Tag } from '~/models/tag.model';
+
+export class Skill extends Tag {
   children?: Skill[];
-  color?: string;
-};
+
+  constructor(props?: Omit<Skill, 'id'>) {
+    super(props);
+    this.children = props?.children;
+  }
+}

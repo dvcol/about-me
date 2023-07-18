@@ -1,8 +1,21 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
+  '@smui/button':
+    specifier: 7.0.0-beta.14
+    version: 7.0.0-beta.14(svelte@4.0.5)(typescript@5.1.6)
+  '@smui/card':
+    specifier: 7.0.0-beta.14
+    version: 7.0.0-beta.14(svelte@4.0.5)(typescript@5.1.6)
   '@smui/chips':
     specifier: ^7.0.0-beta.14
+    version: 7.0.0-beta.14(svelte@4.0.5)(typescript@5.1.6)
+  '@smui/icon-button':
+    specifier: 7.0.0-beta.14
     version: 7.0.0-beta.14(svelte@4.0.5)(typescript@5.1.6)
   d3:
     specifier: ^7.8.4
@@ -7381,7 +7394,7 @@ packages:
     dependencies:
       htmlparser2: 3.10.1
       postcss: 7.0.39
-      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
+      postcss-syntax: 0.36.2(postcss-html@1.5.0)(postcss@8.4.23)
     dev: true
 
   /postcss-html@1.5.0:
@@ -7402,7 +7415,7 @@ packages:
     dependencies:
       '@babel/core': 7.21.8
       postcss: 7.0.39
-      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
+      postcss-syntax: 0.36.2(postcss-html@1.5.0)(postcss@8.4.23)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -7439,7 +7452,7 @@ packages:
       postcss-syntax: '>=0.36.0'
     dependencies:
       postcss: 7.0.39
-      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
+      postcss-syntax: 0.36.2(postcss-html@1.5.0)(postcss@8.4.23)
       remark: 10.0.1
       unist-util-find-all-after: 1.0.5
     dev: true
@@ -7552,7 +7565,7 @@ packages:
       postcss: 8.4.23
     dev: true
 
-  /postcss-syntax@0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39):
+  /postcss-syntax@0.36.2(postcss-html@1.5.0)(postcss@8.4.23):
     resolution: {integrity: sha512-nBRg/i7E3SOHWxF3PpF5WnJM/jQ1YpY9000OaVXlAQj6Zp/kIqJxEDWIZ67tAd7NLuk7zqN4yqe9nc0oNAOs1w==}
     peerDependencies:
       postcss: '>=5.0.0'
@@ -7573,12 +7586,8 @@ packages:
       postcss-scss:
         optional: true
     dependencies:
-      postcss: 7.0.39
-      postcss-html: 0.36.0(postcss-syntax@0.36.2)(postcss@7.0.39)
-      postcss-jsx: 0.36.4(postcss-syntax@0.36.2)(postcss@7.0.39)
-      postcss-less: 3.1.4
-      postcss-markdown: 0.36.0(postcss-syntax@0.36.2)(postcss@7.0.39)
-      postcss-scss: 2.1.1
+      postcss: 8.4.23
+      postcss-html: 1.5.0
     dev: true
 
   /postcss-value-parser@3.3.1:
@@ -8779,7 +8788,7 @@ packages:
       postcss-sass: 0.3.5
       postcss-scss: 2.1.1
       postcss-selector-parser: 3.1.2
-      postcss-syntax: 0.36.2(postcss-html@0.36.0)(postcss-jsx@0.36.4)(postcss-less@3.1.4)(postcss-markdown@0.36.0)(postcss-scss@2.1.1)(postcss@7.0.39)
+      postcss-syntax: 0.36.2(postcss-html@1.5.0)(postcss@8.4.23)
       postcss-value-parser: 3.3.1
       resolve-from: 4.0.0
       signal-exit: 3.0.7
@@ -9856,7 +9865,3 @@ packages:
     optionalDependencies:
       commander: 9.5.0
     dev: true
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
