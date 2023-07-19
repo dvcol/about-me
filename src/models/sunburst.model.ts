@@ -1,4 +1,4 @@
-import type * as d3 from 'd3';
+import type { HierarchyNode, HierarchyRectangularNode } from 'd3';
 
 import type { Skill } from '~/models/skill.model';
 
@@ -18,4 +18,7 @@ export type DefaultObject = {
   target?: SunburstNode;
 };
 
-export type SunburstNode<T extends SunburstData = SunburstData> = d3.HierarchyRectangularNode<T> & DefaultObject;
+export type SunburstHierarchyNode<T extends SunburstData = SunburstData> = HierarchyNode<T>;
+export type SunburstHierarchyRectangularNode<T extends SunburstData = SunburstData> = SunburstHierarchyNode<T> & HierarchyRectangularNode<T>;
+
+export type SunburstNode<T extends SunburstData = SunburstData> = SunburstHierarchyRectangularNode<T> & DefaultObject;

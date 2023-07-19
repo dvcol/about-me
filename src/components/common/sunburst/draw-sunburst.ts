@@ -1,5 +1,4 @@
 import * as d3 from 'd3';
-import { v4 as uuid } from 'uuid';
 
 import type { DefaultObject, SunburstData, SunburstNode } from '~/models';
 
@@ -29,36 +28,39 @@ const partition = <T extends SunburstData = SunburstData>(_data: T) => {
 
 const getColor = <T extends SunburstData = SunburstData>(data: T) => d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, data.children.length + 1));
 
-export const colorizeData = <T extends SunburstData = SunburstData>(data: T, color?: (key: string) => string) => {
-  const _color: (key: string) => string = color ?? getColor(data);
-
-  data.color ??= _color(data.name);
-  data?.children?.forEach(c => colorizeData(c, _color));
-  return data;
-};
+export const _normalizeData = (data: SunburstData) => ({
+  ...data,
+  value: data.value ?? 1,
+  children: data?.children?.map(_normalizeData),
+});
 
 export type ColorFunction = (key: string) => string;
-export const _normalizeData = (data: SunburstData, { colorFn, colorMap }: { colorFn?: ColorFunction; colorMap: Map<string, string> }) => {
-  const _colorFn: ColorFunction = colorFn ?? getColor(data);
-
-  data.color = _colorFn(data.name);
-  data.id = data.id ?? uuid();
-
-  colorMap?.set(data.id, data.color);
-
-  return {
-    ...data,
-    value: data.value ?? 1,
-    children: data?.children?.map(c => _normalizeData(c, { colorFn: _colorFn, colorMap })),
-  };
+const colorizeData = (
+  data: SunburstData,
+  {
+    maxDepth = 2,
+    currentDepth = 0,
+    color,
+    colorFn,
+    colorMap,
+  }: { maxDepth?: number; currentDepth?: number; color?: string; colorFn: ColorFunction; colorMap: Map<string, string> },
+) => {
+  if (currentDepth < maxDepth) {
+    data.color = colorFn(data.name);
+  } else {
+    data.color = color;
+  }
+  colorMap.set(data.id, data.color);
+  data?.children?.forEach(c => colorizeData(c, { maxDepth, currentDepth: currentDepth + 1, color: data.color, colorFn, colorMap }));
 };
 
-export const normalizeData = (data: SunburstData) => {
+export const normalizeData = (_data: SunburstData) => {
   const colorMap = new Map<string, string>();
-  return {
-    data: _normalizeData(data, { colorMap }),
-    colorMap,
-  };
+  const colorFn = getColor(_data);
+
+  colorizeData(_data, { colorFn, colorMap });
+
+  return { colorMap, data: _normalizeData(_data) };
 };
 
 const arcVisible = (d: DefaultObject, depth = 3, root = 0) => d.y1 <= depth && d.y0 >= root && d.x1 > d.x0;
@@ -146,9 +148,10 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
   const path = g
     .append('g')
     .selectAll('path')
-    .data<SunburstNode>(root.descendants().slice(1))
+    .data<SunburstNode<T>>(root.descendants().slice(1) as SunburstNode<T>[])
     .join('path')
     .attr('fill', d => {
+      if (d.data.color) return d.data.color;
       while (d.depth > 1) d = d.parent;
       return d.data.color ?? color(d.data.name);
     })
@@ -168,7 +171,7 @@ export const drawSunburst = <T extends SunburstData = SunburstData>(data: T, opt
     .attr('text-anchor', 'middle')
     .style('user-select', 'none')
     .selectAll('text')
-    .data<SunburstNode>(root.descendants().slice(1))
+    .data<SunburstNode<T>>(root.descendants().slice(1) as SunburstNode<T>[])
     .join('text')
     .attr('dy', '0.35em')
     .attr('fill-opacity', d => +labelVisible(d.current, depth))

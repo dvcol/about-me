@@ -11,6 +11,7 @@ export type ProjectLinks = {
 };
 
 export type ProjectTags = {
+  hidden?: Skill[];
   skills?: Skill[];
   other?: Tag[];
 };
@@ -20,17 +21,19 @@ export type ProjectDuration = {
   end?: Date;
 };
 
-export type ProjectMedia = { url?: string; title?: string };
+export type ProjectMedia = { url?: string; title?: string; aspectRatio?: 'square' | '16x9' | undefined };
 
 export class Project {
-  id: string;
-  title?: string;
-  subtitle?: string;
-  description?: string;
-  media?: ProjectMedia;
-  links?: ProjectLinks;
-  tags?: ProjectTags;
-  duration?: ProjectDuration;
+  readonly id: string;
+  readonly title?: string;
+  readonly subtitle?: string;
+  readonly description?: string;
+  readonly media?: ProjectMedia;
+  readonly links?: ProjectLinks;
+  readonly tags?: ProjectTags;
+  readonly duration?: ProjectDuration;
+
+  private tagIds = new Map<string, Tag>();
 
   constructor(props?: Omit<Project, 'id'>) {
     this.id = uuid();
@@ -41,5 +44,12 @@ export class Project {
     this.links = props?.links;
     this.tags = props?.tags;
     this.duration = props?.duration;
+
+    this.parseTags();
+  }
+
+  private parseTags() {
+    if (!this.tags) return;
+    Object.values(this.tags).forEach(_tags => _tags?.forEach(t => this.tagIds.set(t.id, t)));
   }
 }

@@ -1,7 +1,7 @@
 import { Tag } from '~/models/tag.model';
 
 export class Skill extends Tag {
-  children?: Skill[];
+  readonly children?: Skill[];
 
   constructor(props?: Omit<Skill, 'id'>) {
     super(props);

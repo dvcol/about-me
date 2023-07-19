@@ -1,7 +1,7 @@
 import { Project } from '~/models/project.model';
 
 export class Job extends Project {
-  missions?: Mission[];
+  readonly missions?: Mission[];
 
   constructor(props: Omit<Job, 'id'>) {
     super(props);
@@ -10,8 +10,8 @@ export class Job extends Project {
 }
 
 export class Mission extends Project {
-  employer?: Job;
-  client?: Project;
+  readonly employer?: Job;
+  readonly client?: Project;
 
   constructor(props: Omit<Mission, 'id'>) {
     super(props);

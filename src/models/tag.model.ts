@@ -1,11 +1,12 @@
 import { v4 as uuid } from 'uuid';
 
 export class Tag {
-  id: string;
-  name?: string;
-  label?: string;
+  readonly id: string;
+  readonly name?: string;
+  readonly label?: string;
+  readonly link?: string;
+
   color?: string;
-  link?: string;
 
   constructor(props?: Omit<Tag, 'id'>) {
     this.id = uuid();
