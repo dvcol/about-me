@@ -7,6 +7,8 @@
 
   import { Opacity } from '~/components/index.js';
 
+  let className: string = '';
+  export { className as class };
   export let tag: Tag;
   export let hover: boolean;
   export let selected: boolean;
@@ -16,29 +18,33 @@
 </script>
 
 {#if tag}
-  <Chip
-    class="chip"
-    ripple={false}
-    chip={tag}
-    style={`
+  <div class="chip">
+    <Chip
+      class={className}
+      ripple={false}
+      chip={tag}
+      style={`
           color: ${tag?.color ?? ''};
           ${!hover ? `opacity: ${selected !== false ? Opacity.Full : Opacity.Child}` : ''};
           ${selected ? `border-color: ${tag.color?.replace(')', ', 0.3)')}` : ''};
           ${selected ? `background-color: ${tag.color?.replace(')', ', 0.15)')};` : ''}
          `}
-    on:SMUIChip:interaction={onEvent('select', tag)}
-    on:mouseenter={onEvent('enter', tag)}
-    on:mouseleave={onEvent('leave', tag)}
-  >
-    <slot />
-  </Chip>
+      on:SMUIChip:interaction={onEvent('select', tag)}
+      on:mouseenter={onEvent('enter', tag)}
+      on:mouseleave={onEvent('leave', tag)}
+    >
+      <slot />
+    </Chip>
+  </div>
 {/if}
 
 <style lang="scss">
-  :global(.mdc-chip) {
-    border-color: transparent;
-    border-style: solid;
-    border-width: 1px;
-    transition: opacity 0.5s, background-color 0.3s, border-color 0.15s;
+  .chip {
+    :global(.mdc-chip) {
+      border-color: transparent;
+      border-style: solid;
+      border-width: 1px;
+      transition: opacity 0.5s, background-color 0.3s, border-color 0.15s;
+    }
   }
 </style>

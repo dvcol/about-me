@@ -82,5 +82,9 @@
       opacity: 1;
       scale: 1;
     }
+
+    :global(svg) {
+      overflow: unset;
+    }
   }
 </style>
