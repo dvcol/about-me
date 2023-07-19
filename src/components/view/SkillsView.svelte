@@ -64,6 +64,7 @@
   let back: SunburstApi['back'];
 
   let onScroll: (scrollContainer: HTMLDivElement) => void;
+  let hide: () => void;
 
   let direction: 'in' | 'out' = 'in';
   const animations = {
@@ -110,7 +111,7 @@
             $parent$ = detail;
             $visible$ = parseData(detail);
           }
-
+          hide();
           selected(detail);
           setTimeout(onScroll, Animation.Speed);
         }}
@@ -122,7 +123,7 @@
     </div>
 
     <div class="column chips">
-      <ScrollShadow bind:onScroll>
+      <ScrollShadow bind:onScroll bind:hide>
         <Set chips={$visible$} let:chip>
           <div in:fly|global={animations.in} out:fly|global={animations.out}>
             <Tag
