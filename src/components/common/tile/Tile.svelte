@@ -8,9 +8,12 @@
 
   import TileTags from './TileTags.svelte';
 
-  import type { ProjectDuration, ProjectLinks, ProjectMedia, ProjectTags } from '~/models';
+  import type { ProjectLinks, ProjectMedia, ProjectTags } from '~/models';
 
   import GithubSvg from '~/assets/github.svelte';
+
+  let className: string = '';
+  export { className as class };
 
   export let title: string = null;
   export let subtitle: string = null;
@@ -18,13 +21,12 @@
   export let media: ProjectMedia = null;
   export let links: ProjectLinks = null;
   export let tags: ProjectTags = null;
-  export let duration: ProjectDuration = null;
 </script>
 
-<div class="tile">
+<div class={['tile', className].filter(Boolean).join(' ')}>
   <Card class="tile-card">
     {#if media?.url}
-      <Media class="tile-card-media" aspectRatio="16x9" style={`background-image: url(${media.url})`}>
+      <Media class="tile-card-media" aspectRatio={media.aspectRatio} style={`background-image: url(${media.url})`}>
         {#if media?.title}
           <MediaContent>
             <h2 class="tile-card-media-title mdc-typography--headline6p">
@@ -34,38 +36,43 @@
         {/if}
       </Media>
     {/if}
-    <Content class="tile-card-content mdc-typography--body2">
-      {#if title}
-        <h2 class="mdc-typography--headline6">{title}</h2>
-      {/if}
-      {#if subtitle}
-        <h3 class="mdc-typography--subtitle2">{subtitle}</h3>
-      {/if}
-      {#if description}
-        {@html description}
-      {/if}
-    </Content>
-    <Actions class="tile-card-actions">
-      <TileTags {tags} />
-      <ActionIcons>
-        {#if links?.github}
-          <IconButton class="tile-card-actions-button" title="Github" size="mini" href={links.github}><GithubSvg /></IconButton>
+    {#if title || subtitle || description}
+      <Content class="tile-card-content mdc-typography--body2">
+        {#if title}
+          <h2 class="mdc-typography--headline6">{title}</h2>
         {/if}
-        {#if links?.store}
-          <IconButton class="tile-card-actions-button" title="Store" size="mini" href={links.store}><DownloadingSvg /></IconButton>
+        {#if subtitle}
+          <h3 class="mdc-typography--subtitle2">{subtitle}</h3>
         {/if}
-        {#if links?.website}
-          <IconButton class="tile-card-actions-button" title="Websites" size="mini" href={links.website}><ExternalLinkSvg /></IconButton>
+        {#if description}
+          {@html description}
         {/if}
-      </ActionIcons>
-    </Actions>
+      </Content>
+    {/if}
+    {#if tags || links}
+      <Actions class="tile-card-actions">
+        {#if tags}
+          <TileTags {...tags} />
+        {/if}
+        <ActionIcons>
+          {#if links?.github}
+            <IconButton class="tile-card-actions-button" title="Github" size="mini" href={links.github}><GithubSvg /></IconButton>
+          {/if}
+          {#if links?.store}
+            <IconButton class="tile-card-actions-button" title="Store" size="mini" href={links.store}><DownloadingSvg /></IconButton>
+          {/if}
+          {#if links?.website}
+            <IconButton class="tile-card-actions-button" title="Websites" size="mini" href={links.website}><ExternalLinkSvg /></IconButton>
+          {/if}
+        </ActionIcons>
+      </Actions>
+    {/if}
   </Card>
 </div>
 
 <style lang="scss">
   @mixin line-clamp($max-line: 2) {
     display: -webkit-box;
-    max-height: 450px;
     overflow: hidden;
     -webkit-line-clamp: $max-line;
     -webkit-box-orient: vertical;
@@ -74,7 +81,8 @@
   .tile {
     :global {
       .tile-card {
-        max-width: 800px;
+        display: flex;
+        flex: 1 1 auto;
         transition: scale 0.5s;
         scale: 0.975;
 
@@ -84,7 +92,8 @@
         }
 
         &-media {
-          max-height: 450px;
+          display: flex;
+          flex: 1 1 auto;
 
           &-title {
             position: absolute;
@@ -97,6 +106,9 @@
         }
 
         &-content {
+          display: flex;
+          flex: 1 1 auto;
+          flex-direction: column;
           padding: 0.5rem 2rem;
 
           h3 {
@@ -109,7 +121,7 @@
         }
 
         &-actions {
-          padding: 0 2rem 1.5rem;
+          padding: 0 1rem 1rem;
 
           &-button {
             margin: 0 0.25rem;

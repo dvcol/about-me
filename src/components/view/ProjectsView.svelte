@@ -1,11 +1,29 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
 
-  import { Section, Tile } from '~/components';
-  import { react, reactRouter, webEx } from '~/data';
-  import { Project, Tag } from '~/models';
+  import { Section } from '~/components';
+  import Stack from '~/components/common/stack/Stack.svelte';
+  import {
+    animation,
+    backgroundScript,
+    contentScript,
+    dndKit,
+    mv3,
+    react,
+    reactMui,
+    reactRedux,
+    reactRouter,
+    reactTransitionGroup,
+    redux,
+    rxjs,
+    syncStorage,
+    webEx,
+    webexMessaging,
+    webpack,
+  } from '~/data';
+  import { Project } from '~/models';
 
-  const Synology: Project = new Project({
+  const SynologyDownloadProject: Project = new Project({
     title: 'Synology Download',
     subtitle: 'Chrome extension to manage Synology NAS',
     description: `
@@ -39,13 +57,20 @@
     Blandit cursus risus at ultrices. Lectus mauris ultrices eros in cursus.
     </p>
     `,
-    media: { url: 'synology_demo.gif', title: 'Synology Demo' },
     tags: {
-      skills: [react, webEx, reactRouter],
-      other: [
-        new Tag({
-          name: 'custom tag',
-        }),
+      skills: [react, webEx, animation, webpack, redux],
+      hidden: [
+        reactMui,
+        reactRedux,
+        reactRouter,
+        reactTransitionGroup,
+        dndKit,
+        mv3,
+        contentScript,
+        backgroundScript,
+        webexMessaging,
+        syncStorage,
+        rxjs,
       ],
     },
     links: {
@@ -54,6 +79,12 @@
       website: 'https://dvcol.github.io/#/synology/demo',
     },
   });
+
+  const SynologyDownloadProjectMedia = new Project({
+    media: { url: 'synology_demo.gif', title: 'Synology Demo' },
+  });
+
+  const stack = [{ left: SynologyDownloadProject, right: SynologyDownloadProjectMedia }];
 </script>
 
 <Section>
@@ -61,9 +92,6 @@
     {$_('projects.title')}
   </div>
   <div slot="main">
-    <Tile {...Synology} />
-    <!--    <Tile />-->
-    <!--    <Tile />-->
-    <!--    <Tile />-->
+    <Stack {stack} />
   </div>
 </Section>

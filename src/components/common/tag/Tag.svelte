@@ -9,6 +9,7 @@
 
   let className: string = '';
   export { className as class };
+
   export let tag: Tag;
   export let hover: boolean;
   export let selected: boolean;

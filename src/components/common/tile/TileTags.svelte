@@ -2,53 +2,77 @@
   import { ActionButtons } from '@smui/card';
   import { Text } from '@smui/chips';
 
-  import type { ProjectTags } from '~/models';
+  import { onMount } from 'svelte';
 
-  import { Tag } from '~/components';
+  import type { Skill } from '~/models';
+
+  import { ScrollShadow, Tag } from '~/components';
   import { useSkillsStore } from '~/stores';
 
-  export let tags: ProjectTags = null;
+  export let skills: Skill[];
+  export let other: Tag[];
 
   const { hover$, selected$, colors$, nodes$, onHover$, onLeave$, onSelect$ } = useSkillsStore();
+
+  let onScroll: (scrollContainer: HTMLDivElement) => void;
+
+  onMount(() => setTimeout(onScroll));
 </script>
 
 <div class="tile-tags">
-  <ActionButtons>
-    {#key $colors$}
-      {#if tags}
-        {#each tags.skills as tag}
-          <Tag
-            class="tile-tags-tag"
-            {tag}
-            hover={!$hover$.length || $hover$.includes(tag.id)}
-            selected={$selected$?.id === tag.id}
-            on:select={$onSelect$($nodes$.get(tag.id)?.node, true)}
-            on:enter={$onHover$($nodes$.get(tag.id)?.node)}
-            on:leave={$onLeave$()}
-          >
-            <Text>
-              {tag.name}
-            </Text>
-          </Tag>
-        {/each}
-        {#each tags.other as tag}
-          <Tag {tag} hover={!$hover$.length} selected={false}>
-            <Text>
-              {tag.name}
-            </Text>
-          </Tag>
-        {/each}
-      {/if}
-    {/key}
-  </ActionButtons>
+  <ScrollShadow horizontal bind:onScroll>
+    <ActionButtons>
+      {#key $colors$}
+        {#if skills}
+          {#each skills as tag}
+            <Tag
+              {tag}
+              hover={!$hover$.length || $hover$.includes(tag.id)}
+              selected={$selected$?.id === tag.id}
+              on:select={$onSelect$($nodes$.get(tag.id)?.node, true)}
+              on:enter={$onHover$($nodes$.get(tag.id)?.node)}
+              on:leave={$onLeave$()}
+            >
+              <Text>
+                {tag.name}
+              </Text>
+            </Tag>
+          {/each}
+        {/if}
+        {#if other}
+          {#each other as tag}
+            <Tag {tag} hover={!$hover$.length} selected={false}>
+              <Text>
+                {tag.name}
+              </Text>
+            </Tag>
+          {/each}
+        {/if}
+      {/key}
+    </ActionButtons>
+  </ScrollShadow>
 </div>
 
 <style lang="scss">
   .tile-tags {
-    :global {
-      .tile-tags-tag {
-        margin-right: 0.5rem;
-      }
+    overflow: hidden;
+
+    :global(.scroll-container) {
+      margin: 0 1rem;
+      padding: 1rem 0;
+      overflow: hidden;
+    }
+
+    :global(.shadow-top) {
+      margin-left: 1rem;
+    }
+
+    :global(.shadow-bottom) {
+      margin-right: 1rem;
+    }
+
+    :global(.chip) {
+      margin-right: 0.5rem;
     }
   }
 </style>
