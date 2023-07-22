@@ -1,7 +1,8 @@
 <script lang="ts">
+  import Button, { Icon, Label } from '@smui/button';
   import Card, { ActionIcons, Actions, Content, Media, MediaContent } from '@smui/card';
-
   import IconButton from '@smui/icon-button';
+  import SmallRightArrowSvg from 'line-md/svg/arrow-small-right.svg?component';
 
   import DownloadingSvg from 'line-md/svg/downloading-loop.svg?component';
   import ExternalLinkSvg from 'line-md/svg/external-link-rounded.svg?component';
@@ -15,6 +16,9 @@
   let className: string = '';
   export { className as class };
 
+  let styles: string = '';
+  export { styles as style };
+
   export let title: string = null;
   export let subtitle: string = null;
   export let description: string = null;
@@ -23,15 +27,28 @@
   export let tags: ProjectTags = null;
 </script>
 
-<div class={['tile', className].filter(Boolean).join(' ')}>
+<div class={['tile', className].filter(Boolean).join(' ')} style={styles}>
   <Card class="tile-card">
     {#if media?.url}
       <Media class="tile-card-media" aspectRatio={media.aspectRatio} style={`background-image: url(${media.url})`}>
-        {#if media?.title}
+        {#if media.title || media.subtitle}
           <MediaContent>
-            <h2 class="tile-card-media-title mdc-typography--headline6p">
-              {media.title}
-            </h2>
+            <div class="tile-card-media-content">
+              {#if media.title}
+                <h2 class="tile-card-media-title mdc-typography--headline6p">
+                  {media.title}
+                </h2>
+              {/if}
+              {#if media.subtitle}
+                <h3 class="tile-card-media-subtitle mdc-typography--subtitle2">{media.subtitle}</h3>
+              {/if}
+              {#if media.link}
+                <Button class="tile-card-media-link" variant="text" on:click={() => (location.href = media.link.url)}>
+                  <Label>{media.link?.label}</Label>
+                  <Icon class="tile-card-media-link-icon"><SmallRightArrowSvg /></Icon>
+                </Button>
+              {/if}
+            </div>
           </MediaContent>
         {/if}
       </Media>
@@ -52,7 +69,7 @@
     {#if tags || links}
       <Actions class="tile-card-actions">
         {#if tags}
-          <TileTags {...tags} />
+          <TileTags skills={tags.skills} other={tags.other} />
         {/if}
         <ActionIcons>
           {#if links?.github}
@@ -83,25 +100,55 @@
       .tile-card {
         display: flex;
         flex: 1 1 auto;
+        border-radius: 8px;
         transition: scale 0.5s;
         scale: 0.975;
-
-        &:hover,
-        &:focus {
-          scale: 1;
-        }
 
         &-media {
           display: flex;
           flex: 1 1 auto;
+          overflow: hidden;
 
-          &-title {
+          &-content {
             position: absolute;
             bottom: 0;
             left: 0;
             margin: 0;
             padding: 1rem 1.5rem;
+            transition: translate 1s, opacity 0.75s;
+            will-change: translate;
+            translate: 0 calc(100% - 5rem);
+          }
+
+          &-title,
+          &-subtitle {
             color: #fff;
+
+            @include line-clamp(2);
+          }
+
+          &-subtitle,
+          &-link {
+            opacity: 0;
+            transition: opacity 1s;
+            will-change: opacity;
+
+            @include line-clamp(3);
+          }
+
+          &-subtitle {
+            margin: 0.5rem 0;
+          }
+
+          &-link {
+            margin-left: -0.5rem;
+            font-weight: bold;
+            font-size: medium;
+            text-transform: none;
+
+            &-icon {
+              margin: -3px 4px 0 0;
+            }
           }
         }
 
@@ -111,12 +158,14 @@
           flex-direction: column;
           padding: 0.5rem 2rem;
 
-          h3 {
-            @include line-clamp(3);
+          h2 {
+            @include line-clamp(2);
           }
 
-          p {
-            @include line-clamp(20);
+          h3 {
+            @include line-clamp(3);
+
+            margin: 0 0 0.5rem;
           }
         }
 
@@ -130,6 +179,20 @@
             --mdc-ripple-fg-scale: 1.7 !important;
             --mdc-ripple-left: 8px !important;
             --mdc-ripple-top: 8px !important;
+          }
+        }
+
+        &:hover,
+        &:focus {
+          scale: 1;
+
+          .tile-card-media-content {
+            translate: 0;
+          }
+
+          .tile-card-media-subtitle,
+          .tile-card-media-link {
+            opacity: 1;
           }
         }
       }

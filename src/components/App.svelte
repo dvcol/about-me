@@ -13,8 +13,10 @@
 </article>
 
 <style lang="scss" global>
-  @import 'src/styles/smui-light.css' screen;
-  @import 'src/styles/smui-dark.css' screen and (prefers-color-scheme: dark);
+  @import 'src/styles/smui-dark.css' screen;
+
+  // TODO - implement light theme
+  // @import 'src/styles/smui-light.css' screen and (prefers-color-scheme: light);
 
   :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

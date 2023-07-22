@@ -26,7 +26,7 @@ const partition = <T extends SunburstData = SunburstData>(_data: T) => {
   return d3.partition().size([2 * Math.PI, root.height + 1])(root);
 };
 
-const getColor = <T extends SunburstData = SunburstData>(data: T) => d3.scaleOrdinal(d3.quantize(d3.interpolateSinebow, data.children.length + 1));
+const getColor = <T extends SunburstData = SunburstData>(data: T) => d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, data.children.length + 1));
 
 export const _normalizeData = (data: SunburstData) => ({
   ...data,

@@ -81,10 +81,22 @@
   });
 
   const SynologyDownloadProjectMedia = new Project({
-    media: { url: 'synology_demo.gif', title: 'Synology Demo' },
+    media: {
+      url: 'synology_demo.gif',
+      title: 'Synology Demo',
+      subtitle: 'A chrome extension for Synology NAS',
+      link: { label: 'See it in the chrome store', url: SynologyDownloadProject.links.store },
+    },
   });
 
-  const stack = [{ left: SynologyDownloadProject, right: SynologyDownloadProjectMedia }];
+  const stack = [
+    { left: SynologyDownloadProjectMedia, right: SynologyDownloadProject },
+    { left: SynologyDownloadProjectMedia, right: SynologyDownloadProject },
+    { left: SynologyDownloadProjectMedia, right: SynologyDownloadProject },
+    { left: SynologyDownloadProjectMedia, right: SynologyDownloadProject },
+    { left: SynologyDownloadProjectMedia, right: SynologyDownloadProject },
+    { left: SynologyDownloadProjectMedia, right: SynologyDownloadProject },
+  ];
 </script>
 
 <Section>

@@ -4,6 +4,7 @@
   "version": "1.1.3",
   "author": "dvcol",
   "homepage": "https://github.com/dvcol/about-me",
+  "bugs": "https://github.com/dvcol/about-me/issues",
   "repository": {
     "type": "git",
     "url": "https://github.com/dvcol/about-me.git"

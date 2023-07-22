@@ -13,6 +13,8 @@ export type InViewActionsParams = {
   options?: IntersectionObserverInit;
 };
 
+export type InViewEvent = CustomEvent<{ entry: IntersectionObserverEntry; count: number }>;
+
 export const handleIntersect: (count: Writable<number>) => IntersectionObserverCallback = count => entries => {
   entries.forEach(entry => {
     const eventName = entry.isIntersecting ? 'enter' : 'leave';

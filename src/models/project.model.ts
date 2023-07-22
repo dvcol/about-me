@@ -21,7 +21,13 @@ export type ProjectDuration = {
   end?: Date;
 };
 
-export type ProjectMedia = { url?: string; title?: string; aspectRatio?: 'square' | '16x9' | undefined };
+export type ProjectMedia = {
+  url?: string;
+  title?: string;
+  subtitle?: string;
+  link?: { label: string; url: string };
+  aspectRatio?: 'square' | '16x9' | undefined;
+};
 
 export class Project {
   readonly id: string;

@@ -7,7 +7,6 @@
   import type { SunburstApi } from './draw-sunburst';
   import type { SunburstData } from '~/models';
 
-  import { inView } from '~/actions';
   import { colors$, nodes$ } from '~/stores';
 
   type DataProp = SunburstData | (() => Promise<SunburstData>);
@@ -59,15 +58,7 @@
   onMount(drawChart);
 </script>
 
-<div
-  class="sunburst-container"
-  class:sunburst-container--visible={visible}
-  bind:this={element}
-  use:inView
-  on:enter={() => {
-    visible = true;
-  }}
->
+<div class="sunburst-container" class:sunburst-container--visible={visible} bind:this={element}>
   <!--  sunburst injected here -->
 </div>
 
@@ -75,7 +66,8 @@
   .sunburst-container {
     text-align: center;
     opacity: 0;
-    transition: opacity 1s, scale 1s;
+    transition: opacity 1s ease-in, scale 1s;
+    will-change: opacity, scale;
     scale: 0.25;
 
     &--visible {

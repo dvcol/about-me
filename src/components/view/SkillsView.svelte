@@ -12,6 +12,7 @@
 
   import type { SunburstData } from '~/models';
 
+  import { inView } from '~/actions';
   import { Animation, hasChildren, ScrollShadow, spliceNode, SunBurst, Tag } from '~/components/common';
 
   import { Section } from '~/components/layout';
@@ -82,16 +83,26 @@
       },
     },
   };
+
+  const inView$ = writable(false);
 </script>
 
 <Section>
   <div slot="header">
     {$_('skills.title')}
   </div>
-  <div slot="main" class="row">
+  <div
+    slot="main"
+    class="row"
+    use:inView
+    on:enter={() => {
+      $inView$ = true;
+    }}
+  >
     <div class="column sunburst">
       <SunBurst
         {data}
+        visible={$inView$}
         height="50vh"
         bind:select={$onSelect$}
         bind:hover={$onHover$}
@@ -122,7 +133,7 @@
       />
     </div>
 
-    <div class="column chips">
+    <div class="column chips" class:chips--visible={$inView$}>
       <ScrollShadow bind:onScroll bind:hide>
         <Set chips={$visible$} let:chip>
           <div in:fly|global={animations.in} out:fly|global={animations.out}>
@@ -179,6 +190,15 @@
 
   .chips {
     flex: 0 1 40%;
+    opacity: 0;
+    translate: 100%;
+    transition: translate 1s;
+    will-change: translate;
+
+    &--visible {
+      opacity: 1;
+      translate: 0;
+    }
   }
 
   @media screen and (max-width: breakpoint.$sm + px) {
