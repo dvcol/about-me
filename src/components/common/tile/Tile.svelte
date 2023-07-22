@@ -86,27 +86,31 @@
         {#if tags}
           <TileTags skills={tags.skills} other={tags.other} />
         {/if}
-        <ActionIcons>
-          {#if $hover$}
-            <div out:fade={{ duration: 300 }}>
-              {#if links?.github}
-                <IconButton class="tile-card-actions-button" title="Github" size="mini" href={links.github}><GithubSvg /></IconButton>
-              {/if}
-              {#if links?.store}
-                <IconButton class="tile-card-actions-button" title="Store" size="mini" href={links.store}><DownloadingSvg /></IconButton>
-              {/if}
-              {#if links?.website}
-                <IconButton class="tile-card-actions-button" title="Websites" size="mini" href={links.website}><ExternalLinkSvg /></IconButton>
-              {/if}
-            </div>
-          {/if}
-        </ActionIcons>
+        {#if links}
+          <ActionIcons class="tile-card-actions-links">
+            {#if $hover$}
+              <div class="tile-card-actions-links-buttons" out:fade={{ duration: 300 }}>
+                {#if links?.github}
+                  <IconButton class="tile-card-actions-button" title="Github" size="mini" href={links.github}><GithubSvg /></IconButton>
+                {/if}
+                {#if links?.store}
+                  <IconButton class="tile-card-actions-button" title="Store" size="mini" href={links.store}><DownloadingSvg /></IconButton>
+                {/if}
+                {#if links?.website}
+                  <IconButton class="tile-card-actions-button" title="Websites" size="mini" href={links.website}><ExternalLinkSvg /></IconButton>
+                {/if}
+              </div>
+            {/if}
+          </ActionIcons>
+        {/if}
       </Actions>
     {/if}
   </Card>
 </div>
 
 <style lang="scss">
+  @use 'src/styles/breakpoint';
+
   @mixin line-clamp($max-line: 2) {
     display: -webkit-box;
     overflow: hidden;
@@ -187,6 +191,10 @@
         &-actions {
           padding: 0 1rem 1rem;
 
+          &-links {
+            min-height: 40px;
+          }
+
           &-button {
             margin: 0 0.25rem;
 
@@ -209,6 +217,17 @@
           .tile-card-media-link {
             opacity: 1;
           }
+        }
+      }
+
+      @media screen and (max-width: breakpoint.$mobile + px) {
+        :global(.mdc-card__actions) {
+          flex-wrap: wrap;
+        }
+
+        :global(.tile-card-actions-links) {
+          justify-content: center;
+          margin: 0.25rem 0 0;
         }
       }
     }
