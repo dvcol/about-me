@@ -1,15 +1,15 @@
 <script lang="ts">
-  import type { Project } from '~/models';
+  import type { StackTileProps } from '~/models';
   import type { RequireAtLeastOne } from '~/utils';
 
   import StackTile from '~/components/common/stack/StackTile.svelte';
 
-  export let stack: RequireAtLeastOne<{ left: Project; right: Project }>[] = [];
+  export let stacks: RequireAtLeastOne<StackTileProps>[] = [];
 </script>
 
 <div class="stack">
-  {#each stack as { left, right }}
-    <StackTile {left} {right} />
+  {#each stacks as stack}
+    <StackTile {...stack} />
   {/each}
 </div>
 

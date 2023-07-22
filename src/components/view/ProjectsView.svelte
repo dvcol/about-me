@@ -1,6 +1,8 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
 
+  import type { StackTileProps } from '~/models';
+
   import { Section } from '~/components';
   import Stack from '~/components/common/stack/Stack.svelte';
   import {
@@ -21,7 +23,7 @@
     webexMessaging,
     webpack,
   } from '~/data';
-  import { Project } from '~/models';
+  import { Project, StackTilePrimary } from '~/models';
 
   const SynologyDownloadProject: Project = new Project({
     title: 'Synology Download',
@@ -89,9 +91,9 @@
     },
   });
 
-  const stack = [
+  const stacks: StackTileProps[] = [
     { left: SynologyDownloadProjectMedia, right: SynologyDownloadProject },
-    { left: SynologyDownloadProjectMedia, right: SynologyDownloadProject },
+    { left: SynologyDownloadProject, right: SynologyDownloadProjectMedia, primary: StackTilePrimary.Right },
     { left: SynologyDownloadProjectMedia, right: SynologyDownloadProject },
     { left: SynologyDownloadProjectMedia, right: SynologyDownloadProject },
     { left: SynologyDownloadProjectMedia, right: SynologyDownloadProject },
@@ -104,6 +106,6 @@
     {$_('projects.title')}
   </div>
   <div slot="main">
-    <Stack {stack} />
+    <Stack {stacks} />
   </div>
 </Section>

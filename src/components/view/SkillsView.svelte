@@ -201,7 +201,7 @@
     }
   }
 
-  @media screen and (max-width: breakpoint.$sm + px) {
+  @media screen and (max-width: breakpoint.$mobile + px) {
     .row {
       flex-direction: column;
     }

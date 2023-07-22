@@ -1,13 +1,16 @@
 <script lang="ts">
-  import { writable } from 'svelte/store';
+  import { derived, writable } from 'svelte/store';
 
-  import type { Project } from '~/models';
+  import type { Project, StackTileProps } from '~/models';
 
   import { inView } from '~/actions';
   import { Tile } from '~/components/common';
+  import { StackTilePrimary } from '~/models';
+  import { BreakPoints, useMediaQuery } from '~/utils';
 
   export let left: Project;
   export let right: Project;
+  export let primary: StackTileProps['primary'] = StackTilePrimary.Left;
 
   const open$ = writable(false);
 
@@ -19,19 +22,32 @@
     links,
     tags,
   });
+
+  const reverse$ = useMediaQuery(`(max-width: ${BreakPoints.hd}px)`);
+  const tiles = derived(reverse$, _reverse => {
+    console.info({ reverse: _reverse, left, right, primary });
+    if (_reverse && primary === StackTilePrimary.Right) return { left: right, right: left };
+    return { left, right };
+  });
 </script>
 
 <div
   class="stack-tiles"
   use:inView={{ margin: { top: 200, bottom: 200 } }}
-  on:enter={e => {
-    // if (!e?.detail?.count) return;
+  on:enter={() => {
     $open$ = true;
-    console.info('enter', e.detail, $open$);
   }}
 >
-  <Tile class={`stack-tile stack-tile-left${$open$ ? ' stack-tile--open' : ''}`} {...spreadTile(left)} />
-  <Tile class={`stack-tile stack-tile-right${$open$ ? ' stack-tile--open' : ''}`} {...spreadTile(right)} />
+  {#key tiles}
+    <Tile
+      class={`stack-tile stack-tile-left${$open$ ? ' stack-tile--open' : ''}${primary === StackTilePrimary.Left ? ' stack-tile--primary' : ''}`}
+      {...spreadTile($tiles.left)}
+    />
+    <Tile
+      class={`stack-tile stack-tile-right${$open$ ? ' stack-tile--open' : ''}${primary === StackTilePrimary.Right ? ' stack-tile--primary' : ''}`}
+      {...spreadTile($tiles.right)}
+    />
+  {/key}
 </div>
 
 <style lang="scss">
@@ -42,6 +58,7 @@
     flex-flow: row wrap;
     align-items: center;
     justify-content: center;
+    padding: 2rem 0;
     overflow: hidden;
 
     :global {
@@ -60,8 +77,11 @@
           z-index: 2;
         }
 
-        &-left {
+        &--primary {
           z-index: 1;
+        }
+
+        &-left {
           translate: 40%;
 
           .tile-card {
@@ -101,11 +121,11 @@
               transform-origin: top;
             }
 
-            @media all and (max-height: breakpoint.$lg + px) {
+            @media all and (max-height: breakpoint.$hd + px) {
               translate: 0 -40%;
             }
 
-            @media all and (max-height: breakpoint.$md + px) {
+            @media all and (max-height: breakpoint.$tablet + px) {
               translate: 0 -16%;
             }
           }
