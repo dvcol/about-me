@@ -25,7 +25,6 @@
 
   const reverse$ = useMediaQuery(`(max-width: ${BreakPoints.hd}px)`);
   const tiles = derived(reverse$, _reverse => {
-    console.info({ reverse: _reverse, left, right, primary });
     if (_reverse && primary === StackTilePrimary.Right) return { left: right, right: left };
     return { left, right };
   });

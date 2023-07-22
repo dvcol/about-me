@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Button, { Icon, Label } from '@smui/button';
   import Card, { ActionIcons, Actions, Content, Media, MediaContent } from '@smui/card';
   import IconButton from '@smui/icon-button';
   import SmallRightArrowSvg from 'line-md/svg/arrow-small-right.svg?component';
@@ -7,11 +6,16 @@
   import DownloadingSvg from 'line-md/svg/downloading-loop.svg?component';
   import ExternalLinkSvg from 'line-md/svg/external-link-rounded.svg?component';
 
+  import { writable } from 'svelte/store';
+
+  import { fade } from 'svelte/transition';
+
   import TileTags from './TileTags.svelte';
 
   import type { ProjectLinks, ProjectMedia, ProjectTags } from '~/models';
 
   import GithubSvg from '~/assets/github.svelte';
+  import AnimatedButton from '~/components/common/button/AnimatedButton.svelte';
 
   let className: string = '';
   export { className as class };
@@ -25,9 +29,20 @@
   export let media: ProjectMedia = null;
   export let links: ProjectLinks = null;
   export let tags: ProjectTags = null;
+
+  const hover$ = writable(false);
 </script>
 
-<div class={['tile', className].filter(Boolean).join(' ')} style={styles}>
+<div
+  class={['tile', className].filter(Boolean).join(' ')}
+  style={styles}
+  on:mouseenter={() => {
+    $hover$ = true;
+  }}
+  on:mouseleave={() => {
+    $hover$ = false;
+  }}
+>
   <Card class="tile-card">
     {#if media?.url}
       <Media class="tile-card-media" aspectRatio={media.aspectRatio} style={`background-image: url(${media.url})`}>
@@ -43,10 +58,10 @@
                 <h3 class="tile-card-media-subtitle mdc-typography--subtitle2">{media.subtitle}</h3>
               {/if}
               {#if media.link}
-                <Button class="tile-card-media-link" variant="text" on:click={() => (location.href = media.link.url)}>
-                  <Label>{media.link?.label}</Label>
-                  <Icon class="tile-card-media-link-icon"><SmallRightArrowSvg /></Icon>
-                </Button>
+                <AnimatedButton class="tile-card-media-link" url={media.link.url}>
+                  {media.link?.label}
+                  <SmallRightArrowSvg slot="icon" />
+                </AnimatedButton>
               {/if}
             </div>
           </MediaContent>
@@ -72,14 +87,18 @@
           <TileTags skills={tags.skills} other={tags.other} />
         {/if}
         <ActionIcons>
-          {#if links?.github}
-            <IconButton class="tile-card-actions-button" title="Github" size="mini" href={links.github}><GithubSvg /></IconButton>
-          {/if}
-          {#if links?.store}
-            <IconButton class="tile-card-actions-button" title="Store" size="mini" href={links.store}><DownloadingSvg /></IconButton>
-          {/if}
-          {#if links?.website}
-            <IconButton class="tile-card-actions-button" title="Websites" size="mini" href={links.website}><ExternalLinkSvg /></IconButton>
+          {#if $hover$}
+            <div out:fade={{ duration: 300 }}>
+              {#if links?.github}
+                <IconButton class="tile-card-actions-button" title="Github" size="mini" href={links.github}><GithubSvg /></IconButton>
+              {/if}
+              {#if links?.store}
+                <IconButton class="tile-card-actions-button" title="Store" size="mini" href={links.store}><DownloadingSvg /></IconButton>
+              {/if}
+              {#if links?.website}
+                <IconButton class="tile-card-actions-button" title="Websites" size="mini" href={links.website}><ExternalLinkSvg /></IconButton>
+              {/if}
+            </div>
           {/if}
         </ActionIcons>
       </Actions>
@@ -145,10 +164,6 @@
             font-weight: bold;
             font-size: medium;
             text-transform: none;
-
-            &-icon {
-              margin: -3px 4px 0 0;
-            }
           }
         }
 
