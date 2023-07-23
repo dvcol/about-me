@@ -176,12 +176,15 @@
     display: flex;
     flex-direction: row;
     width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
 
   .column {
     display: flex;
     flex-direction: column;
     max-height: 50vh;
+    padding: 2rem;
   }
 
   .sunburst {
@@ -198,6 +201,12 @@
     &--visible {
       opacity: 1;
       translate: 0;
+    }
+  }
+
+  @media screen and (max-width: breakpoint.$hd + px) {
+    .column {
+      padding: 1rem;
     }
   }
 
