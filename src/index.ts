@@ -1,6 +1,16 @@
 import { AppWc } from '~/components/web/app-wc';
 
-export const defineComponent = (component = 'wc-about-me') => {
+enum WebComponents {
+  AboutMe = 'wc-about-me',
+}
+
+type DefineComponent = (component?: WebComponents) => void;
+
+/**
+ * Defines About Me web components
+ * @param component defaults to wc-about-me
+ */
+export const defineComponent: DefineComponent = (component = WebComponents.AboutMe) => {
   if (customElements.get(component)) {
     console.warn(`Custom element '${component}' is already defined.`);
   } else {
@@ -8,5 +18,10 @@ export const defineComponent = (component = 'wc-about-me') => {
   }
 };
 
-export type { AppWc };
+type AboutMe = {
+  defineComponents: typeof defineComponent;
+  default: typeof defineComponent;
+};
+
+export type { AppWc, AboutMe };
 export default defineComponent;

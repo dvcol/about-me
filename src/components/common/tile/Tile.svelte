@@ -47,7 +47,11 @@
 >
   <Card class="tile-card">
     {#if media?.url}
-      <Media class="tile-card-media" aspectRatio={media.aspectRatio} style={`background-image: url(${media.url})`}>
+      <Media
+        class="tile-card-media"
+        aspectRatio={media.aspectRatio}
+        style={`background-image: url(${media.url?.startsWith('http') ? '' : './'}${media.url})`}
+      >
         {#if media.title || media.subtitle}
           <MediaContent>
             <div class="tile-card-media-content">
