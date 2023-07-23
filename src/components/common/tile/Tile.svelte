@@ -36,6 +36,7 @@
 <div
   class={['tile', className].filter(Boolean).join(' ')}
   style={styles}
+  role="article"
   on:mouseenter={() => {
     $hover$ = true;
   }}
