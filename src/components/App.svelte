@@ -13,7 +13,7 @@
 </article>
 
 <style lang="scss" global>
-  @import 'src/styles/smui-dark.css' screen;
+  @use 'src/styles/smui-dark';
 
   // TODO - implement light theme
   // @import 'src/styles/smui-light.css' screen and (prefers-color-scheme: light);

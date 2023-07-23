@@ -39,11 +39,15 @@
 >
   {#key tiles}
     <Tile
-      class={`stack-tile stack-tile-left${$open$ ? ' stack-tile--open' : ''}${primary === StackTilePrimary.Left ? ' stack-tile--primary' : ''}`}
+      class={`stack-tile stack-tile-left${$open$ ? ' stack-tile--open' : ''}${
+        $reverse$ || primary === StackTilePrimary.Left ? ' stack-tile--primary' : ''
+      }`}
       {...spreadTile($tiles.left)}
     />
     <Tile
-      class={`stack-tile stack-tile-right${$open$ ? ' stack-tile--open' : ''}${primary === StackTilePrimary.Right ? ' stack-tile--primary' : ''}`}
+      class={`stack-tile stack-tile-right${$open$ ? ' stack-tile--open' : ''}${
+        !$reverse$ && primary === StackTilePrimary.Right ? ' stack-tile--primary' : ''
+      }`}
       {...spreadTile($tiles.right)}
     />
   {/key}
