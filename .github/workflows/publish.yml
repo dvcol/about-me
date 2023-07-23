@@ -56,6 +56,8 @@ jobs:
         if: ${{ github.event.inputs.tag-name == '' }}
         id: latest-tag
         run: |
+          # =================  Fetch tag  =================
+          
           tag_name=$(git describe --abbrev=0)
           echo "Tag found: '\e[34m$tag_name\e[0m'"
           echo "TAG_NAME=$tag_name" >> "$GITHUB_OUTPUT"

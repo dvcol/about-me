@@ -6,7 +6,7 @@ inputs:
     description: 'Pnpm version to use'
     required: true
   pnpm_version:
-    description: 'Pnpm version to use'
+    description: 'Node version to use'
     required: true
 
 
