@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/dvcol/about-me/compare/v1.2.0...v1.2.1) (2023-07-23)
+
+
+### Bug Fixes
+
+* **wc:** typings for web component remote entry ([df66323](https://github.com/dvcol/about-me/commit/df663231daf79af0ec3bc58793514c474e36c463))
+
 ## [1.2.0](https://github.com/dvcol/about-me/compare/v1.1.3...v1.2.0) (2023-07-23)
 
 
