@@ -39,12 +39,18 @@ jobs:
 
       - name: Publish to npm
         if: ${{ inputs.skip-npm != true }}
-        run: pnpm publish
+        run: |
+          # =================  Publish  =================
+          
+          pnpm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Generate Release changelog
-        run: pnpm run release:changelog
+        run: |
+          # =================  Changelog  =================
+          
+          pnpm run release:changelog
 
       - name: Fetch latest tag
         if: ${{ github.event.inputs.tag-name == '' }}

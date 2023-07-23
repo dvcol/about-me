@@ -27,8 +27,14 @@ runs:
 
     - name: Install dependencies
       shell: bash
-      run: pnpm install
+      run: |
+        # ================= Install =================
+        
+        pnpm install
 
     - name: Build sources
       shell: bash
-      run: pnpm run build
+      run: |
+        # =================  Build  =================
+
+        pnpm run build

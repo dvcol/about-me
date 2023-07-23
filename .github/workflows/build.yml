@@ -32,7 +32,13 @@ jobs:
           pnpm_version: ${{ env.pnpm_version }}
 
       - name: Test
-        run: pnpm run test:unit
+        run: |
+          # =================  Test  =================
+          
+          pnpm run test:unit
 
       - name: Lint
-        run: pnpm run lint
+        run: |
+          # =================  Lint  =================
+          
+          pnpm run lint

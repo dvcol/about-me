@@ -48,10 +48,15 @@ jobs:
           cache: pnpm
 
       - name: install dependencies
-        run: pnpm install
+        run: |
+          # ================= Install =================
+          
+          pnpm install
 
       - name: Release
         run: |
+          # ================= Release =================
+          
           # setup git credentials
           git config user.name "GitHub Release Bot"
           git config user.email "<>"
@@ -61,6 +66,8 @@ jobs:
 
       - name: Push to remote
         run: |
+          # ================= Remote =================
+          
           # Check status
           git status
           git diff --color -U0 | cat
