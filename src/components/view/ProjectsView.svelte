@@ -84,7 +84,7 @@
 
   const SynologyDownloadProjectMedia = new Project({
     media: {
-      url: 'synology_demo.gif',
+      url: 'assets/gif/synology_demo.gif',
       title: 'Synology Demo',
       subtitle: 'A chrome extension for Synology NAS',
       link: { label: 'See it in the chrome store', url: SynologyDownloadProject.links.store },

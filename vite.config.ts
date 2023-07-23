@@ -34,9 +34,15 @@ export default defineConfig({
         html: 'index.html',
       },
       output: {
-        assetFileNames: 'assets/[name].[extname]',
-        chunkFileNames: 'chunks/[name].chunk.js',
         entryFileNames: 'entry/[name].js',
+        chunkFileNames: 'chunks/[name].chunk.js',
+        assetFileNames: asset => {
+          const format = '[name][extname]';
+          if (asset.name?.endsWith('.png')) return `assets/png/${format}`;
+          if (asset.name?.endsWith('.gif')) return `assets/gif/${format}`;
+          if (asset.name?.endsWith('css')) return `styles/${format}`;
+          return `assets/[name][extname]`;
+        },
       },
     },
     lib: {
