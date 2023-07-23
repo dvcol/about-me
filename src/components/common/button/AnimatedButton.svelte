@@ -19,10 +19,10 @@
   class={['animated-button', className].filter(Boolean).join(' ')}
   variant="text"
   on:click={open}
-  on:mouseenter={e => {
+  on:mouseenter={() => {
     $hover$ = true;
   }}
-  on:mouseleave={e => {
+  on:mouseleave={() => {
     $hover$ = false;
   }}
 >

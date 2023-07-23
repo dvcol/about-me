@@ -1,6 +1,7 @@
 <script lang="ts">
   import Card, { ActionIcons, Actions, Content, Media, MediaContent } from '@smui/card';
   import IconButton from '@smui/icon-button';
+  import DomPurify from 'dompurify';
   import SmallRightArrowSvg from 'line-md/svg/arrow-small-right.svg?component';
 
   import DownloadingSvg from 'line-md/svg/downloading-loop.svg?component';
@@ -78,7 +79,8 @@
           <h3 class="mdc-typography--subtitle2">{subtitle}</h3>
         {/if}
         {#if description}
-          {@html description}
+          <!-- eslint-disable-next-line svelte/no-at-html-tags -- html is sanitized -->
+          {@html DomPurify.sanitize(description, { USE_PROFILES: { html: true } })}
         {/if}
       </Content>
     {/if}
