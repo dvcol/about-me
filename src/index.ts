@@ -18,8 +18,11 @@ export const defineComponent: DefineComponent = (component = WebComponents.About
   }
 };
 
+export const baseUrl = 'about-me';
+
 type AboutMe = {
-  defineComponents: typeof defineComponent;
+  baseUrl: typeof baseUrl;
+  defineComponent: typeof defineComponent;
   default: typeof defineComponent;
 };
 
