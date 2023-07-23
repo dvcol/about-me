@@ -32,6 +32,7 @@
     "build:theme:light": "smui-theme compile src/styles/smui-light.css -i src/theme/light -i ./node_modules",
     "build:theme:dark": "smui-theme compile src/styles/smui-dark.css -i src/theme/dark -i ./node_modules",
     "serve": "pnpm run build && vite preview",
+    "serve:sourcemap": "VITE_SOURCEMAP=true pnpm run build && vite preview",
     "test:unit": "vitest run --environment jsdom --coverage --passWithNoTests",
     "test:watch": "vitest --environment jsdom",
     "lint": "eslint .",

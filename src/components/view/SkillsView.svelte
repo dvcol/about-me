@@ -142,7 +142,7 @@
               hover={!$hover$.length || $hover$.includes(chip.id)}
               selected={$selected$?.id === chip.id}
               on:select={() => {
-                if (chip.id === $parent$.id) {
+                if (chip.id === $parent$?.id) {
                   direction = 'out';
                   back();
                 } else {
@@ -153,13 +153,13 @@
               on:enter={() => $onHover$(chip.node)}
               on:leave={() => $onLeave$(chip.node)}
             >
-              {#if chip.id === $parent$.id}
+              {#if chip.id === $parent$?.id}
                 <LeadingIcon style={`color: ${chip.color}; display: flex; align-items: center;`}>
                   <SmallLeftArrowSvg />
                 </LeadingIcon>
               {/if}
               <Text>
-                {chip.id === $parent$.id ? $_('common.button.back') : chip.name}
+                {chip.id === $parent$?.id ? $_('common.button.back') : chip.name}
               </Text>
             </Tag>
           </div>

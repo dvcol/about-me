@@ -7,6 +7,8 @@ import preprocess from 'svelte-preprocess';
 import { defineConfig } from 'vite';
 import dtsPlugin from 'vite-plugin-dts';
 
+const withSourceMap = !!process.env.VITE_SOURCEMAP;
+
 export default defineConfig({
   base: '/about-me/',
   plugins: [
@@ -28,6 +30,7 @@ export default defineConfig({
   },
 
   build: {
+    sourcemap: withSourceMap ? 'inline' : false,
     rollupOptions: {
       input: {
         index: 'src/index.ts',
