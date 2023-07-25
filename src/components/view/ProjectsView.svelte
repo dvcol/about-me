@@ -23,7 +23,7 @@
     webexMessaging,
     webpack,
   } from '~/data';
-  import { Project, StackTilePrimary } from '~/models';
+  import { MimeType, Project, StackTilePrimary } from '~/models';
 
   const SynologyDownloadProject: Project = new Project({
     title: 'Synology Download',
@@ -84,7 +84,8 @@
 
   const SynologyDownloadProjectMedia = new Project({
     media: {
-      url: 'assets/gif/synology_demo.gif',
+      url: 'assets/video/synology_demo.mp4',
+      type: MimeType.MP4,
       title: 'Synology Demo',
       subtitle: 'A chrome extension for Synology NAS',
       link: { label: 'See it in the chrome store', url: SynologyDownloadProject.links.store },

@@ -50,10 +50,15 @@
       <Media
         class="tile-card-media"
         aspectRatio={media.aspectRatio}
-        style={`background-image: url(${media.url?.startsWith('http') ? '' : './'}${media.url})`}
+        style={media.type?.startsWith('image') ? `background-image: url(${media.url?.startsWith('http') ? '' : './'}${media.url})` : undefined}
       >
         {#if media.title || media.subtitle}
           <MediaContent>
+            {#if media.type?.startsWith('video')}
+              <video class="tile-card-media-video" autoplay muted loop>
+                <source src={`${media.url?.startsWith('http') ? '' : './'}${media.url}`} type="video/mp4" />
+              </video>
+            {/if}
             <div class="tile-card-media-content">
               {#if media.title}
                 <h2 class="tile-card-media-title mdc-typography--headline6p">
@@ -138,6 +143,10 @@
           display: flex;
           flex: 1 1 auto;
           overflow: hidden;
+
+          &-video {
+            width: 100%;
+          }
 
           &-content {
             position: absolute;

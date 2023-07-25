@@ -37,8 +37,14 @@ jobs:
           
           pnpm run test:unit
 
-      - name: Lint
+      - name: Eslint
         run: |
-          # =================  Lint  =================
+          # =================  Eslint  =================
           
           pnpm run lint
+
+      - name: Stylelint
+        run: |
+          # =================  Stylelint  =================
+          
+          pnpm run style
