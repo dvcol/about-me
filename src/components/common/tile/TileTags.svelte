@@ -12,7 +12,7 @@
   export let skills: Skill[];
   export let other: Tag[];
 
-  const { hover$, selected$, colors$, nodes$, onHover$, onLeave$, onSelect$ } = useSkillsStore();
+  const { colors$, nodes$, onHover$, onLeave$, onSelect$ } = useSkillsStore();
 
   let onScroll: (scrollContainer: HTMLDivElement) => void;
 
@@ -25,14 +25,7 @@
       {#key $colors$}
         {#if skills}
           {#each skills as tag}
-            <Tag
-              {tag}
-              hover={!$hover$.length || $hover$.includes(tag.id)}
-              selected={$selected$?.id === tag.id}
-              on:select={$onSelect$($nodes$.get(tag.id)?.node, true)}
-              on:enter={$onHover$($nodes$.get(tag.id)?.node)}
-              on:leave={$onLeave$()}
-            >
+            <Tag {tag} on:select={$onSelect$($nodes$.get(tag.id)?.node, true)} on:enter={$onHover$($nodes$.get(tag.id)?.node)} on:leave={$onLeave$()}>
               <Text>
                 {tag.name}
               </Text>
@@ -41,7 +34,7 @@
         {/if}
         {#if other}
           {#each other as tag}
-            <Tag {tag} hover={!$hover$.length} selected={false}>
+            <Tag {tag} selected={false}>
               <Text>
                 {tag.name}
               </Text>

@@ -55,6 +55,7 @@
 
   const dispatch = createEventDispatcher();
   const selected = (chip: SunburstData) => {
+    if (chip === $selected$) return;
     $selected$ = chip;
     dispatch('selected', chip);
   };
@@ -66,10 +67,56 @@
   let onScroll: (scrollContainer: HTMLDivElement) => void;
   let hide: () => void;
 
-  const direction$ = writable<'in' | 'out'>('in');
+  enum Direction {
+    In = 'in',
+    Out = 'out',
+  }
+
+  const direction$ = writable<Direction>(Direction.In);
   const updateVisible = (_parsed: SunburstData[], _visible = $visible$) => {
     if (_parsed.some(p => !_visible.includes(p)) || _visible.some(v => !_parsed.includes(v))) {
       $visible$ = _parsed;
+    }
+  };
+
+  const updateDirection = (_direction: Direction) => {
+    if ($direction$ !== _direction) $direction$ = _direction;
+  };
+
+  const onInit = ({ detail }: CustomEvent<SunburstData>) => {
+    $parent$ = detail;
+    updateVisible(parseData(detail));
+
+    setTimeout(onScroll, Animation.Speed);
+  };
+
+  const onClick = ({ detail }: CustomEvent<SunburstData>) => {
+    if (detail?.id) updateDirection($parent$?.children?.some(c => c.id === detail?.id) ? Direction.In : Direction.Out);
+    if (hasChildren(detail?.node)) {
+      $parent$ = detail;
+      updateVisible(parseData(detail));
+    }
+    hide();
+    selected(detail);
+    setTimeout(onScroll, Animation.Speed);
+  };
+
+  const onHover = ({ detail }: CustomEvent<SunburstData>) => {
+    if (detail?.id === $parent$?.id) {
+      $hover$ = [];
+    } else {
+      const parsed = detail ? parseData(detail) : [];
+      $hover$ = parsed.map(s => s.id);
+    }
+  };
+
+  const onSelect = (chip: SunburstData) => {
+    if (chip?.id === $parent$?.id) {
+      if (chip?.id !== $selected$?.id) updateDirection(Direction.Out);
+      back();
+    } else {
+      if (chip?.id !== $selected$?.id) updateDirection(Direction.In);
+      $onSelect$(chip.node);
     }
   };
 
@@ -97,28 +144,9 @@
         bind:hover={$onHover$}
         bind:leave={$onLeave$}
         bind:back
-        on:init={({ detail }) => {
-          $parent$ = detail;
-          updateVisible(parseData(detail));
-
-          setTimeout(onScroll, Animation.Speed);
-        }}
-        on:click={({ detail }) => {
-          if (detail?.id) {
-            $direction$ = $parent$?.children?.some(c => c.id === detail?.id) ? 'in' : 'out';
-          }
-          if (hasChildren(detail?.node)) {
-            $parent$ = detail;
-            updateVisible(parseData(detail));
-          }
-          hide();
-          selected(detail);
-          setTimeout(onScroll, Animation.Speed);
-        }}
-        on:hover={e => {
-          const parsed = e.detail ? parseData(e.detail) : [];
-          $hover$ = parsed.map(s => s.id);
-        }}
+        on:init={onInit}
+        on:click={onClick}
+        on:hover={onHover}
       />
     </div>
 
@@ -126,20 +154,10 @@
       <ScrollShadow bind:onScroll bind:hide>
         <Set chips={$visible$} let:chip>
           <Tag
-            class={`translate-${$direction$ === 'in' ? 'left' : 'right'}`}
+            class={`translate-${$direction$ === Direction.In ? 'left' : 'right'}`}
             style={`animation-delay: ${($visible$?.findIndex(c => c === chip) ?? 0) * 10}ms`}
             tag={chip}
-            hover={!$hover$.length || $hover$.includes(chip.id)}
-            selected={$selected$?.id === chip.id}
-            on:select={() => {
-              if (chip.id === $parent$?.id) {
-                $direction$ = 'out';
-                back();
-              } else {
-                $direction$ = 'in';
-                $onSelect$(chip.node);
-              }
-            }}
+            on:select={() => onSelect(chip)}
             on:enter={() => $onHover$(chip.node)}
             on:leave={() => $onLeave$(chip.node)}
           >

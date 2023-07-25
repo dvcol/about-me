@@ -3,9 +3,12 @@
 
   import { createEventDispatcher } from 'svelte';
 
+  import { derived } from 'svelte/store';
+
   import type { Tag } from '~/models';
 
   import { Opacity } from '~/components/index.js';
+  import { useSkillsStore } from '~/stores';
 
   let className: string = '';
   export { className as class };
@@ -14,11 +17,16 @@
   export { styles as style };
 
   export let tag: Tag;
-  export let hover: boolean;
-  export let selected: boolean;
+  export let hover: boolean = null;
+  export let selected: boolean = null;
 
   const dispatch = createEventDispatcher();
   const onEvent = (event: 'select' | 'enter' | 'leave', _tag: Tag) => dispatch(event, _tag);
+
+  const { selected$, hover$ } = useSkillsStore();
+
+  const isSelected$ = derived([selected$], ([_selected]) => selected ?? _selected?.id === tag.id);
+  const isHovered$ = derived([hover$], ([_hover]) => hover ?? (!_hover.length || _hover.includes(tag.id)));
 </script>
 
 {#if tag}
@@ -29,9 +37,9 @@
       chip={tag}
       style={`
           color: ${tag?.color ?? ''};
-          ${!hover ? `opacity: ${selected !== false ? Opacity.Full : Opacity.Child}` : ''};
-          ${selected ? `border-color: ${tag.color?.replace(')', ', 0.3)')}` : ''};
-          ${selected ? `background-color: ${tag.color?.replace(')', ', 0.15)')};` : ''}
+          ${!$isHovered$ ? `opacity: ${$isSelected$ !== false ? Opacity.Full : Opacity.Child}` : ''};
+          ${$isSelected$ ? `border-color: ${tag.color?.replace(')', ', 0.3)')}` : ''};
+          ${$isSelected$ ? `background-color: ${tag.color?.replace(')', ', 0.15)')};` : ''}
           ${styles}
          `}
       on:SMUIChip:interaction={onEvent('select', tag)}
