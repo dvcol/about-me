@@ -5,7 +5,6 @@
 
   import { createEventDispatcher } from 'svelte';
   import { writable } from 'svelte/store';
-  import { fly } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
 
   import type { SunburstApi } from '~/components/common';
@@ -67,21 +66,11 @@
   let onScroll: (scrollContainer: HTMLDivElement) => void;
   let hide: () => void;
 
-  let direction: 'in' | 'out' = 'in';
-  const animations = {
-    in: {
-      get x() {
-        return (direction === 'in' ? 1 : -1) * 200;
-      },
-      y: 0,
-      duration: Animation.HalfSpeed,
-      delay: Animation.HalfSpeed + 100,
-    },
-    out: {
-      get x() {
-        return (direction === 'in' ? -1 : 1) * 200;
-      },
-    },
+  const direction$ = writable<'in' | 'out'>('in');
+  const updateVisible = (_parsed: SunburstData[], _visible = $visible$) => {
+    if (_parsed.some(p => !_visible.includes(p)) || _visible.some(v => !_parsed.includes(v))) {
+      $visible$ = _parsed;
+    }
   };
 
   const inView$ = writable(false);
@@ -108,19 +97,19 @@
         bind:hover={$onHover$}
         bind:leave={$onLeave$}
         bind:back
-        on:init={e => {
-          $parent$ = e.detail;
-          $visible$ = parseData(e.detail);
+        on:init={({ detail }) => {
+          $parent$ = detail;
+          updateVisible(parseData(detail));
 
           setTimeout(onScroll, Animation.Speed);
         }}
         on:click={({ detail }) => {
           if (detail?.id) {
-            direction = $parent$?.children?.some(c => c.id === detail?.id) ? 'in' : 'out';
+            $direction$ = $parent$?.children?.some(c => c.id === detail?.id) ? 'in' : 'out';
           }
           if (hasChildren(detail?.node)) {
             $parent$ = detail;
-            $visible$ = parseData(detail);
+            updateVisible(parseData(detail));
           }
           hide();
           selected(detail);
@@ -136,33 +125,33 @@
     <div class="column chips" class:chips--visible={$inView$}>
       <ScrollShadow bind:onScroll bind:hide>
         <Set chips={$visible$} let:chip>
-          <div in:fly={animations.in} out:fly={animations.out}>
-            <Tag
-              tag={chip}
-              hover={!$hover$.length || $hover$.includes(chip.id)}
-              selected={$selected$?.id === chip.id}
-              on:select={() => {
-                if (chip.id === $parent$?.id) {
-                  direction = 'out';
-                  back();
-                } else {
-                  direction = 'in';
-                  $onSelect$(chip.node);
-                }
-              }}
-              on:enter={() => $onHover$(chip.node)}
-              on:leave={() => $onLeave$(chip.node)}
-            >
-              {#if chip.id === $parent$?.id}
-                <LeadingIcon style={`color: ${chip.color}; display: flex; align-items: center;`}>
-                  <SmallLeftArrowSvg />
-                </LeadingIcon>
-              {/if}
-              <Text>
-                {chip.id === $parent$?.id ? $_('common.button.back') : chip.name}
-              </Text>
-            </Tag>
-          </div>
+          <Tag
+            class={`translate-${$direction$ === 'in' ? 'left' : 'right'}`}
+            style={`animation-delay: ${($visible$?.findIndex(c => c === chip) ?? 0) * 10}ms`}
+            tag={chip}
+            hover={!$hover$.length || $hover$.includes(chip.id)}
+            selected={$selected$?.id === chip.id}
+            on:select={() => {
+              if (chip.id === $parent$?.id) {
+                $direction$ = 'out';
+                back();
+              } else {
+                $direction$ = 'in';
+                $onSelect$(chip.node);
+              }
+            }}
+            on:enter={() => $onHover$(chip.node)}
+            on:leave={() => $onLeave$(chip.node)}
+          >
+            {#if chip.id === $parent$?.id}
+              <LeadingIcon style={`color: ${chip.color}; display: flex; align-items: center;`}>
+                <SmallLeftArrowSvg />
+              </LeadingIcon>
+            {/if}
+            <Text>
+              {chip.id === $parent$?.id ? $_('common.button.back') : chip.name}
+            </Text>
+          </Tag>
         </Set>
       </ScrollShadow>
     </div>
@@ -188,15 +177,62 @@
   }
 
   .sunburst {
-    flex: 0 1 60%;
+    flex: 0 1 50%;
   }
 
   .chips {
-    flex: 0 1 40%;
+    flex: 0 1 50%;
     opacity: 0;
     translate: 100%;
     transition: translate 1s;
     will-change: translate;
+
+    :global {
+      @keyframes translate-right {
+        0% {
+          translate: -200%;
+          filter: opacity(0);
+        }
+
+        100% {
+          translate: 0;
+          filter: opacity(1);
+        }
+      }
+
+      @keyframes translate-left {
+        0% {
+          translate: 200%;
+          filter: opacity(0);
+        }
+
+        100% {
+          translate: 0;
+          filter: opacity(1);
+        }
+      }
+
+      %animation {
+        transition: opacity 0.75s;
+        animation-duration: 0.5s;
+        animation-fill-mode: backwards;
+        will-change: scale;
+      }
+
+      .chip {
+        .translate-right {
+          @extend %animation;
+
+          animation-name: translate-right;
+        }
+
+        .translate-left {
+          @extend %animation;
+
+          animation-name: translate-left;
+        }
+      }
+    }
 
     &--visible {
       opacity: 1;
@@ -208,19 +244,19 @@
     .column {
       padding: 1rem;
     }
+
+    .sunburst {
+      padding: 1rem 3rem;
+    }
   }
 
-  @media screen and (max-width: breakpoint.$mobile + px) {
+  @media screen and (max-width: breakpoint.$tablet + px) {
     .row {
       flex-direction: column;
     }
 
-    .sunburst {
-      flex: 0 1 50%;
-    }
-
     .chips {
-      flex: 0 1 30%;
+      z-index: 1;
       max-height: 30vh;
     }
   }

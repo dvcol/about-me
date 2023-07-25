@@ -10,6 +10,9 @@
   let className: string = '';
   export { className as class };
 
+  let styles: string = '';
+  export { styles as style };
+
   export let tag: Tag;
   export let hover: boolean;
   export let selected: boolean;
@@ -29,6 +32,7 @@
           ${!hover ? `opacity: ${selected !== false ? Opacity.Full : Opacity.Child}` : ''};
           ${selected ? `border-color: ${tag.color?.replace(')', ', 0.3)')}` : ''};
           ${selected ? `background-color: ${tag.color?.replace(')', ', 0.15)')};` : ''}
+          ${styles}
          `}
       on:SMUIChip:interaction={onEvent('select', tag)}
       on:mouseenter={onEvent('enter', tag)}
