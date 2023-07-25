@@ -136,7 +136,7 @@
     <div class="column chips" class:chips--visible={$inView$}>
       <ScrollShadow bind:onScroll bind:hide>
         <Set chips={$visible$} let:chip>
-          <div in:fly|global={animations.in} out:fly|global={animations.out}>
+          <div in:fly={animations.in} out:fly={animations.out}>
             <Tag
               tag={chip}
               hover={!$hover$.length || $hover$.includes(chip.id)}
