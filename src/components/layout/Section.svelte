@@ -10,8 +10,8 @@
 <style lang="scss">
   .section {
     display: flex;
-    flex-direction: column;
     flex: 1 1 auto;
+    flex-direction: column;
 
     &_header {
       display: flex;
