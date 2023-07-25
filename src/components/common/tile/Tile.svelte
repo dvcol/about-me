@@ -56,7 +56,7 @@
           <MediaContent>
             {#if media.type?.startsWith('video')}
               <video class="tile-card-media-video" autoplay muted loop>
-                <source src={`${media.url?.startsWith('http') ? '' : './'}${media.url}`} type="video/mp4" />
+                <source src={`${media.url?.startsWith('http') ? '' : './'}${media.url}`} type={media.type} />
               </video>
             {/if}
             <div class="tile-card-media-content">
