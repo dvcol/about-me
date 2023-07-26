@@ -30,8 +30,8 @@
     dispatch('init', _data);
   };
 
-  export let height: string = null;
-  export let width: string = null;
+  export let height: string = '100%';
+  export let width: string = '100%';
 
   export let select: SunburstApi['select'];
   export let hover: SunburstApi['hover'];
@@ -64,6 +64,8 @@
 
 <style lang="scss">
   .sunburst-container {
+    width: 100%;
+    height: 100%;
     text-align: center;
     opacity: 0;
     transition: opacity 1s ease-in, scale 1s;

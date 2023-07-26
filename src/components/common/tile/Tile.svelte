@@ -48,14 +48,14 @@
   <Card class="tile-card">
     {#if media?.url}
       <Media
-        class="tile-card-media"
+        class={`tile-card-media ${media.controls ? 'tile-card-media--controls' : ''}`}
         aspectRatio={media.aspectRatio}
         style={media.type?.startsWith('image') ? `background-image: url(${media.url?.startsWith('http') ? '' : './'}${media.url})` : undefined}
       >
         {#if media.title || media.subtitle}
           <MediaContent>
             {#if media.type?.startsWith('video')}
-              <video class="tile-card-media-video" autoplay muted loop>
+              <video class="tile-card-media-video" autoplay muted loop playsinline controls={media.controls}>
                 <source src={`${media.url?.startsWith('http') ? '' : './'}${media.url}`} type={media.type} />
               </video>
             {/if}
@@ -146,6 +146,9 @@
 
           &-video {
             width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
           }
 
           &-content {
@@ -184,6 +187,17 @@
             font-weight: bold;
             font-size: medium;
             text-transform: none;
+          }
+
+          &--controls {
+            .tile-card-media-content {
+              padding-bottom: 4rem;
+              pointer-events: none;
+            }
+
+            .tile-card-media-link {
+              pointer-events: all;
+            }
           }
         }
 

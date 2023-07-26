@@ -65,7 +65,6 @@
   let back: SunburstApi['back'];
 
   let onScroll: (scrollContainer: HTMLDivElement) => void;
-  let hide: () => void;
 
   enum Direction {
     In = 'in',
@@ -96,7 +95,6 @@
       $parent$ = detail;
       updateVisible(parseData(detail));
     }
-    hide();
     selected(detail);
     setTimeout(onScroll, Animation.Speed);
   };
@@ -139,7 +137,6 @@
       <SunBurst
         {data}
         visible={$inView$}
-        height="50vh"
         bind:select={$onSelect$}
         bind:hover={$onHover$}
         bind:leave={$onLeave$}
@@ -151,7 +148,7 @@
     </div>
 
     <div class="column chips" class:chips--visible={$inView$}>
-      <ScrollShadow bind:onScroll bind:hide>
+      <ScrollShadow bind:onScroll>
         <Set chips={$visible$} let:chip>
           <Tag
             class={`translate-${$direction$ === Direction.In ? 'left' : 'right'}`}
@@ -190,8 +187,8 @@
   .column {
     display: flex;
     flex-direction: column;
-    max-height: 50vh;
-    padding: 2rem;
+    height: 50vh;
+    padding: 0 2rem;
   }
 
   .sunburst {
@@ -260,7 +257,8 @@
 
   @media screen and (max-width: breakpoint.$hd + px) {
     .column {
-      padding: 1rem;
+      height: 40vh;
+      padding: 0 1rem;
     }
 
     .sunburst {
