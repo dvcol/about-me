@@ -7,12 +7,13 @@
   export { className as class };
 
   export let url: string = null;
+  export let mobile = true;
 
   const open = () => {
     if (url) window.location.href = url;
   };
 
-  const hover$ = writable(false);
+  const hover$ = writable(mobile ? false : matchMedia(`only screen and (hover: none)`).matches);
 </script>
 
 <Button
