@@ -24,6 +24,7 @@ export type ProjectDuration = {
 export enum MimeType {
   JPEG = 'image/jpeg',
   PNG = 'image/png',
+  SVG = 'image/svg+xml',
   GIF = 'image/gif',
   Bitmap = 'image/bmp',
   MicrosoftBitmap = 'image/x-ms-bmp',

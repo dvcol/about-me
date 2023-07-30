@@ -109,6 +109,7 @@ export const state = new Skill({
 });
 
 export const jest = new Skill({ name: 'Jest' });
+export const junit = new Skill({ name: 'JUnit' });
 export const typescript = new Skill({ name: 'Typescript' });
 export const eslint = new Skill({ name: 'Eslint' });
 export const stylelint = new Skill({ name: 'Stylelint' });
@@ -116,7 +117,7 @@ export const sonarlint = new Skill({ name: 'Sonarlint' });
 
 export const quality = new Skill({
   name: 'Quality',
-  children: [jest, typescript, eslint, stylelint, sonarlint],
+  children: [jest, typescript, eslint, stylelint, sonarlint, junit],
 });
 
 export const frontend = new Skill({
@@ -128,6 +129,9 @@ export const jhipster = new Skill({ name: 'Jhipster' });
 export const jenkins = new Skill({ name: 'Jenkins' });
 export const gitLab = new Skill({ name: 'GitLab' });
 export const githubAction = new Skill({ name: 'Github Action' });
+export const turboRepo = new Skill({ name: 'Turbo Repo' });
+export const monoRepo = new Skill({ name: 'Mono Repo' });
+export const awsS3 = new Skill({ name: 'Aws S3' });
 export const openShift = new Skill({ name: 'Openshift' });
 export const docker = new Skill({ name: 'Docker' });
 export const kube = new Skill({ name: 'Kubernetes' });
@@ -135,7 +139,7 @@ export const sonarqube = new Skill({ name: 'Sonarqube' });
 
 export const devops = new Skill({
   name: 'Devops',
-  children: [jhipster, jenkins, gitLab, githubAction, openShift, docker, kube, sonarqube],
+  children: [jhipster, jenkins, gitLab, githubAction, turboRepo, monoRepo, awsS3, openShift, docker, kube, sonarqube],
 });
 
 export const microService = new Skill({ name: 'Microservice' });
@@ -153,15 +157,32 @@ export const spring = new Skill({
   children: [springBoot, springData, springMVC, springBatch],
 });
 
+export const java = new Skill({ name: 'Java' });
 export const hibernate = new Skill({ name: 'Hibernate' });
 export const liquibase = new Skill({ name: 'Liquibase' });
 export const nestJs = new Skill({ name: 'NestJs' });
 export const backend = new Skill({
   name: 'Backend',
-  children: [microService, sql, rest, soap, spring, hibernate, liquibase, nestJs],
+  children: [microService, sql, rest, soap, spring, hibernate, liquibase, nestJs, java],
+});
+
+export const scrum = new Skill({ name: 'Scrum' });
+export const safe = new Skill({ name: 'SAFe' });
+export const kanban = new Skill({ name: 'SAFe' });
+export const agile = new Skill({ name: 'Agile', children: [scrum, safe, kanban] });
+
+export const TDD = new Skill({ name: 'TDD', label: 'Test Driven Development' });
+export const BDD = new Skill({ name: 'BDD', label: 'Behavior Driven Development' });
+export const DDD = new Skill({ name: 'DDD', label: 'Domain Driven Design' });
+export const solidPrinciples = new Skill({ name: 'SOLID' });
+export const hexagonal = new Skill({ name: 'Hexagonal Architecture' });
+
+export const method = new Skill({
+  name: 'Method',
+  children: [agile, TDD, BDD, DDD, solidPrinciples, hexagonal],
 });
 
 export const skills = new Skill({
   name: 'Skills',
-  children: [frontend, devops, backend],
+  children: [frontend, devops, backend, method],
 });
