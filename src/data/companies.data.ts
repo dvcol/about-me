@@ -1,10 +1,10 @@
-import { consulting, privateSector, publicSector, saas, scaleUp, univeristy } from '~/data/tags.data';
+import { consulting, privateSector, publicSector, saas, scaleUp, university } from '~/data/tags.data';
 import { Address, Company, MimeType } from '~/models';
 
 export const Ippon = new Company({
-  title: 'Ippon Technologies',
-  subtitle: 'Consulting firm specialized in digital transformations.',
-  description: `Ippon is a consulting and expertise firm. It stated purpose is to "help [their] clients leverage their digital assets to design an appropriate strategy and deploy their transformation roadmap at scale.".`,
+  title: 'data_companies.ippon.title',
+  subtitle: 'data_companies.ippon.subtitle',
+  description: 'data_companies.ippon.description',
   links: {
     website: 'https://ippon.tech/',
   },
@@ -31,9 +31,9 @@ export const Ippon = new Company({
 });
 
 export const ContentSquare = new Company({
-  title: 'ContentSquare',
-  subtitle: 'Software as a service scale-up for web analytics.',
-  description: `ContentSquare is a digital experience analytics company. "It's analytics platform provides rich and contextual insight into customer behaviors, feelings and intent — at every touch-point in their journey — enabling businesses to build empathy and create lasting impact".`,
+  title: 'data_companies.contentsquare.title',
+  subtitle: 'data_companies.contentsquare.subtitle',
+  description: 'data_companies.contentsquare.description',
   links: {
     website: 'https://contentsquare.com/',
   },
@@ -57,10 +57,9 @@ export const ContentSquare = new Company({
 });
 
 export const SopraSteria = new Company({
-  title: 'Sopra Steria',
-  subtitle: 'Consulting firm focused on end-to-end solutions for large companies and public sector institutions.',
-  description:
-    'Sopra Steria is consulting firm. Known for their digital services and software development activities, Sopra Steria "helps its clients drive their digital transformation and obtain tangible and sustainable benefits. It provides end-to-end solutions to make large companies and organisations more competitive by combining in-depth knowledge of a wide range of business sectors and innovative technologies with a fully collaborative approach."',
+  title: 'data_companies.soprasteria.title',
+  subtitle: 'data_companies.soprasteria.subtitle',
+  description: 'data_companies.soprasteria.description',
   links: {
     website: 'https://www.soprasteria.com/',
   },
@@ -84,10 +83,9 @@ export const SopraSteria = new Company({
 });
 
 export const DGA = new Company({
-  title: "Direction générale de l'Armement (DGA)",
-  subtitle: 'French Government defence procurement and technology agency within the Ministry of Armed Forces',
-  description:
-    'Public sector institution. The DGA is the "French Government defence procurement and technology agency, responsible within the Ministry of Armed Forces for project management, development and purchase of weapon systems for the French military."',
+  title: 'data_companies.dga.title',
+  subtitle: 'data_companies.dga.subtitle',
+  description: 'data_companies.dga.description',
   links: {
     website: 'https://www.defense.gouv.fr/dga',
   },
@@ -111,9 +109,9 @@ export const DGA = new Company({
 });
 
 export const SEA = new Company({
-  title: "Service de l'énergie opérationnelle (SEO)",
-  subtitle: 'French inter-army institution in charge of oil procurement, supply, storage and distribution',
-  description: `Previously the "Service des essences des armées (SEA)", the Service de l'énergie opérationnelle is the inter-army institution within the Ministry of Armed Forces in charge of all procurement, supply, storage and distribution of oil and petroleum products.`,
+  title: 'data_companies.sea.title',
+  subtitle: 'data_companies.sea.subtitle',
+  description: 'data_companies.sea.description',
   links: {
     website: 'https://www.defense.gouv.fr/energie-ops',
   },
@@ -137,10 +135,9 @@ export const SEA = new Company({
 });
 
 export const MEA = new Company({
-  title: 'Ministère des armées',
-  subtitle: 'The Ministry in charge of managing the French Armed Forces.',
-  description:
-    'The Ministry of Armed Forces is the ministry of the Government of France in charge of managing the French Armed Forces inside and outside French soil.',
+  title: 'data_companies.mea.title',
+  subtitle: 'data_companies.mea.subtitle',
+  description: 'data_companies.mea.description',
   links: {
     website: 'https://www.defense.gouv.fr/',
   },
@@ -163,9 +160,9 @@ export const MEA = new Company({
 });
 
 export const Hospinomics = new Company({
-  title: 'Hospinomics',
-  subtitle: 'A research chair in partnership between the AP-HP and Paris School of Economics',
-  description: `A research Chair created by the Assistance Publique-Hôpitaux de Paris (AP-HP) and Paris School of Economics (PSE), Hospinomics aims at brining together economists in order to develop evaluation strategies and experimental methods to optimize and maximize policies, decision-making, and resource allocation in the service of patients.`,
+  title: 'data_companies.hospinomics.title',
+  subtitle: 'data_companies.hospinomics.subtitle',
+  description: 'data_companies.hospinomics.description',
   links: {
     website: 'https://www.hospinnomics.eu/en/hospinnomics/',
   },
@@ -189,8 +186,8 @@ export const Hospinomics = new Company({
 });
 
 export const PantheonSorbonne = new Company({
-  title: 'University Paris I - Panthéon-Sorbonne',
-  subtitle: 'Public research university focused on Economic Sciences, Human Sciences, and Legal and Political Sciences.',
+  title: 'data_companies.pantheon_sorbonne.title',
+  subtitle: 'data_companies.pantheon_sorbonne.title',
   links: {
     website: 'https://www.pantheonsorbonne.fr/',
   },
@@ -199,7 +196,7 @@ export const PantheonSorbonne = new Company({
     url: 'assets/logos/paris1_logo.svg',
   },
   tags: {
-    other: [univeristy],
+    other: [university],
   },
   address: new Address({
     name: 'Pantheon-Sorbonne University',
@@ -214,9 +211,8 @@ export const PantheonSorbonne = new Company({
 });
 
 export const ParisSaclay = new Company({
-  title: 'Université Paris-Saclay',
-  subtitle:
-    'The University of Paris-Saclay university innovation cluster brings together the university’s thirteen founding members with the common aim to create a leading pole in research and education.',
+  title: 'data_companies.paris_saclay.title',
+  subtitle: 'data_companies.paris_saclay.title',
   links: {
     website: 'https://www.universite-paris-saclay.fr/',
   },
@@ -225,13 +221,13 @@ export const ParisSaclay = new Company({
     url: 'assets/logos/paris_saclay_logo.jpeg',
   },
   tags: {
-    other: [univeristy],
+    other: [university],
   },
 });
 
 export const PSE = new Company({
-  title: 'Paris School of Economics',
-  subtitle: 'The Paris School of Economics is a French research institute in the field of economics.',
+  title: 'data_companies.pse.title',
+  subtitle: 'data_companies.pse.title',
   links: {
     website: 'https://www.parisschoolofeconomics.eu/en/',
   },
@@ -240,6 +236,6 @@ export const PSE = new Company({
     url: 'assets/logos/paris1_logo.svg',
   },
   tags: {
-    other: [univeristy],
+    other: [university],
   },
 });

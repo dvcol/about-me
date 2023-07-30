@@ -1,4 +1,4 @@
-import { Skill } from '~/models';
+import { Skill, Tag } from '~/models';
 
 export const ngRgx = new Skill({ name: 'NgRx' });
 export const ngXs = new Skill({ name: 'NgXs' });
@@ -180,6 +180,16 @@ export const hexagonal = new Skill({ name: 'Hexagonal Architecture' });
 export const method = new Skill({
   name: 'Method',
   children: [agile, TDD, BDD, DDD, solidPrinciples, hexagonal],
+});
+
+export const r = new Tag({ name: 'R', color: 'gold' });
+export const stata = new Tag({ name: 'Stata', color: 'gold' });
+export const sas = new Tag({ name: 'SAS', color: 'gold' });
+export const python = new Tag({ name: 'SAS', color: 'gold' });
+export const dataScience = new Skill({
+  name: 'Data Science',
+  children: [r, stata, sas, python, java],
+  color: 'gold',
 });
 
 export const skills = new Skill({

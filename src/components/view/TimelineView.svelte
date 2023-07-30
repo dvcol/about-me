@@ -1,12 +1,20 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
 
-  import type { Job } from '~/models/index.js';
+  import type { Project } from '~/models';
 
   import { Section, Tile } from '~/components';
+  import { educations } from '~/data/education.data';
   import { jobs } from '~/data/jobs.data.js';
 
-  const timeline: Job[] = jobs;
+  const mapTileProps = <T extends Project>({ title, subtitle, description, media, links, tags }: T = {}) => ({
+    title,
+    subtitle,
+    description,
+    media,
+    links,
+    tags,
+  });
 </script>
 
 <Section>
@@ -15,9 +23,16 @@
   </div>
   <div slot="main">
     {#each jobs as job}
-      <Tile {...job.employer} />
+      <Tile {...mapTileProps(job.employer)} />
       {#each job.missions as mission}
-        <Tile {...mission} />
+        <Tile {...mapTileProps(mission)} />
+      {/each}
+    {/each}
+
+    {#each educations as education}
+      <Tile {...mapTileProps(education.employer)} />
+      {#each education.diplomas as diploma}
+        <Tile {...mapTileProps(diploma)} />
       {/each}
     {/each}
   </div>

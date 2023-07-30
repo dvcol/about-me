@@ -52,83 +52,6 @@ import {
 import { privateSector, publicSector, saas, scaleUp } from '~/data/tags.data';
 import { Job, Mission } from '~/models';
 
-const sopra2017 = new Job({
-  employer: SopraSteria,
-  missions: [
-    new Mission({
-      employer: SopraSteria,
-      client: MEA,
-      duration: {
-        start: new Date('2020-01'),
-        end: new Date('2021-08'),
-      },
-      address: SopraSteria.address,
-      title: 'Fullstack Developer - Angular / Java',
-      subtitle: 'Agile team member developing frontend and backend micro services.',
-      description: `For the creation a new unified information system for the ministry of armed forces, I helped in the design and development of a new micro service backend and a frontend portal.
-      The mission included:
-      
-      * The development of spring based micro services (using the jhipster stack)
-      * The development of frontend UI modules
-      * The creation of a custom no-code form generator
-      * The implementation of a secure intra-net/inter-net micro service bridge
-      `,
-      tags: {
-        hidden: [hibernate, sql, liquibase, eslint, junit, rxjs, webpack, angularAnimation, angularServiceWorker],
-        skills: [java, angular, microService, openShift, gitLab, safe, docker, typescript],
-        other: [publicSector],
-      },
-    }),
-    new Mission({
-      employer: SopraSteria,
-      client: SEA,
-      duration: {
-        start: new Date('2019-01'),
-        end: new Date('2020-01'),
-      },
-      address: SopraSteria.address,
-      title: 'Fullstack Developer - Java / Angular',
-      subtitle: 'Lead developer in charge of the frontend portal.',
-      description: `In the context of the creation of a new digital platform for the SEA (Système Centralisé d'Appui à la Logistique Pétrolière), I contributed to the creation of a new frontend portal for ordering and following product delivery.
-      The mission involved:
-      
-      * Analysing operational needs and requirements
-      * Redaction of technical conceptions and specification
-      * Developing backend services to bridge Soap endpoints with REST micro services
-      * Developing frontend UI modules
-      `,
-      tags: {
-        hidden: [hibernate, sql, junit, rxjs, webpack],
-        skills: [java, angular, liquibase, jhipster, jenkins, typescript],
-        other: [publicSector],
-      },
-    }),
-    new Mission({
-      employer: SopraSteria,
-      client: DGA,
-      duration: {
-        start: new Date('2017-09'),
-        end: new Date('2019-01'),
-      },
-      address: SopraSteria.address,
-      title: 'Backend Developer - Java',
-      subtitle: 'Interchange services developer in charge of batch Processing flat file transfers.',
-      description: `Within the interchange team, I contributed to the development of a centralized batch processing application tasked with computing the compensation for the four armed forces military personnels.
-      The mission involved:
-      
-      * Development of Spring Batch processing nodes to ingest and standardized flat file pay slips
-      * Optimisation of the parallel processing of multiple asynchronous data steams
-      * Software delivery and installation support
-      `,
-      tags: {
-        hidden: [junit, sonarqube, sonarlint, sql],
-        skills: [java, springBoot, springData, springBatch, hibernate],
-        other: [publicSector],
-      },
-    }),
-  ],
-});
-
 const contentSquare2023 = new Job({
   employer: Ippon,
   missions: [
@@ -139,15 +62,9 @@ const contentSquare2023 = new Job({
         start: new Date('2021-09'),
       },
       address: ContentSquare.address,
-      title: 'Fullstack Frontend Developer - Application Research & Development',
-      subtitle: 'Core application team member with focus on frontend and ci-cd topics.',
-      description: `Inside the core application team I've contributed to:
-      
-        * The migration from a angularJs monolith to a micro-frontend, multi-framework (vue, svelte, stencil, angular) shell architecture
-        * The creation of a svelte based, web-component based, and module federated shell application
-        * The modernisation of the mono-repo ci-cd chain with code quality and test coverage automation
-        * The migration from a linear jenkins ci pipeline to a multi-threaded github action workflow
-        `,
+      title: 'data_jobs.contentsquare.title',
+      subtitle: 'data_jobs.contentsquare.subtitle',
+      description: 'data_jobs.contentsquare.description',
       tags: {
         hidden: [
           angular,
@@ -188,6 +105,63 @@ const contentSquare2023 = new Job({
   ],
 });
 
+const sopraSteria2017 = new Job({
+  employer: SopraSteria,
+  missions: [
+    new Mission({
+      employer: SopraSteria,
+      client: MEA,
+      duration: {
+        start: new Date('2020-01'),
+        end: new Date('2021-08'),
+      },
+      address: SopraSteria.address,
+      title: 'data_jobs.mea.title',
+      subtitle: 'data_jobs.mea.subtitle',
+      description: 'data_jobs.mea.description',
+      tags: {
+        hidden: [hibernate, sql, liquibase, eslint, junit, rxjs, webpack, angularAnimation, angularServiceWorker],
+        skills: [java, angular, microService, openShift, gitLab, safe, docker, typescript],
+        other: [publicSector],
+      },
+    }),
+    new Mission({
+      employer: SopraSteria,
+      client: SEA,
+      duration: {
+        start: new Date('2019-01'),
+        end: new Date('2020-01'),
+      },
+      address: SopraSteria.address,
+      title: 'data_jobs.sea.title',
+      subtitle: 'data_jobs.sea.subtitle',
+      description: 'data_jobs.sea.description',
+      tags: {
+        hidden: [hibernate, sql, junit, rxjs, webpack],
+        skills: [java, angular, liquibase, jhipster, jenkins, typescript],
+        other: [publicSector],
+      },
+    }),
+    new Mission({
+      employer: SopraSteria,
+      client: DGA,
+      duration: {
+        start: new Date('2017-09'),
+        end: new Date('2019-01'),
+      },
+      address: SopraSteria.address,
+      title: 'data_jobs.dga.title',
+      subtitle: 'data_jobs.dga.subtitle',
+      description: 'data_jobs.dga.description',
+      tags: {
+        hidden: [junit, sonarqube, sonarlint, sql],
+        skills: [java, springBoot, springData, springBatch, hibernate],
+        other: [publicSector],
+      },
+    }),
+  ],
+});
+
 export const hospinomics2015 = new Job({
   employer: Hospinomics,
   missions: [
@@ -199,8 +173,8 @@ export const hospinomics2015 = new Job({
         end: new Date('2016-11'),
       },
       address: Hospinomics.address,
-      title: 'Research assistant',
-      subtitle: 'Research assistant for a work study in Health Economics',
+      title: 'data_jobs.hospinomics.title',
+      subtitle: 'data_jobs.hospinomics.subtitle',
       tags: {
         other: [publicSector],
       },
@@ -208,4 +182,4 @@ export const hospinomics2015 = new Job({
   ],
 });
 
-export const jobs: Job[] = [contentSquare2023, sopra2017, hospinomics2015];
+export const jobs: Job[] = [contentSquare2023, sopraSteria2017, hospinomics2015];

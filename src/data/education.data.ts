@@ -1,4 +1,6 @@
 import { PantheonSorbonne, ParisSaclay, PSE } from '~/data/companies.data';
+import { dataScience, java, python, r, sas, stata } from '~/data/skills.data';
+import { economics } from '~/data/tags.data';
 import { Diploma, Education } from '~/models';
 
 export const paris1PantheonSorbonne = new Education({
@@ -6,11 +8,14 @@ export const paris1PantheonSorbonne = new Education({
   diplomas: [
     new Diploma({
       institution: PantheonSorbonne,
-      title: 'Bachelor of Economics',
-      subtitle: 'Licence en économie',
+      title: 'data_education.pantheon_sorbonne.title',
+      subtitle: 'data_education.pantheon_sorbonne.subtitle',
       duration: {
         start: new Date('2010'),
         end: new Date('2013'),
+      },
+      tags: {
+        other: [economics],
       },
     }),
   ],
@@ -21,11 +26,14 @@ export const parisSchoolOfEconomics = new Education({
   diplomas: [
     new Diploma({
       institution: PSE,
-      title: 'Master of theoretical Economics',
-      subtitle: 'Master 2, Économie Théorique et Empirique (ETE)',
+      title: 'data_education.paris_saclay.title',
+      subtitle: 'data_education.paris_saclay.subtitle',
       duration: {
         start: new Date('2013'),
         end: new Date('2015'),
+      },
+      tags: {
+        other: [dataScience, r, stata, sas, economics],
       },
     }),
   ],
@@ -36,11 +44,14 @@ export const parisSaclayUniversity = new Education({
   diplomas: [
     new Diploma({
       institution: ParisSaclay,
-      title: 'Master of data science',
-      subtitle: 'Master 2, Innovation, marché et science des données (IMSD)',
+      title: 'data_education.pse.title',
+      subtitle: 'data_education.pse.subtitle',
       duration: {
         start: new Date('2015'),
         end: new Date('2016'),
+      },
+      tags: {
+        other: [dataScience, r, stata, sas, python, java, economics],
       },
     }),
   ],

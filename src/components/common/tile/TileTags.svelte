@@ -4,6 +4,8 @@
 
   import { onMount } from 'svelte';
 
+  import { _ } from 'svelte-i18n';
+
   import type { Skill } from '~/models';
 
   import { ScrollShadow, Tag } from '~/components';
@@ -27,7 +29,7 @@
           {#each skills as tag}
             <Tag {tag} on:select={$onSelect$($nodes$.get(tag.id)?.node, true)} on:enter={$onHover$($nodes$.get(tag.id)?.node)} on:leave={$onLeave$()}>
               <Text>
-                {tag.name}
+                {$_(tag.name)}
               </Text>
             </Tag>
           {/each}
@@ -35,8 +37,8 @@
         {#if other}
           {#each other as tag}
             <Tag {tag} selected={false}>
-              <Text>
-                {tag.name}
+              <Text title="test">
+                {$_(tag.name)}
               </Text>
             </Tag>
           {/each}

@@ -11,6 +11,8 @@
 
   import { fade } from 'svelte/transition';
 
+  import { _ } from 'svelte-i18n';
+
   import TileTags from './TileTags.svelte';
 
   import type { ProjectLinks, ProjectMedia, ProjectTags } from '~/models';
@@ -62,15 +64,15 @@
             <div class="tile-card-media-content">
               {#if media.title}
                 <h2 class="tile-card-media-title mdc-typography--headline6p">
-                  {media.title}
+                  {$_(media.title)}
                 </h2>
               {/if}
               {#if media.subtitle}
-                <h3 class="tile-card-media-subtitle mdc-typography--subtitle2">{media.subtitle}</h3>
+                <h3 class="tile-card-media-subtitle mdc-typography--subtitle2">{$_(media.subtitle)}</h3>
               {/if}
               {#if media.link}
                 <AnimatedButton class="tile-card-media-link" url={media.link.url}>
-                  {media.link?.label}
+                  {$_(media.link?.label)}
                   <SmallRightArrowSvg slot="icon" />
                 </AnimatedButton>
               {/if}
@@ -82,14 +84,14 @@
     {#if title || subtitle || description}
       <Content class="tile-card-content mdc-typography--body2">
         {#if title}
-          <h2 class="mdc-typography--headline6">{title}</h2>
+          <h2 class="mdc-typography--headline6">{$_(title)}</h2>
         {/if}
         {#if subtitle}
-          <h3 class="mdc-typography--subtitle2">{subtitle}</h3>
+          <h3 class="mdc-typography--subtitle2">{$_(subtitle)}</h3>
         {/if}
         {#if description}
           <!-- eslint-disable-next-line svelte/no-at-html-tags -- html is sanitized -->
-          {@html DomPurify.sanitize(description, { USE_PROFILES: { html: true } })}
+          {@html DomPurify.sanitize($_(description), { USE_PROFILES: { html: true } })}
         {/if}
       </Content>
     {/if}
