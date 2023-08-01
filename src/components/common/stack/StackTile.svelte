@@ -6,7 +6,7 @@
   import { inView } from '~/actions';
   import { Tile } from '~/components/common';
   import { StackTilePrimary } from '~/models';
-  import { BreakPoints, useMediaQuery } from '~/utils';
+  import { BreakPoints, matchesBreakPoint } from '~/utils';
 
   export let left: Project;
   export let right: Project;
@@ -23,7 +23,7 @@
     tags,
   });
 
-  const reverse$ = useMediaQuery(`(max-width: ${BreakPoints.hd}px)`);
+  const reverse$ = matchesBreakPoint(BreakPoints.hd);
   const tiles = derived(reverse$, _reverse => {
     if (_reverse && primary === StackTilePrimary.Right) return { left: right, right: left };
     return { left, right };

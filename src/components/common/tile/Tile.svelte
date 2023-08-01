@@ -210,13 +210,19 @@
           padding: 0.5rem 2rem;
 
           h2 {
-            @include line-clamp(2);
+            @include line-clamp(3);
           }
 
           h3 {
-            @include line-clamp(3);
+            @include line-clamp(4);
 
             margin: 0 0 0.5rem;
+          }
+
+          ul {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
           }
         }
 
@@ -261,6 +267,16 @@
         :global(.tile-card-actions-links) {
           justify-content: center;
           margin: 0.25rem 0 0;
+        }
+
+        :global(.tile-card-content) {
+          h2 {
+            @include line-clamp(5);
+          }
+
+          h3 {
+            @include line-clamp(5);
+          }
         }
       }
     }

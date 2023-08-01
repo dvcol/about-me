@@ -20,6 +20,8 @@ export const useMediaQuery = mediaQueryString => {
   });
 };
 
+export const matchesBreakPoint = (breakpoint: BreakPoints, target = 'max-width') => useMediaQuery(`(${target}: ${breakpoint}px)`);
+
 export enum BreakPoints {
   xs = 300,
   mobile = 600,

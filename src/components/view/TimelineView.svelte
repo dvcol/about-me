@@ -37,11 +37,17 @@
 </Section>
 
 <style lang="scss">
+  @use 'src/styles/breakpoint';
+
   .grid {
     display: grid;
     grid-auto-rows: minmax(14rem, auto);
     grid-gap: 1rem;
     grid-template-columns: repeat(2, 1fr);
     padding: 1rem;
+
+    @media screen and (max-width: breakpoint.$laptop + px) {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
