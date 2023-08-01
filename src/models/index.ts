@@ -6,3 +6,4 @@ export * from './project.model';
 export * from './company.model';
 export * from './education.model';
 export * from './jobs.model';
+export * from './tile.model';

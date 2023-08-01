@@ -18,7 +18,7 @@ import {
   webexMessaging,
   webpack,
 } from '~/data/skills.data';
-import { MimeType, Project } from '~/models';
+import { MimeType, Project, StackTilePrimary } from '~/models';
 
 const SynologyDownloadDescription = new Project({
   title: 'data_projects.synology_download.description.title',
@@ -60,4 +60,5 @@ const SynologyDownloadMeda = new Project({
 export const SynologyDownloadTile: StackTileProps = {
   left: SynologyDownloadDescription,
   right: SynologyDownloadMeda,
+  primary: StackTilePrimary.Right,
 };

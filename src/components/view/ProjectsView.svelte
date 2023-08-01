@@ -10,11 +10,11 @@
 
   const stacks: StackTileProps[] = [
     SynologyDownloadTile,
-    { left: SynologyDownloadTile.right, right: SynologyDownloadTile.left, primary: StackTilePrimary.Right },
+    { left: SynologyDownloadTile.right, right: SynologyDownloadTile.left, primary: StackTilePrimary.Left },
     SynologyDownloadTile,
-    { left: SynologyDownloadTile.right, right: SynologyDownloadTile.left, primary: StackTilePrimary.Right },
+    { left: SynologyDownloadTile.right, right: SynologyDownloadTile.left, primary: StackTilePrimary.Left },
     SynologyDownloadTile,
-    { left: SynologyDownloadTile.right, right: SynologyDownloadTile.left, primary: StackTilePrimary.Right },
+    { left: SynologyDownloadTile.right, right: SynologyDownloadTile.left, primary: StackTilePrimary.Left },
   ];
 </script>
 

@@ -9,6 +9,7 @@
 
   import { Opacity } from '~/components/index.js';
   import { useSkillsStore } from '~/stores';
+  import { useTagsStore } from '~/stores/tags.store';
 
   let className: string = '';
   export { className as class };
@@ -24,9 +25,17 @@
   const onEvent = (event: 'select' | 'enter' | 'leave', _tag: Tag) => dispatch(event, _tag);
 
   const { selected$, hover$ } = useSkillsStore();
+  const { selected$: tagSelected$, hover$: tagHover$ } = useTagsStore();
 
-  const isSelected$ = derived([selected$], ([_selected]) => selected ?? _selected?.id === tag.id);
-  const isHovered$ = derived([hover$], ([_hover]) => hover ?? (!_hover.length || _hover.includes(tag.id)));
+  const isSelected$ = derived(
+    [selected$, tagSelected$],
+    ([_selected, _tagSelected]) => selected ?? [_selected?.id, _tagSelected?.id].includes(tag.id),
+  );
+  const isHovered$ = derived([hover$, tagHover$], ([_hover, _tagHover]) => {
+    if (hover !== null) return hover;
+    if (!_hover.length && !_tagHover.length) return true;
+    return _hover?.includes(tag.id) || _tagHover?.includes(tag.id);
+  });
 </script>
 
 {#if tag}

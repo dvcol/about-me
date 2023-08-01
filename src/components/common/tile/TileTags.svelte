@@ -10,11 +10,13 @@
 
   import { ScrollShadow, Tag } from '~/components';
   import { useSkillsStore } from '~/stores';
+  import { useTagsStore } from '~/stores/tags.store';
 
   export let skills: Skill[];
   export let other: Tag[];
 
   const { colors$, nodes$, onHover$, onLeave$, onSelect$ } = useSkillsStore();
+  const { onSelect, onEnter, onLeave } = useTagsStore();
 
   let onScroll: (scrollContainer: HTMLDivElement) => void;
 
@@ -27,7 +29,12 @@
       {#key $colors$}
         {#if skills}
           {#each skills as tag}
-            <Tag {tag} on:select={$onSelect$($nodes$.get(tag.id)?.node, true)} on:enter={$onHover$($nodes$.get(tag.id)?.node)} on:leave={$onLeave$()}>
+            <Tag
+              {tag}
+              on:select={$onSelect$($nodes$.get(tag.id)?.node, true)}
+              on:enter={$onHover$($nodes$.get(tag.id)?.node)}
+              on:leave={$onLeave$($nodes$.get(tag.id)?.node)}
+            >
               <Text>
                 {$_(tag.name)}
               </Text>
@@ -36,7 +43,7 @@
         {/if}
         {#if other}
           {#each other as tag}
-            <Tag {tag} selected={false}>
+            <Tag {tag} on:select={() => onSelect(tag)} on:enter={() => onEnter(tag)} on:leave={() => onLeave(tag)}>
               <Text title="test">
                 {$_(tag.name)}
               </Text>

@@ -182,14 +182,14 @@ export const method = new Skill({
   children: [agile, TDD, BDD, DDD, solidPrinciples, hexagonal],
 });
 
-export const r = new Tag({ name: 'R', color: 'gold' });
-export const stata = new Tag({ name: 'Stata', color: 'gold' });
-export const sas = new Tag({ name: 'SAS', color: 'gold' });
-export const python = new Tag({ name: 'SAS', color: 'gold' });
+export const r = new Tag({ name: 'R', color: 'rgb(247 251 69)' });
+export const stata = new Tag({ name: 'Stata', color: 'rgb(247 251 69)' });
+export const sas = new Tag({ name: 'SAS', color: 'rgb(247 251 69)' });
+export const python = new Tag({ name: 'SAS', color: 'rgb(247 251 69)' });
 export const dataScience = new Skill({
   name: 'Data Science',
   children: [r, stata, sas, python, java],
-  color: 'gold',
+  color: 'rgb(255 211 0)',
 });
 
 export const skills = new Skill({

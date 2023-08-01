@@ -6,3 +6,4 @@ export * from './stack';
 export * from './sunburst';
 export * from './tag';
 export * from './tile';
+export * from './timeline';
