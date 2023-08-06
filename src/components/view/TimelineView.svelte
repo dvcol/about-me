@@ -22,15 +22,15 @@
     {$_('timeline.title')}
   </div>
   <div slot="main">
-    <div class="grid">
-      {#each jobs as job}
-        <TimelineTile parent={mapTileProps(job.employer)} children={job.missions.map(mapTileProps)} />
+    <div class="column">
+      {#each jobs as job, index}
+        <TimelineTile {index} parent={mapTileProps(job.employer)} children={job.missions.map(mapTileProps)} />
       {/each}
     </div>
 
-    <div class="grid">
-      {#each educations as education}
-        <TimelineTile parent={mapTileProps(education.institution)} children={education.diplomas.map(mapTileProps)} />
+    <div class="column">
+      {#each educations as education, index}
+        <TimelineTile {index} parent={mapTileProps(education.institution)} children={education.diplomas.map(mapTileProps)} />
       {/each}
     </div>
   </div>
@@ -39,15 +39,9 @@
 <style lang="scss">
   @use 'src/styles/breakpoint';
 
-  .grid {
-    display: grid;
-    grid-auto-rows: minmax(14rem, auto);
-    grid-gap: 1rem;
-    grid-template-columns: repeat(2, 1fr);
-    padding: 1rem;
-
-    @media screen and (max-width: breakpoint.$laptop + px) {
-      grid-template-columns: 1fr;
-    }
+  .column {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
   }
 </style>

@@ -7,18 +7,26 @@
     <title>About Me - An overview of my projects and experiences</title>
   </head>
   <body>
-  <script type="module" src="src/main.ts"></script>
-  <wc-about-me id="app-container-root"></wc-about-me>
+    <script type="module" src="src/main.ts"></script>
+    <wc-about-me id="app-container-root"></wc-about-me>
   </body>
 </html>
 
-<style>
-  #app-container-root{
+<style lang="scss">
+  #app-container-root {
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    width: 100vw;
+    width: calc(100% - 2rem);
     height: 100%;
+    margin: 0 1rem;
+  }
+
+  @media screen and (width >= 900px) {
+    wc-about-me {
+      width: calc(100% - 6rem);
+      margin: 0 3rem;
+    }
   }
 
   html,
@@ -31,5 +39,6 @@
     min-height: 100vh;
     margin: 0;
     place-items: center;
+    background-color: #2a2b30;
   }
 </style>

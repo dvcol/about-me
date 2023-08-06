@@ -8,6 +8,7 @@
   import { StackTilePrimary } from '~/models';
   import { BreakPoints, matchesBreakPoint } from '~/utils';
 
+  export let index: number;
   export let left: Project;
   export let right: Project;
   export let primary: StackTileProps['primary'] = StackTilePrimary.Left;
@@ -32,19 +33,22 @@
 
 <div
   class="stack-tiles"
-  use:inView={{ margin: { top: 200, bottom: 200 } }}
+  data-stack-id={`stack-tiles-${index}`}
+  use:inView={{ margin: { bottom: 500 } }}
   on:enter={() => {
     $open$ = true;
   }}
 >
   {#key tiles}
     <Tile
+      data-stack-id={`stack-tiles-left-${index}-left`}
       class={`stack-tile stack-tile-left${$open$ ? ' stack-tile--open' : ''}${
         $reverse$ || primary === StackTilePrimary.Left ? ' stack-tile--primary' : ''
       }`}
       {...spreadTile($tiles.left)}
     />
     <Tile
+      data-stack-id={`stack-tiles-${index}-right`}
       class={`stack-tile stack-tile-right${$open$ ? ' stack-tile--open' : ''}${
         !$reverse$ && primary === StackTilePrimary.Right ? ' stack-tile--primary' : ''
       }`}

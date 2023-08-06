@@ -11,9 +11,6 @@
     SynologyDownloadTile,
     { left: SynologyDownloadTile.right, right: SynologyDownloadTile.left, primary: StackTilePrimary.Left },
     SynologyDownloadTile,
-    { left: SynologyDownloadTile.right, right: SynologyDownloadTile.left, primary: StackTilePrimary.Left },
-    SynologyDownloadTile,
-    { left: SynologyDownloadTile.right, right: SynologyDownloadTile.left, primary: StackTilePrimary.Left },
   ];
 </script>
 

@@ -8,8 +8,8 @@
 </script>
 
 <div class="stack">
-  {#each stacks as stack}
-    <StackTile {...stack} />
+  {#each stacks as stack, index}
+    <StackTile {index} {...stack} />
   {/each}
 </div>
 
