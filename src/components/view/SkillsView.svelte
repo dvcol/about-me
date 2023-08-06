@@ -181,7 +181,7 @@
     flex-direction: row;
     width: 100%;
     max-width: 100vw;
-    overflow-x: hidden;
+    overflow: hidden;
   }
 
   .column {

@@ -7,3 +7,4 @@ export * from './sunburst';
 export * from './tag';
 export * from './tile';
 export * from './timeline';
+export * from './loader';

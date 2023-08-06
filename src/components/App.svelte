@@ -1,15 +1,14 @@
 <script lang="ts">
-  import { I18nProvider } from '~/components/common';
-  import { ContactView, HeroView, ProjectsView, SkillsView, TimelineView } from '~/components/view';
+  import { I18nProvider, LazyComponent } from '~/components/common';
 </script>
 
 <article id="app">
   <I18nProvider />
-  <HeroView />
-  <ProjectsView />
-  <SkillsView />
-  <TimelineView />
-  <ContactView />
+  <LazyComponent component={import('~/components/view/HeroView.svelte')} />
+  <LazyComponent component={import('~/components/view/ProjectsView.svelte')} />
+  <LazyComponent component={import('~/components/view/SkillsView.svelte')} />
+  <LazyComponent component={import('~/components/view/TimelineView.svelte')} />
+  <LazyComponent component={import('~/components/view/ContactView.svelte')} />
 </article>
 
 <style lang="scss" global>

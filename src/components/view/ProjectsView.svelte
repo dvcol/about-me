@@ -3,8 +3,7 @@
 
   import type { StackTileProps } from '~/models';
 
-  import { Section } from '~/components';
-  import Stack from '~/components/common/stack/Stack.svelte';
+  import { Section, Stack } from '~/components';
   import { SynologyDownloadTile } from '~/data/projects.data';
   import { StackTilePrimary } from '~/models';
 
