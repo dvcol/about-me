@@ -3,7 +3,7 @@
 
   import type { Project, TileProps } from '~/models';
 
-  import { Section, TimelineTile } from '~/components';
+  import { Section, TimelineRow } from '~/components';
   import { educations } from '~/data/education.data';
   import { jobs } from '~/data/jobs.data.js';
 
@@ -24,13 +24,13 @@
   <div slot="main">
     <div class="column">
       {#each jobs as job, index}
-        <TimelineTile {index} parent={mapTileProps(job.employer)} children={job.missions.map(mapTileProps)} />
+        <TimelineRow {index} parent={mapTileProps(job.employer)} children={job.missions.map(mapTileProps)} />
       {/each}
     </div>
 
     <div class="column">
       {#each educations as education, index}
-        <TimelineTile {index} parent={mapTileProps(education.institution)} children={education.diplomas.map(mapTileProps)} />
+        <TimelineRow {index} parent={mapTileProps(education.institution)} children={education.diplomas.map(mapTileProps)} />
       {/each}
     </div>
   </div>

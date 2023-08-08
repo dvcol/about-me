@@ -1,44 +1,39 @@
 <script lang="ts">
+  import { writable } from 'svelte/store';
+
   import type { TileProps } from '~/models';
 
-  import { Tile } from '~/components';
-  import { BreakPoints, matchesBreakPoint } from '~/utils';
+  import { inView } from '~/actions';
 
+  import { Tile } from '~/components/index.js';
+
+  export let sticky = false;
+
+  export let id: string = 'timeline-tile';
   export let index: number;
-  export let parent: TileProps;
-  export let children: TileProps[] = [];
 
-  const mobile$ = matchesBreakPoint(BreakPoints.laptop);
+  export let tile: TileProps = null;
+
+  const open$ = writable(false);
 </script>
 
-<div data-timeline-id={`tile-row-${index}`} class="row">
-  <div data-timeline-id={`tile-parent-${index}`} class="column sticky">
-    <Tile {...parent} />
-  </div>
-  {#each children as child, childIndex}
-    {#if childIndex && !$mobile$}
-      <div data-timeline-id={`tile-parent-${index}-child-${childIndex}-empty`} class="column">
-        <!--  empty cell  -->
-      </div>
-    {/if}
-    <div data-timeline-id={`tile-parent-${index}-child-${childIndex}`} class="column">
-      <Tile {...child} />
-    </div>
-  {/each}
+<div
+  data-timeline-id={`${id}-${index}`}
+  class="column"
+  class:sticky
+  use:inView={{ margin: { bottom: 200 } }}
+  on:enter={() => {
+    $open$ = true;
+  }}
+>
+  <span>OO</span>
+  {#if tile}
+    <Tile class={`timeline-tile ${$open$ ? 'timeline-tile--open' : ''}`} {...tile} />
+  {/if}
 </div>
 
 <style lang="scss">
   @use 'src/styles/breakpoint';
-
-  .row {
-    display: flex;
-    flex-flow: row wrap;
-    padding: 1rem;
-
-    @media screen and (max-width: breakpoint.$laptop + px) {
-      padding: 0;
-    }
-  }
 
   .column {
     display: flex;
@@ -58,6 +53,16 @@
 
       &.sticky {
         position: relative;
+      }
+    }
+
+    :global .timeline-tile {
+      opacity: 0;
+      transition: opacity 1s;
+      will-change: opacity;
+
+      &--open {
+        opacity: 1;
       }
     }
   }
