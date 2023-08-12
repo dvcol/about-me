@@ -12,10 +12,13 @@
 </script>
 
 <div data-timeline-id={`tile-row-${index}`} class="row">
-  <TimelineTile {index} tile={parent} sticky />
+  <TimelineTile {index} tile={parent} sticky flip />
+  {#if !$mobile$}
+    <TimelineTile id={`timeline-tile-spacer`} {index} />
+  {/if}
   {#each children as child, childIndex}
-    {#if childIndex && !$mobile$}
-      <TimelineTile id={`timeline-tile-${index}-spacer`} index={childIndex} />
+    {#if !$mobile$}
+      <TimelineTile id={`timeline-tile-${index}-spacer`} index={childIndex} flip />
     {/if}
     <TimelineTile id={`timeline-tile-${index}-child`} index={childIndex} tile={child} />
   {/each}

@@ -257,7 +257,7 @@
 
   @media screen and (max-width: breakpoint.$hd + px) {
     .column {
-      height: 40vh;
+      height: 40dvh;
       padding: 0 1rem;
     }
 
@@ -271,9 +271,20 @@
       flex-direction: column;
     }
 
+    .sunburst {
+      max-height: 50dvh;
+      padding: 1rem;
+    }
+
     .chips {
       z-index: 1;
-      max-height: 30vh;
+      max-height: 50dvh;
+    }
+  }
+
+  @media screen and (max-width: breakpoint.$mobile + px) {
+    .chips {
+      padding: 0;
     }
   }
 </style>

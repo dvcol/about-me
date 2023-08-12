@@ -230,6 +230,7 @@
           padding: 0 1rem 1rem;
 
           &-links {
+            min-width: 48px;
             min-height: 40px;
           }
 

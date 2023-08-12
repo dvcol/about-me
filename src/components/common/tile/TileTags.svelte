@@ -24,7 +24,7 @@
 </script>
 
 <div class="tile-tags">
-  <ScrollShadow horizontal bind:onScroll>
+  <ScrollShadow bind:onScroll>
     <ActionButtons>
       {#key $colors$}
         {#if skills}
@@ -56,8 +56,27 @@
 </div>
 
 <style lang="scss">
+  @use 'src/styles/breakpoint';
+
   .tile-tags {
+    display: flex;
+    flex: 1 1 auto;
+    max-height: 12rem;
     overflow: hidden;
+
+    @media screen and (max-width: breakpoint.$mobile + px) {
+      justify-content: center;
+    }
+
+    /* stylelint-disable-next-line -- library class */
+    :global(.mdc-card__action-buttons) {
+      flex-wrap: wrap;
+      gap: 0.5rem 0;
+
+      @media screen and (max-width: breakpoint.$mobile + px) {
+        justify-content: center;
+      }
+    }
 
     :global(.scroll-container) {
       margin: 0 1rem;
