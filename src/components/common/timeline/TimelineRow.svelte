@@ -13,7 +13,7 @@
 </script>
 
 <div data-timeline-id={`tile-row-${index}`} class="row">
-  <TimelineTile {index} tile={parent} sticky flip />
+  <TimelineTile {index} tile={parent} flip />
   {#if !$mobile$}
     <TimelineTile id={`timeline-tile-spacer`} {index} duration={parent.duration} address={parent.address} />
   {/if}
