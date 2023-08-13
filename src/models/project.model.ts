@@ -16,10 +16,23 @@ export type ProjectTags = {
   other?: Tag[];
 };
 
-export type ProjectDuration = {
+export class ProjectDuration {
+  options?: Intl.DateTimeFormatOptions;
   start?: Date;
   end?: Date;
-};
+
+  get range(): string {
+    return [this.start?.toLocaleDateString(undefined, this.options), this.end?.toLocaleDateString(undefined, this.options)]
+      .filter(Boolean)
+      .join(' - ');
+  }
+
+  constructor(props?: Omit<ProjectDuration, 'range'>) {
+    this.start = props.start;
+    this.end = props.end;
+    this.options = props.options ?? { year: 'numeric', month: 'short' };
+  }
+}
 
 export enum MimeType {
   JPEG = 'image/jpeg',
@@ -45,6 +58,7 @@ export type ProjectMedia = {
   subtitle?: string;
   link?: { label: string; url: string };
   aspectRatio?: 'square' | '16x9' | undefined;
+  background?: string;
 };
 
 export class Project {
@@ -52,6 +66,7 @@ export class Project {
   readonly title?: string;
   readonly subtitle?: string;
   readonly description?: string;
+  readonly logo?: ProjectMedia;
   readonly media?: ProjectMedia;
   readonly links?: ProjectLinks;
   readonly tags?: ProjectTags;
@@ -64,6 +79,7 @@ export class Project {
     this.title = props?.title;
     this.subtitle = props?.subtitle;
     this.description = props?.description;
+    this.logo = props?.logo;
     this.media = props?.media;
     this.links = props?.links;
     this.tags = props?.tags;

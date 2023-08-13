@@ -1,4 +1,5 @@
-import type { ProjectLinks, ProjectMedia, ProjectTags } from '~/models/project.model';
+import type { Address } from '~/models/company.model';
+import type { ProjectDuration, ProjectLinks, ProjectMedia, ProjectTags } from '~/models/project.model';
 
 export type TileProps = {
   class?: string;
@@ -6,7 +7,13 @@ export type TileProps = {
   title?: string;
   subtitle?: string;
   description?: string;
+  duration?: ProjectDuration;
+  address?: Address;
   media?: ProjectMedia;
   links?: ProjectLinks;
   tags?: ProjectTags;
+};
+
+export type TimelineTileProps = TileProps & {
+  logo?: ProjectMedia;
 };

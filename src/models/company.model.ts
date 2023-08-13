@@ -13,7 +13,11 @@ export class Address {
   readonly country?: string;
   readonly google?: string;
 
-  constructor(props?: Omit<Address, 'id'>) {
+  get short(): string {
+    return [this.city, this.region, this.country].filter(Boolean).join(', ');
+  }
+
+  constructor(props?: Omit<Address, 'id' | 'short'>) {
     this.id = uuid();
     this.name = props.name;
     this.streetNumber = props.streetNumber;

@@ -33,7 +33,7 @@
 
 <div
   class="stack-tiles"
-  data-stack-id={`stack-tiles-${index}`}
+  data-id={`stack-tiles-${index}`}
   use:inView={{ margin: { bottom: 500 } }}
   on:enter={() => {
     $open$ = true;
@@ -41,14 +41,14 @@
 >
   {#key tiles}
     <Tile
-      data-stack-id={`stack-tiles-left-${index}-left`}
+      dataId={`stack-tiles-left-${index}-left`}
       class={`stack-tile stack-tile-left${$open$ ? ' stack-tile--open' : ''}${
         $reverse$ || primary === StackTilePrimary.Left ? ' stack-tile--primary' : ''
       }`}
       {...spreadTile($tiles.left)}
     />
     <Tile
-      data-stack-id={`stack-tiles-${index}-right`}
+      dataId={`stack-tiles-${index}-right`}
       class={`stack-tile stack-tile-right${$open$ ? ' stack-tile--open' : ''}${
         !$reverse$ && primary === StackTilePrimary.Right ? ' stack-tile--primary' : ''
       }`}
@@ -58,7 +58,8 @@
 </div>
 
 <style lang="scss">
-  @use 'src/styles/breakpoint';
+  @use 'src/theme/breakpoint';
+  @use 'src/theme/z-index';
 
   .stack-tiles {
     display: flex;
@@ -70,7 +71,7 @@
 
     :global {
       .stack-tile {
-        z-index: 0;
+        z-index: z-index.$default;
         display: flex;
         flex: 1 1 50%;
         flex-direction: column;
@@ -81,11 +82,11 @@
 
         &:hover,
         &:focus {
-          z-index: 2;
+          z-index: z-index.$in-foreground;
         }
 
         &--primary {
-          z-index: 1;
+          z-index: z-index.$in-front;
         }
 
         &-left {

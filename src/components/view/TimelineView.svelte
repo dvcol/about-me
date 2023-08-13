@@ -1,19 +1,21 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
 
-  import type { Project, TileProps } from '~/models';
+  import type { Project, TimelineTileProps } from '~/models';
 
   import { Section, TimelineRow } from '~/components';
   import { educations } from '~/data/education.data';
   import { jobs } from '~/data/jobs.data.js';
 
-  const mapTileProps = <T extends Project>({ title, subtitle, description, media, links, tags }: T = {}): TileProps => ({
+  const mapTileProps = <T extends Project>({ title, subtitle, description, logo, links, tags, duration, address }: T = {}): TimelineTileProps => ({
     title,
     subtitle,
     description,
-    media,
+    logo,
     links,
     tags,
+    duration,
+    address,
   });
 </script>
 
@@ -37,7 +39,7 @@
 </Section>
 
 <style lang="scss">
-  @use 'src/styles/breakpoint';
+  @use 'src/theme/breakpoint';
 
   .column {
     display: flex;

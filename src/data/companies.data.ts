@@ -1,5 +1,5 @@
 import { consulting, privateSector, publicSector, saas, scaleUp, university } from '~/data/tags.data';
-import { Address, Company, MimeType } from '~/models';
+import { Address, Company, MimeType, ProjectDuration } from '~/models';
 
 export const Ippon = new Company({
   title: 'data_companies.ippon.title',
@@ -8,16 +8,16 @@ export const Ippon = new Company({
   links: {
     website: 'https://ippon.tech/',
   },
-  media: {
+  logo: {
     type: MimeType.JPEG,
     url: 'assets/logos/ippon_logo.jpeg',
   },
   tags: {
     other: [consulting, privateSector],
   },
-  duration: {
+  duration: new ProjectDuration({
     start: new Date('2021-09'),
-  },
+  }),
   address: new Address({
     name: 'Ippon Technologies',
     streetNumber: '43',
@@ -37,7 +37,7 @@ export const ContentSquare = new Company({
   links: {
     website: 'https://contentsquare.com/',
   },
-  media: {
+  logo: {
     type: MimeType.PNG,
     url: 'assets/logos/contentsquare_logo.png',
   },
@@ -63,13 +63,17 @@ export const SopraSteria = new Company({
   links: {
     website: 'https://www.soprasteria.com/',
   },
-  media: {
+  logo: {
     type: MimeType.PNG,
     url: 'assets/logos/sopra_logo.png',
   },
   tags: {
     other: [consulting, privateSector],
   },
+  duration: new ProjectDuration({
+    start: new Date('2017-09'),
+    end: new Date('2021-08'),
+  }),
   address: new Address({
     name: 'Sopra Steria',
     streetNumber: '6',
@@ -89,7 +93,7 @@ export const DGA = new Company({
   links: {
     website: 'https://www.defense.gouv.fr/dga',
   },
-  media: {
+  logo: {
     type: MimeType.PNG,
     url: 'assets/logos/dga_logo.png',
   },
@@ -115,7 +119,7 @@ export const SEA = new Company({
   links: {
     website: 'https://www.defense.gouv.fr/energie-ops',
   },
-  media: {
+  logo: {
     type: MimeType.PNG,
     url: 'assets/logos/seo_logo.png',
   },
@@ -141,7 +145,7 @@ export const MEA = new Company({
   links: {
     website: 'https://www.defense.gouv.fr/',
   },
-  media: {
+  logo: {
     type: MimeType.PNG,
     url: 'assets/logos/mda_logo.png',
   },
@@ -166,13 +170,17 @@ export const Hospinomics = new Company({
   links: {
     website: 'https://www.hospinnomics.eu/en/hospinnomics/',
   },
-  media: {
+  logo: {
     type: MimeType.SVG,
     url: 'assets/logos/pse_logo.svg',
   },
   tags: {
     other: [publicSector],
   },
+  duration: new ProjectDuration({
+    start: new Date('2015-10'),
+    end: new Date('2016-11'),
+  }),
   address: new Address({
     name: 'Hôtel-Dieu',
     streetNumber: '1',
@@ -191,13 +199,17 @@ export const PantheonSorbonne = new Company({
   links: {
     website: 'https://www.pantheonsorbonne.fr/',
   },
-  media: {
+  logo: {
     type: MimeType.SVG,
     url: 'assets/logos/paris1_logo.svg',
   },
   tags: {
     other: [university],
   },
+  duration: new ProjectDuration({
+    start: new Date('2010'),
+    end: new Date('2013'),
+  }),
   address: new Address({
     name: 'Pantheon-Sorbonne University',
     streetNumber: '12',
@@ -216,13 +228,22 @@ export const ParisSaclay = new Company({
   links: {
     website: 'https://www.universite-paris-saclay.fr/',
   },
-  media: {
+  logo: {
     type: MimeType.JPEG,
     url: 'assets/logos/paris_saclay_logo.jpeg',
   },
   tags: {
     other: [university],
   },
+  duration: new ProjectDuration({
+    start: new Date('2015'),
+    end: new Date('2016'),
+  }),
+  address: new Address({
+    city: 'Paris',
+    region: 'Ile de France',
+    country: 'France',
+  }),
 });
 
 export const PSE = new Company({
@@ -231,11 +252,25 @@ export const PSE = new Company({
   links: {
     website: 'https://www.parisschoolofeconomics.eu/en/',
   },
-  media: {
+  logo: {
     type: MimeType.SVG,
     url: 'assets/logos/paris1_logo.svg',
   },
   tags: {
     other: [university],
   },
+  duration: new ProjectDuration({
+    start: new Date('2013'),
+    end: new Date('2015'),
+  }),
+  address: new Address({
+    name: 'Paris School of Economics',
+    streetNumber: '48',
+    street: 'Bd Jourdan',
+    zipCode: '75014',
+    city: 'Paris',
+    region: 'Ile de France',
+    country: 'France',
+    google: 'https://goo.gl/maps/EeG2FZ6pLBpJj1R66',
+  }),
 });

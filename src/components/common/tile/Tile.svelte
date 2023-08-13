@@ -7,6 +7,7 @@
   import DownloadingSvg from 'line-md/svg/downloading-loop.svg?component';
   import ExternalLinkSvg from 'line-md/svg/external-link-rounded.svg?component';
 
+  import { createEventDispatcher } from 'svelte';
   import { writable } from 'svelte/store';
 
   import { fade } from 'svelte/transition';
@@ -15,7 +16,7 @@
 
   import TileTags from './TileTags.svelte';
 
-  import type { ProjectLinks, ProjectMedia, ProjectTags } from '~/models';
+  import type { Address, ProjectDuration, ProjectLinks, ProjectMedia, ProjectTags } from '~/models';
 
   import GithubSvg from '~/assets/github.svelte';
   import AnimatedButton from '~/components/common/button/AnimatedButton.svelte';
@@ -26,6 +27,8 @@
   let styles: string = '';
   export { styles as style };
 
+  export let dataId: string = null;
+
   export let title: string = null;
   export let subtitle: string = null;
   export let description: string = null;
@@ -33,18 +36,26 @@
   export let links: ProjectLinks = null;
   export let tags: ProjectTags = null;
 
+  export let duration: ProjectDuration = null;
+  export let address: Address = null;
+
+  const dispatch = createEventDispatcher();
+
   const hover$ = writable(false);
 </script>
 
 <div
+  data-id={dataId}
   class={['tile', className].filter(Boolean).join(' ')}
   style={styles}
   role="article"
-  on:mouseenter={() => {
+  on:mouseenter={event => {
     $hover$ = true;
+    dispatch('mouseenter', event);
   }}
-  on:mouseleave={() => {
+  on:mouseleave={event => {
     $hover$ = false;
+    dispatch('mouseleave', event);
   }}
 >
   <Card class="tile-card">
@@ -78,6 +89,10 @@
               {/if}
             </div>
           </MediaContent>
+        {:else}
+          <div class="tile-card-media-spacer">
+            <!-- spacer -->
+          </div>
         {/if}
       </Media>
     {/if}
@@ -85,6 +100,9 @@
       <Content class="tile-card-content mdc-typography--body2">
         {#if title}
           <h2 class="mdc-typography--headline6">{$_(title)}</h2>
+        {/if}
+        {#if address || duration}
+          <p class="tile-card-content-meta">{[address?.short, duration?.range].filter(Boolean).join(' | ')}</p>
         {/if}
         {#if subtitle}
           <h3 class="mdc-typography--subtitle2">{$_(subtitle)}</h3>
@@ -123,7 +141,8 @@
 </div>
 
 <style lang="scss">
-  @use 'src/styles/breakpoint';
+  @use 'src/theme/breakpoint';
+  @use 'src/theme/colors';
 
   @mixin line-clamp($max-line: 2) {
     display: -webkit-box;
@@ -145,6 +164,10 @@
           display: flex;
           flex: 1 1 auto;
           overflow: hidden;
+
+          &-spacer {
+            min-height: 20rem;
+          }
 
           &-video {
             width: 100%;
@@ -211,12 +234,21 @@
 
           h2 {
             @include line-clamp(3);
+
+            color: colors.$primary;
           }
 
           h3 {
             @include line-clamp(4);
 
-            margin: 0 0 0.5rem;
+            margin: 0 0 1rem;
+          }
+
+          &-meta {
+            @include line-clamp(1);
+
+            margin-top: -0.5rem;
+            color: colors.$secondary;
           }
 
           ul {
@@ -241,6 +273,8 @@
             --mdc-ripple-fg-scale: 1.7 !important;
             --mdc-ripple-left: 8px !important;
             --mdc-ripple-top: 8px !important;
+
+            color: colors.$primary;
           }
         }
 
@@ -270,13 +304,17 @@
           margin: 0.25rem 0 0;
         }
 
-        :global(.tile-card-content) {
+        :global .tile-card-content {
           h2 {
             @include line-clamp(5);
           }
 
           h3 {
             @include line-clamp(5);
+          }
+
+          -meta {
+            @include line-clamp(3);
           }
         }
       }

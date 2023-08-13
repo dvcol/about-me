@@ -50,7 +50,7 @@ import {
   webpack,
 } from '~/data/skills.data';
 import { privateSector, publicSector, saas, scaleUp } from '~/data/tags.data';
-import { Job, Mission } from '~/models';
+import { Job, Mission, ProjectDuration } from '~/models';
 
 const contentSquare2023 = new Job({
   employer: Ippon,
@@ -58,9 +58,9 @@ const contentSquare2023 = new Job({
     new Mission({
       employer: Ippon,
       client: ContentSquare,
-      duration: {
+      duration: new ProjectDuration({
         start: new Date('2021-09'),
-      },
+      }),
       address: ContentSquare.address,
       title: 'data_jobs.contentsquare.title',
       subtitle: 'data_jobs.contentsquare.subtitle',
@@ -111,10 +111,10 @@ const sopraSteria2017 = new Job({
     new Mission({
       employer: SopraSteria,
       client: MEA,
-      duration: {
+      duration: new ProjectDuration({
         start: new Date('2020-01'),
         end: new Date('2021-08'),
-      },
+      }),
       address: SopraSteria.address,
       title: 'data_jobs.mea.title',
       subtitle: 'data_jobs.mea.subtitle',
@@ -128,10 +128,10 @@ const sopraSteria2017 = new Job({
     new Mission({
       employer: SopraSteria,
       client: SEA,
-      duration: {
+      duration: new ProjectDuration({
         start: new Date('2019-01'),
         end: new Date('2020-01'),
-      },
+      }),
       address: SopraSteria.address,
       title: 'data_jobs.sea.title',
       subtitle: 'data_jobs.sea.subtitle',
@@ -145,10 +145,10 @@ const sopraSteria2017 = new Job({
     new Mission({
       employer: SopraSteria,
       client: DGA,
-      duration: {
+      duration: new ProjectDuration({
         start: new Date('2017-09'),
         end: new Date('2019-01'),
-      },
+      }),
       address: SopraSteria.address,
       title: 'data_jobs.dga.title',
       subtitle: 'data_jobs.dga.subtitle',
@@ -168,10 +168,10 @@ export const hospinomics2015 = new Job({
     new Mission({
       employer: Hospinomics,
       client: Hospinomics,
-      duration: {
+      duration: new ProjectDuration({
         start: new Date('2015-10'),
         end: new Date('2016-11'),
-      },
+      }),
       address: Hospinomics.address,
       title: 'data_jobs.hospinomics.title',
       subtitle: 'data_jobs.hospinomics.subtitle',

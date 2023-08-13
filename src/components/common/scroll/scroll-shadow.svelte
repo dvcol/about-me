@@ -80,13 +80,15 @@
 </div>
 
 <style lang="scss">
+  @use 'src/theme/z-index';
+
   .scroll-container {
     overflow: auto;
   }
 
   .shadow {
     position: absolute;
-    z-index: 100;
+    z-index: z-index.$layer-2;
     width: 100%;
     height: 10px;
     background: red;

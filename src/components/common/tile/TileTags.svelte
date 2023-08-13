@@ -56,7 +56,7 @@
 </div>
 
 <style lang="scss">
-  @use 'src/styles/breakpoint';
+  @use 'src/theme/breakpoint';
 
   .tile-tags {
     display: flex;

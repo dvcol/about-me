@@ -174,7 +174,8 @@
 </Section>
 
 <style lang="scss">
-  @use 'src/styles/breakpoint';
+  @use 'src/theme/breakpoint';
+  @use 'src/theme/z-index';
 
   .row {
     display: flex;
@@ -277,7 +278,7 @@
     }
 
     .chips {
-      z-index: 1;
+      z-index: z-index.$in-front;
       max-height: 50dvh;
     }
   }
