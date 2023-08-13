@@ -248,7 +248,7 @@
             @include line-clamp(1);
 
             margin-top: -0.5rem;
-            color: colors.$secondary;
+            color: colors.$tertiary;
           }
 
           ul {
