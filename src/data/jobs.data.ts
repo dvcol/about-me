@@ -62,6 +62,7 @@ const contentSquare2023 = new Job({
         start: new Date('2021-09'),
       }),
       address: ContentSquare.address,
+      logo: ContentSquare.logo,
       title: 'data_jobs.contentsquare.title',
       subtitle: 'data_jobs.contentsquare.subtitle',
       description: 'data_jobs.contentsquare.description',
@@ -111,6 +112,7 @@ const sopraSteria2017 = new Job({
     new Mission({
       employer: SopraSteria,
       client: MEA,
+      logo: MEA.logo,
       duration: new ProjectDuration({
         start: new Date('2020-01'),
         end: new Date('2021-08'),
@@ -128,6 +130,7 @@ const sopraSteria2017 = new Job({
     new Mission({
       employer: SopraSteria,
       client: SEA,
+      logo: SEA.logo,
       duration: new ProjectDuration({
         start: new Date('2019-01'),
         end: new Date('2020-01'),
@@ -145,6 +148,7 @@ const sopraSteria2017 = new Job({
     new Mission({
       employer: SopraSteria,
       client: DGA,
+      logo: DGA.logo,
       duration: new ProjectDuration({
         start: new Date('2017-09'),
         end: new Date('2019-01'),
