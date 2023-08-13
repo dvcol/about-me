@@ -1,16 +1,17 @@
 <script>
-  import { _ } from 'svelte-i18n';
-
-  import { Section } from '~/components';
+  import { Header, Section } from '~/components';
 </script>
 
 <Section>
-  <div slot="header">
-    {$_('hero.title')}
-  </div>
-  <div slot="main">
-    <div class="hero">This is the Hero main</div>
-  </div>
+  <svelte:fragment slot="header">
+    <Header title="hero.title" />
+  </svelte:fragment>
+  <svelte:fragment slot="main">
+    <div class="hero">
+      This is the Hero main
+      <slot />
+    </div>
+  </svelte:fragment>
 </Section>
 
 <style lang="scss">

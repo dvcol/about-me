@@ -12,7 +12,7 @@
   import type { SunburstData } from '~/models';
 
   import { inView } from '~/actions';
-  import { Animation, hasChildren, ScrollShadow, spliceNode, SunBurst, Tag } from '~/components/common';
+  import { Animation, hasChildren, Header, ScrollShadow, spliceNode, SunBurst, Tag } from '~/components/common';
 
   import { Section } from '~/components/layout';
   import { skills } from '~/data';
@@ -122,9 +122,10 @@
 </script>
 
 <Section>
-  <div slot="header">
-    {$_('skills.title')}
-  </div>
+  <svelte:fragment slot="header">
+    <Header title="skills.title" />
+  </svelte:fragment>
+
   <div
     slot="main"
     class="row"
@@ -170,6 +171,8 @@
         </Set>
       </ScrollShadow>
     </div>
+
+    <slot />
   </div>
 </Section>
 

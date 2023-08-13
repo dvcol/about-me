@@ -7,7 +7,9 @@
 {#await component}
   <slot loading={component} />
 {:then { default: Component }}
-  <Component {...props} />
+  <Component {...props}>
+    <slot />
+  </Component>
 {:catch error}
   {#if $$slots.error}
     <slot name="error" {error} />

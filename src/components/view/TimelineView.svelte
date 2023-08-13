@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { _ } from 'svelte-i18n';
-
   import type { Project, TimelineTileProps } from '~/models';
 
-  import { Section, TimelineRow } from '~/components';
+  import { Header, Section, TimelineRow } from '~/components';
   import { educations } from '~/data/education.data';
   import { jobs } from '~/data/jobs.data.js';
 
@@ -20,10 +18,11 @@
 </script>
 
 <Section>
-  <div slot="header">
-    {$_('timeline.title')}
-  </div>
-  <div slot="main">
+  <svelte:fragment slot="header">
+    <Header title="timeline.title" />
+  </svelte:fragment>
+
+  <svelte:fragment slot="main">
     <div class="column">
       {#each jobs as job, index}
         <TimelineRow {index} parent={mapTileProps(job.employer)} children={job.missions.map(mapTileProps)} />
@@ -35,7 +34,9 @@
         <TimelineRow {index} parent={mapTileProps(education.institution)} children={education.diplomas.map(mapTileProps)} />
       {/each}
     </div>
-  </div>
+
+    <slot />
+  </svelte:fragment>
 </Section>
 
 <style lang="scss">

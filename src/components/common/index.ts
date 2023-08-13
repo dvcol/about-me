@@ -1,4 +1,5 @@
 export * from './button';
+export * from './header';
 export * from './i18n';
 export * from './in-view';
 export * from './scroll';

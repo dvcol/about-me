@@ -4,11 +4,21 @@
 
 <article id="app">
   <I18nProvider />
-  <LazyComponent component={import('~/components/view/HeroView.svelte')} />
-  <LazyComponent component={import('~/components/view/ProjectsView.svelte')} />
-  <LazyComponent component={import('~/components/view/SkillsView.svelte')} />
-  <LazyComponent component={import('~/components/view/TimelineView.svelte')} />
-  <LazyComponent component={import('~/components/view/ContactView.svelte')} />
+  <LazyComponent component={import('~/components/view/HeroView.svelte')}>
+    <slot name="hero" />
+  </LazyComponent>
+  <LazyComponent component={import('~/components/view/ProjectsView.svelte')}>
+    <slot name="projects" />
+  </LazyComponent>
+  <LazyComponent component={import('~/components/view/SkillsView.svelte')}>
+    <slot name="skills" />
+  </LazyComponent>
+  <LazyComponent component={import('~/components/view/TimelineView.svelte')}>
+    <slot name="timeline" />
+  </LazyComponent>
+  <LazyComponent component={import('~/components/view/ContactView.svelte')}>
+    <slot name="contact" />
+  </LazyComponent>
 </article>
 
 <style lang="scss" global>

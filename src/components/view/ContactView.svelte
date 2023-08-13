@@ -1,12 +1,17 @@
 <script>
-  import { _ } from 'svelte-i18n';
-
-  import { Section } from '~/components';
+  import { Header, Section } from '~/components';
 </script>
 
 <Section>
-  <div slot="header">
-    {$_('contact.title')}
-  </div>
-  <div slot="main">This is the Contact main</div>
+  <svelte:fragment slot="header">
+    <Header title="contact.title" />
+  </svelte:fragment>
+
+  <svelte:fragment slot="main">
+    <div>
+      This is the Contact main
+
+      <slot />
+    </div>
+  </svelte:fragment>
 </Section>

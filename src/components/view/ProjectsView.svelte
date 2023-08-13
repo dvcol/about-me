@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { _ } from 'svelte-i18n';
-
   import type { StackTileProps } from '~/models';
 
-  import { Section, Stack } from '~/components';
+  import { Header, Section, Stack } from '~/components';
   import { SynologyDownloadTile } from '~/data/projects.data';
   import { StackTilePrimary } from '~/models';
 
@@ -15,10 +13,12 @@
 </script>
 
 <Section>
-  <div slot="header">
-    {$_('projects.title')}
-  </div>
-  <div slot="main">
+  <svelte:fragment slot="header">
+    <Header title="projects.title" />
+  </svelte:fragment>
+  <svelte:fragment slot="main">
     <Stack {stacks} />
-  </div>
+
+    <slot />
+  </svelte:fragment>
 </Section>
