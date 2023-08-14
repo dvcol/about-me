@@ -46,6 +46,7 @@
     "@smui/button": "7.0.0-beta.14",
     "@smui/card": "7.0.0-beta.14",
     "@smui/chips": "^7.0.0-beta.14",
+    "@smui/fab": "^7.0.0-beta.14",
     "@smui/icon-button": "7.0.0-beta.14",
     "d3": "^7.8.4",
     "dompurify": "^3.0.5",
@@ -108,10 +109,10 @@
     "yaml-eslint-parser": "^1.0.0"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,md}": [
+    "*.{js,jsx,ts,tsx,json,md,svelte}": [
       "eslint --fix"
     ],
-    "*.{css,scss,less}": [
+    "*.{css,scss,less,svelte}": [
       "stylelint --fix"
     ]
   },

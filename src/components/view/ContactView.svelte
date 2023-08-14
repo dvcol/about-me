@@ -1,5 +1,27 @@
-<script>
+<script lang="ts">
+  import Fab, { Icon, Label } from '@smui/fab';
+  import LinkedInSvg from 'line-md/svg/linkedin.svg?component';
+
+  import { onDestroy } from 'svelte';
+  import { derived, writable } from 'svelte/store';
+
+  import { inView } from '~/actions';
+  import GithubSvg from '~/assets/github.svelte';
+
   import { Header, Section } from '~/components';
+  import { Link } from '~/data';
+
+  const visible$ = writable(false);
+
+  let timeout: number;
+  const delay$ = derived(visible$, _visible => {
+    clearTimeout(timeout);
+    return new Promise(r => {
+      setTimeout(() => r(_visible), 500);
+    });
+  });
+
+  onDestroy(() => clearTimeout(timeout));
 </script>
 
 <Section>
@@ -8,10 +30,68 @@
   </svelte:fragment>
 
   <svelte:fragment slot="main">
-    <div>
-      This is the Contact main
-
-      <slot />
+    <div
+      class="contact-links"
+      use:inView={{ margin: { bottom: 100 } }}
+      on:enter={() => {
+        $visible$ = true;
+      }}
+    >
+      <Fab class={`contact-links-fab github ${$visible$ ? 'visible' : ''}`} href={Link.github} extended touch>
+        <Icon>
+          {#await $delay$ then _}
+            <GithubSvg />
+          {/await}
+        </Icon>
+        <Label>Github</Label>
+      </Fab>
+      <Fab class={`contact-links-fab linkedin ${$visible$ ? 'visible' : ''}`} href={Link.linkedIn} extended touch>
+        <Icon>
+          {#await $delay$ then _}
+            <LinkedInSvg style="margin-bottom: 6px" />
+          {/await}
+        </Icon>
+        <Label>LinkedIn</Label>
+      </Fab>
     </div>
+
+    <slot />
   </svelte:fragment>
 </Section>
+
+<style lang="scss">
+  .contact-links {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+
+    :global(.contact-links-fab) {
+      opacity: 0;
+      transition: opacity 1s, scale 1s;
+      will-change: opacity, scale;
+      scale: 0;
+    }
+
+    :global(.visible) {
+      opacity: 1;
+      scale: 1;
+    }
+
+    :global(.visible:hover) {
+      scale: 1.1;
+    }
+
+    :global(.visible:focus) {
+      scale: 1.1;
+    }
+
+    :global(.github) {
+      background-color: black;
+    }
+
+    :global(.linkedin) {
+      background-color: #0b66c2;
+      transition-delay: 0.2s;
+    }
+  }
+</style>

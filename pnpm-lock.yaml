@@ -14,6 +14,9 @@ dependencies:
   '@smui/chips':
     specifier: ^7.0.0-beta.14
     version: 7.0.0-beta.14(svelte@4.0.5)(typescript@5.1.6)
+  '@smui/fab':
+    specifier: ^7.0.0-beta.14
+    version: 7.0.0-beta.14(svelte@4.0.5)(typescript@5.1.6)
   '@smui/icon-button':
     specifier: 7.0.0-beta.14
     version: 7.0.0-beta.14(svelte@4.0.5)(typescript@5.1.6)

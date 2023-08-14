@@ -34,7 +34,7 @@
 <div
   class="stack-tiles"
   data-id={`stack-tiles-${index}`}
-  use:inView={{ margin: { bottom: 500 } }}
+  use:inView={{ margin: { bottom: $reverse$ ? 700 : 500 } }}
   on:enter={() => {
     $open$ = true;
   }}

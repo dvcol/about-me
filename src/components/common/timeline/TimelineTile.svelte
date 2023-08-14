@@ -11,6 +11,8 @@
   export let secondary = false;
   export let marker = false;
   export let sticky = false;
+  export let first = false;
+  export let last = false;
   export let flip = false;
 
   export let id: string = 'timeline-tile';
@@ -32,6 +34,8 @@
   class="timeline-tile column"
   class:secondary
   class:sticky
+  class:first
+  class:last
   class:flip
   use:inView={{ margin: { bottom: 200 } }}
   on:enter={() => {
@@ -111,7 +115,7 @@
     &.sticky {
       position: sticky;
       top: 0;
-      z-index: z-index.$in-front;
+      z-index: z-index.$in-foreground;
       overflow: unset;
     }
 
@@ -182,6 +186,7 @@
         position: absolute;
         top: calc(4rem + 4.5px);
         left: -9px;
+        z-index: z-index.$in-front;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -190,14 +195,13 @@
         background-color: colors.$primary;
         border-radius: 50%;
         box-shadow: 0 1px 3px 0 rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 2px 1px -1px rgb(0 0 0 / 12%);
+        transition: scale 0.5s;
+        will-change: scale;
+        scale: 0;
 
         @media screen and (max-width: breakpoint.$laptop + px) {
           top: calc(3rem + 4.5px);
         }
-
-        transition: scale 0.5s;
-        will-change: scale;
-        scale: 0;
 
         &--open {
           scale: 1;
@@ -267,6 +271,36 @@
       &--open {
         opacity: 1;
         translate: 0 !important;
+      }
+    }
+
+    &.last :global .timeline-tile {
+      &-card {
+        margin-bottom: 4rem;
+      }
+
+      &-line::after {
+        background: linear-gradient(180deg, colors.$primary 30%, transparent);
+      }
+    }
+
+    &.first :global .timeline-tile {
+      &-card {
+        margin-top: 6rem;
+      }
+
+      &-meta {
+        margin-top: 7rem;
+      }
+
+      &-line {
+        &-marker {
+          top: calc(7rem + 4.5px);
+        }
+
+        &::after {
+          background: linear-gradient(180deg, transparent, colors.$primary 30%);
+        }
       }
     }
 

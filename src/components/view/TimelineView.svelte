@@ -31,7 +31,13 @@
 
     <div class="column">
       {#each educations as education, index}
-        <TimelineRow {index} parent={mapTileProps(education.institution)} children={education.diplomas.map(mapTileProps)} />
+        <TimelineRow
+          {index}
+          first={false}
+          last={index === educations.length - 1}
+          parent={mapTileProps(education.institution)}
+          children={education.diplomas.map(mapTileProps)}
+        />
       {/each}
     </div>
 
