@@ -19,22 +19,23 @@ export const getRouteFragments = (url = window.location.href) => {
   return { domain: _domain, hash, base };
 };
 
-export const scrollToHash = (
-  url?: string,
-  { options = { behavior: 'smooth' }, container = get(useApp().app$) }: { options?: ScrollIntoViewOptions; container?: Element | Document } = {},
-) => {
+export type ScrollOptions = { options?: ScrollIntoViewOptions; container?: Element | Document };
+export const scrollToHash = (hash: HeaderLink, { options = { behavior: 'smooth' }, container = get(useApp().app$) }: ScrollOptions = {}) => {
+  const header = container?.querySelector(`#${hash}`);
+  if (header) header.scrollIntoView(options);
+  return header;
+};
+
+export const scrollToUrkHash = (url?: string, options: ScrollOptions = {}) => {
   const { base, hash } = getRouteFragments(url);
-  if (Object.values(HeaderLink).map(String).includes(hash)) {
-    const header = container?.querySelector(`#${hash}`);
-    if (header) header.scrollIntoView(options);
-    return { base, hash, header };
-  }
-  return { base, hash };
+  const link = Object.values(HeaderLink).find(l => l.toString() === hash);
+  const header = scrollToHash(link, options);
+  return { base, hash, header };
 };
 
 export const useHashAnchors = ({ replaceState = false }: { replaceState?: boolean } = {}) => {
   const listener = (e?: HashChangeEvent) => {
-    const { base } = scrollToHash(e?.newURL, { container: get(app$) });
+    const { base } = scrollToUrkHash(e?.newURL, { container: get(app$) });
 
     if (replaceState) window.history.pushState(undefined, undefined, base);
   };
