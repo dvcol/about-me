@@ -1,8 +1,11 @@
 <script lang="ts">
   import { I18nProvider, LazyComponent } from '~/components/common';
+  import { useApp } from '~/stores';
+
+  const { app$ } = useApp();
 </script>
 
-<article id="app">
+<article id="app" bind:this={$app$}>
   <I18nProvider />
   <LazyComponent component={import('~/components/view/HeroView.svelte')}>
     <slot name="hero" />

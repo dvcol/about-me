@@ -2,8 +2,8 @@ import { writable } from 'svelte/store';
 
 import type { Tag } from '~/models';
 
-export const selected$ = writable<Tag>();
-export const hover$ = writable<string[]>([]);
+const selected$ = writable<Tag>();
+const hover$ = writable<string[]>([]);
 
 const onSelect = (tag: Tag) => {
   selected$.update(_was => {

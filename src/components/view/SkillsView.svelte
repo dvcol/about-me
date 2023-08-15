@@ -15,7 +15,7 @@
   import { Animation, hasChildren, Header, ScrollShadow, spliceNode, SunBurst, Tag } from '~/components/common';
 
   import { Section } from '~/components/layout';
-  import { skills } from '~/data';
+  import { HeaderLink, skills } from '~/data';
   import { useSkillsStore } from '~/stores';
 
   const data: SunburstData = { ...skills, value: 0 };
@@ -123,7 +123,7 @@
 
 <Section>
   <svelte:fragment slot="header">
-    <Header title="skills.title" />
+    <Header id={HeaderLink.Skills} title="skills.title" />
   </svelte:fragment>
 
   <div

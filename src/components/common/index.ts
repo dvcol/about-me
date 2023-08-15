@@ -9,3 +9,4 @@ export * from './tag';
 export * from './tile';
 export * from './timeline';
 export * from './loader';
+export * from './navbar';

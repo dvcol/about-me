@@ -9,7 +9,7 @@
   import GithubSvg from '~/assets/github.svelte';
 
   import { Header, Section } from '~/components';
-  import { Link } from '~/data';
+  import { ExternalLink, HeaderLink } from '~/data';
 
   const visible$ = writable(false);
 
@@ -26,7 +26,7 @@
 
 <Section>
   <svelte:fragment slot="header">
-    <Header title="contact.title" />
+    <Header id={HeaderLink.Contact} title="contact.title" />
   </svelte:fragment>
 
   <svelte:fragment slot="main">
@@ -37,7 +37,7 @@
         $visible$ = true;
       }}
     >
-      <Fab class={`contact-links-fab github ${$visible$ ? 'visible' : ''}`} href={Link.github} extended touch>
+      <Fab class={`contact-links-fab github ${$visible$ ? 'visible' : ''}`} href={ExternalLink.github} extended touch>
         <Icon>
           {#await $delay$ then _}
             <GithubSvg />
@@ -45,7 +45,7 @@
         </Icon>
         <Label>Github</Label>
       </Fab>
-      <Fab class={`contact-links-fab linkedin ${$visible$ ? 'visible' : ''}`} href={Link.linkedIn} extended touch>
+      <Fab class={`contact-links-fab linkedin ${$visible$ ? 'visible' : ''}`} href={ExternalLink.linkedIn} extended touch>
         <Icon>
           {#await $delay$ then _}
             <LinkedInSvg style="margin-bottom: 6px" />

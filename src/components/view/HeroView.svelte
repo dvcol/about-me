@@ -1,13 +1,13 @@
-<script>
-  import { Header, Section } from '~/components';
+<script lang="ts">
+  import { Navbar, Section } from '~/components';
 </script>
 
 <Section>
   <svelte:fragment slot="header">
-    <Header title="hero.title" />
+    <Navbar />
   </svelte:fragment>
   <svelte:fragment slot="main">
-    <div class="hero">
+    <div class="hero-main">
       This is the Hero main
       <slot />
     </div>
@@ -15,7 +15,7 @@
 </Section>
 
 <style lang="scss">
-  .hero {
+  .hero-main {
     height: 100dvh;
   }
 </style>

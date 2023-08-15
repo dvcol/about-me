@@ -2,6 +2,7 @@
   import type { StackTileProps } from '~/models';
 
   import { Header, Section, Stack } from '~/components';
+  import { HeaderLink } from '~/data';
   import { SynologyDownloadTile } from '~/data/projects.data';
   import { StackTilePrimary } from '~/models';
 
@@ -14,7 +15,7 @@
 
 <Section>
   <svelte:fragment slot="header">
-    <Header title="projects.title" />
+    <Header id={HeaderLink.Projects} title="projects.title" />
   </svelte:fragment>
   <svelte:fragment slot="main">
     <Stack {stacks} />

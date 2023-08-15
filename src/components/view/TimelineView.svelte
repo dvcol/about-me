@@ -2,6 +2,7 @@
   import type { Project, TimelineTileProps } from '~/models';
 
   import { Header, Section, TimelineRow } from '~/components';
+  import { HeaderLink } from '~/data';
   import { educations } from '~/data/education.data';
   import { jobs } from '~/data/jobs.data.js';
 
@@ -19,7 +20,7 @@
 
 <Section>
   <svelte:fragment slot="header">
-    <Header title="timeline.title" />
+    <Header id={HeaderLink.AboutMe} title="timeline.title" />
   </svelte:fragment>
 
   <svelte:fragment slot="main">
