@@ -1,51 +1,98 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte';
 
-  import { writable } from 'svelte/store';
+  import { derived, writable } from 'svelte/store';
+
+  import { _ } from 'svelte-i18n';
 
   import { inView } from '~/actions';
   import { HeaderLink } from '~/data';
-  import { scrollToHash, scrollToUrkHash, useHashAnchors } from '~/utils/router.utils';
+  import { BreakPoints, scrollToHash, scrollToUrlHash, useHashAnchors, useMediaQuery } from '~/utils';
+  import { watchMouse } from '~/utils/mouse.utils';
 
   useHashAnchors();
 
-  let timeout: number;
+  let hashTimeout: number;
+  let scrollTimeout: number;
   onMount(() => {
-    timeout = setTimeout(scrollToUrkHash, 100);
+    hashTimeout = setTimeout(scrollToUrlHash, 100);
   });
-  onDestroy(() => clearTimeout(timeout));
+  onDestroy(() => {
+    clearTimeout(hashTimeout);
+    clearTimeout(scrollTimeout);
+  });
 
   const visible$ = writable(false);
+  const scrolled$ = writable(false);
+  const inFlight$ = writable(false);
+
+  const headers$ = derived(scrolled$, _scrolled => {
+    const _header = [HeaderLink.Projects, HeaderLink.Skills, HeaderLink.AboutMe, HeaderLink.Contact];
+    if (_scrolled) _header.unshift(HeaderLink.Home);
+    return _header;
+  });
+
+  const isMobile$ = useMediaQuery(`(max-width: ${BreakPoints.mobile}px)`);
+  const { expand$, collapse$ } = watchMouse({
+    boundary: $isMobile$
+      ? {
+          collapse: 80,
+          expand: 40,
+          collapseY: 250,
+          expandY: 225,
+        }
+      : {
+          collapse: 140,
+          expand: 80,
+          collapseY: 320,
+          expandY: 260,
+        },
+  });
 </script>
 
 <nav
-  id="{HeaderLink.Home}}"
+  id={HeaderLink.Home}
   class="hero-nav"
   class:visible={$visible$}
+  class:side-bar={$scrolled$}
+  class:expand={$expand$}
+  class:collapse={$collapse$}
+  class:in-flight={$inFlight$}
   use:inView={{ margin: { bottom: 200 } }}
   on:enter={() => {
     $visible$ = true;
+    $scrolled$ = false;
+  }}
+  on:leave={() => {
+    $scrolled$ = true;
+    $inFlight$ = true;
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      $inFlight$ = false;
+    }, 100);
   }}
 >
   <ul>
-    <li><a on:click={() => scrollToHash(HeaderLink.Projects)} href={null}>Projects</a></li>
-    <li><a on:click={() => scrollToHash(HeaderLink.Skills)} href={null}>Skills</a></li>
-    <li><a on:click={() => scrollToHash(HeaderLink.AboutMe)} href={null}>About Me</a></li>
-    <li><a on:click={() => scrollToHash(HeaderLink.Contact)} href={null}>Contact</a></li>
+    {#each $headers$ as header, index}
+      <li style={`--index: ${index}`}>
+        <a on:click={() => scrollToHash(header)} href={null}>
+          {$_(`navbar.header.${header}`)}
+        </a>
+      </li>
+    {/each}
   </ul>
 </nav>
 
 <style lang="scss">
   @use 'src/theme/colors';
+  @use 'src/theme/z-index';
+  @use 'src/theme/breakpoint';
 
   .hero-nav {
-    padding: 2rem;
-    opacity: 0;
-    transition: opacity 1s;
-    will-change: opacity;
+    padding: 2rem 0;
 
-    &.visible {
-      opacity: 1;
+    @media screen and (max-width: breakpoint.$mobile + px) {
+      padding: 1rem 0.5rem;
     }
 
     ul {
@@ -54,6 +101,10 @@
       margin: 0;
       padding: 0;
       list-style: none;
+
+      @media screen and (max-width: breakpoint.$mobile + px) {
+        gap: 1rem;
+      }
     }
 
     a {
@@ -69,7 +120,17 @@
       padding-bottom: 0.75rem;
       overflow: hidden;
       font-weight: bold;
-      min-inline-size: 3rem;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.5s, translate 1s, top 0.5s;
+      transition-delay: calc(var(--index) * 200ms);
+      pointer-events: none;
+      will-change: opacity;
+      translate: 0 -50%;
+
+      @media screen and (max-width: breakpoint.$mobile + px) {
+        padding-bottom: 0.5rem;
+      }
 
       &::after {
         position: absolute;
@@ -81,6 +142,10 @@
         inset-block-end: 0;
         block-size: 3px;
         scale: 0;
+
+        @media screen and (max-width: breakpoint.$mobile + px) {
+          block-size: 2px;
+        }
       }
 
       &:hover,
@@ -91,6 +156,91 @@
 
         a {
           color: colors.$white;
+        }
+      }
+    }
+
+    &.visible {
+      li {
+        opacity: 1;
+        translate: 0;
+        pointer-events: all;
+      }
+    }
+
+    &.side-bar {
+      ul {
+        position: fixed;
+        top: calc(55px + var(--offset-scroll, 0px));
+        right: 0;
+        z-index: z-index.$layer-ui;
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-end;
+        margin: 1.5rem;
+        overflow: hidden;
+        text-align: end;
+
+        @media screen and (max-width: breakpoint.$mobile + px) {
+          top: calc(45px + var(--offset-scroll, 0px));
+          gap: 0.5rem;
+          margin: 0.75rem;
+        }
+
+        li {
+          padding: 0.25rem 0.75rem;
+          overflow: hidden;
+          transition: none;
+
+          &::after {
+            inset: 0 0 0 calc(100% - 2px);
+            block-size: 100%;
+          }
+
+          a {
+            display: inline-block;
+            opacity: 1;
+            transition: opacity 1s, translate 1s;
+            translate: 0;
+          }
+
+          @media screen and (max-width: breakpoint.$mobile + px) {
+            padding: 0.25rem 0.5rem;
+          }
+        }
+      }
+
+      &.in-flight {
+        ul,
+        li,
+        a {
+          transition: none;
+        }
+      }
+
+      &.collapse {
+        pointer-events: none;
+
+        li::after {
+          scale: 0;
+        }
+
+        ul li a {
+          opacity: 0;
+          translate: 100%;
+        }
+      }
+
+      &.expand {
+        pointer-events: none;
+
+        li::after {
+          scale: 0;
+        }
+
+        ul li a {
+          opacity: 0.5;
+          translate: calc(100% - 0.5ch);
         }
       }
     }

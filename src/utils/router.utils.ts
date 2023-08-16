@@ -20,13 +20,23 @@ export const getRouteFragments = (url = window.location.href) => {
 };
 
 export type ScrollOptions = { options?: ScrollIntoViewOptions; container?: Element | Document };
-export const scrollToHash = (hash: HeaderLink, { options = { behavior: 'smooth' }, container = get(useApp().app$) }: ScrollOptions = {}) => {
+export const scrollToHash = (
+  hash: HeaderLink,
+  {
+    options = {
+      behavior: 'smooth',
+      block: 'start',
+      inline: 'nearest',
+    },
+    container = get(useApp().app$),
+  }: ScrollOptions = {},
+) => {
   const header = container?.querySelector(`#${hash}`);
   if (header) header.scrollIntoView(options);
   return header;
 };
 
-export const scrollToUrkHash = (url?: string, options: ScrollOptions = {}) => {
+export const scrollToUrlHash = (url?: string, options: ScrollOptions = {}) => {
   const { base, hash } = getRouteFragments(url);
   const link = Object.values(HeaderLink).find(l => l.toString() === hash);
   const header = scrollToHash(link, options);
@@ -35,7 +45,7 @@ export const scrollToUrkHash = (url?: string, options: ScrollOptions = {}) => {
 
 export const useHashAnchors = ({ replaceState = false }: { replaceState?: boolean } = {}) => {
   const listener = (e?: HashChangeEvent) => {
-    const { base } = scrollToUrkHash(e?.newURL, { container: get(app$) });
+    const { base } = scrollToUrlHash(e?.newURL);
 
     if (replaceState) window.history.pushState(undefined, undefined, base);
   };

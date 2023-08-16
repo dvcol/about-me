@@ -28,6 +28,7 @@
 
   .header {
     font-size: 3em;
+    scroll-margin-top: 7rem;
 
     &::after {
       display: flex;

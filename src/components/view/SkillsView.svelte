@@ -197,6 +197,10 @@
 
   .sunburst {
     flex: 0 1 50%;
+
+    :global(svg) {
+      max-height: 50dvh;
+    }
   }
 
   .chips {
@@ -267,6 +271,10 @@
 
     .sunburst {
       padding: 1rem 3rem;
+
+      :global(svg) {
+        max-height: 40dvh;
+      }
     }
   }
 
@@ -276,7 +284,6 @@
     }
 
     .sunburst {
-      max-height: 50dvh;
       padding: 1rem;
     }
 
