@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Navbar, Section } from '~/components';
+  import { Navbar, Section, WordTicker } from '~/components';
 </script>
 
 <Section>
@@ -8,7 +8,10 @@
   </svelte:fragment>
   <svelte:fragment slot="main">
     <div class="hero-main">
-      This is the Hero main
+      <div class="hero-main-ticker">
+        <div>Dinh-Van Colomban</div>
+        <WordTicker words={[{ value: 'Frontend', color: '#e74c3c' }, { value: 'Fullstack', color: '#8e44ad' }, 'Devops']} />
+      </div>
       <slot />
     </div>
   </svelte:fragment>
@@ -16,6 +19,14 @@
 
 <style lang="scss">
   .hero-main {
-    height: 100dvh;
+    display: flex;
+    justify-content: center;
+    height: calc(100dvh - 2 * 94px);
+    padding-bottom: 94px;
+
+    .hero-main-ticker {
+      align-self: center;
+      font-size: 3em;
+    }
   }
 </style>
