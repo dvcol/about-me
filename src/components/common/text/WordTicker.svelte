@@ -74,7 +74,9 @@
 
       .letter {
         transform-origin: center center 25px;
-        opacity: 0;
+        backface-visibility: hidden;
+        visibility: hidden;
+        filter: blur(0.01px);
         transition: transform 0.32s cubic-bezier(0.6, 0, 0.7, 0.2);
         transition-delay: calc(var(--index) * var(--step));
         will-change: transform;
@@ -83,14 +85,14 @@
       &.out {
         .letter {
           transform: rotateX(90deg);
-          opacity: 1;
+          visibility: visible;
         }
       }
 
       &.active {
         .letter {
-          transform: rotateX(0);
-          opacity: 1;
+          transform: translateZ(1px) rotateX(0);
+          visibility: visible;
           transition: transform 0.38s ease;
           transition-delay: calc(2 * var(--step) + var(--index) * var(--step));
         }
