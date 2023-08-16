@@ -59,13 +59,24 @@
   class:collapse={$collapse$}
   class:in-flight={$inFlight$}
   use:inView={{ margin: { bottom: 200 } }}
-  on:enter={() => {
-    $visible$ = true;
-    $scrolled$ = false;
+  on:enter={({ count }) => {
+    if (count < 1 || $collapse$) {
+      $visible$ = true;
+      $scrolled$ = false;
+      return;
+    }
+    $visible$ = false;
+
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      $scrolled$ = false;
+      $visible$ = true;
+    }, 500 + ($headers$.length - 2) * 100);
   }}
   on:leave={() => {
     $scrolled$ = true;
     $inFlight$ = true;
+
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       $inFlight$ = false;
@@ -89,6 +100,7 @@
   @use 'src/theme/breakpoint';
 
   .hero-nav {
+    min-height: 1.875rem;
     padding: 2rem 0;
 
     @media screen and (max-width: breakpoint.$mobile + px) {
@@ -122,8 +134,8 @@
       font-weight: bold;
       white-space: nowrap;
       opacity: 0;
-      transition: opacity 0.5s, translate 1s, top 0.5s;
-      transition-delay: calc(var(--index) * 200ms);
+      transition: opacity 0.5s, translate 0.5s, top 0.5s;
+      transition-delay: calc(var(--index) * 100ms);
       pointer-events: none;
       will-change: opacity;
       translate: 0 -50%;
@@ -163,8 +175,8 @@
     &.visible {
       li {
         opacity: 1;
-        translate: 0;
         pointer-events: all;
+        translate: 0;
       }
     }
 
@@ -190,7 +202,6 @@
         li {
           padding: 0.25rem 0.75rem;
           overflow: hidden;
-          transition: none;
 
           &::after {
             inset: 0 0 0 calc(100% - 2px);
