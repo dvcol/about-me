@@ -274,7 +274,15 @@
             --mdc-ripple-left: 8px !important;
             --mdc-ripple-top: 8px !important;
 
-            color: colors.$primary;
+            color: colors.$secondary;
+            transition: scale 1s, color 1.5s;
+            will-change: scale, color;
+
+            &:hover,
+            &:focus {
+              scale: 1.1;
+              color: colors.$primary;
+            }
           }
         }
 

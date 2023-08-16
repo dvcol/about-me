@@ -37,7 +37,7 @@
         $visible$ = true;
       }}
     >
-      <Fab class={`contact-links-fab github ${$visible$ ? 'visible' : ''}`} href={ExternalLink.github} extended touch>
+      <Fab class={`contact-links-fab github ${$visible$ ? 'visible' : ''}`} title="Github" href={ExternalLink.github} extended touch>
         <Icon>
           {#await $delay$ then _}
             <GithubSvg />
@@ -45,7 +45,7 @@
         </Icon>
         <Label>Github</Label>
       </Fab>
-      <Fab class={`contact-links-fab linkedin ${$visible$ ? 'visible' : ''}`} href={ExternalLink.linkedIn} extended touch>
+      <Fab class={`contact-links-fab linkedin ${$visible$ ? 'visible' : ''}`} title="LinkedIn" href={ExternalLink.linkedIn} extended touch>
         <Icon>
           {#await $delay$ then _}
             <LinkedInSvg style="margin-bottom: 6px" />
