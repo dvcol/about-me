@@ -25,10 +25,12 @@
 
 <style lang="scss">
   @use 'src/theme/colors';
+  @use 'src/theme/breakpoint';
 
   .header {
-    font-size: 3em;
-    scroll-margin-top: 7rem;
+    margin: 3rem 0;
+    font-size: 4em;
+    scroll-margin-top: 3rem;
 
     &::after {
       display: flex;
@@ -44,6 +46,25 @@
 
     &--visible::after {
       scale: 1;
+    }
+
+    @media screen and (max-width: breakpoint.$fhd + px) {
+      margin: 2rem 0;
+      font-size: 3em;
+      scroll-margin-top: 2rem;
+    }
+
+    @media screen and (max-width: breakpoint.$hd + px) {
+      margin: 1rem 0;
+      scroll-margin-top: 1rem;
+    }
+
+    @media screen and (max-width: breakpoint.$tablet + px) {
+      font-size: 2.5em;
+
+      &::after {
+        margin-top: 1rem;
+      }
     }
   }
 </style>

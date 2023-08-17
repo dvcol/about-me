@@ -8,7 +8,9 @@
   </head>
   <body>
     <script type="module" src="src/main.ts"></script>
-    <wc-about-me id="app-container-root"></wc-about-me>
+    <div class="container">
+      <wc-about-me id="app-container-root"></wc-about-me>
+    </div>
   </body>
 </html>
 
@@ -21,6 +23,13 @@
     height: 100%;
     margin: 0 1rem;
   }
+  
+  .container {
+    width: 100%;
+    max-width: 1920px;
+    height: 100%;
+    margin: 0 auto;
+  }
 
   @media screen and (width >= 900px) {
     wc-about-me {
@@ -31,14 +40,15 @@
 
   html,
   body {
-    scroll-behavior: smooth;
-    overscroll-behavior-y: none;
     display: flex;
+    width: 100%;
     min-width: 320px;
     height: 100%;
     min-height: 100vh;
     margin: 0;
-    place-items: center;
     background-color: #2a2b30;
+    scroll-behavior: smooth;
+    overscroll-behavior-y: none;
+    place-items: center;
   }
 </style>

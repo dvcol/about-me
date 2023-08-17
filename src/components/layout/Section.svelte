@@ -1,4 +1,8 @@
-<section class="section">
+<script lang="ts">
+  export let fullscreen = false;
+</script>
+
+<section class="section" class:fullscreen>
   <div class="section_header">
     <slot name="header" />
   </div>
@@ -13,6 +17,10 @@
     flex: 1 1 auto;
     flex-direction: column;
 
+    &.fullscreen {
+      min-height: 100dvh;
+    }
+
     &_header {
       display: flex;
       flex-direction: column;
@@ -20,7 +28,9 @@
 
     &_main {
       display: flex;
+      flex: 1 1 auto;
       flex-direction: column;
+      justify-content: center;
     }
   }
 </style>

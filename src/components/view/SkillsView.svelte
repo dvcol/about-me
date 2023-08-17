@@ -17,6 +17,7 @@
   import { Section } from '~/components/layout';
   import { HeaderLink, skills } from '~/data';
   import { useSkillsStore } from '~/stores';
+  import { BreakPoints, useMediaQuery } from '~/utils';
 
   const data: SunburstData = { ...skills, value: 0 };
 
@@ -119,9 +120,12 @@
   };
 
   const inView$ = writable(false);
+
+  const isFullScreen$ = useMediaQuery(`(max-width: ${BreakPoints.qhd}px)`);
+  const isMobile$ = useMediaQuery(`(max-width: ${BreakPoints.mobile}px) and (min-height: ${BreakPoints.mobile}px)`);
 </script>
 
-<Section>
+<Section fullscreen={$isFullScreen$}>
   <svelte:fragment slot="header">
     <Header id={HeaderLink.Skills} title="skills.title" />
   </svelte:fragment>
@@ -137,6 +141,7 @@
     <div class="column sunburst">
       <SunBurst
         {data}
+        height={$isMobile$ ? '40dvh' : '50dvh'}
         visible={$inView$}
         bind:select={$onSelect$}
         bind:hover={$onHover$}
@@ -191,47 +196,46 @@
   .column {
     display: flex;
     flex-direction: column;
-    height: 50vh;
     padding: 0 2rem;
   }
 
   .sunburst {
-    flex: 0 1 50%;
-
-    :global(svg) {
-      max-height: 50dvh;
-    }
+    flex: 1 1 50%;
+    max-height: 50dvh;
+    padding: 4rem;
   }
 
   .chips {
     flex: 0 1 50%;
+    justify-content: center;
+    max-height: 70dvh;
     opacity: 0;
-    translate: 100%;
     transition: translate 1s;
     will-change: translate;
+    translate: 100%;
 
     :global {
       @keyframes translate-right {
         0% {
-          translate: -200%;
           filter: opacity(0);
+          translate: -200%;
         }
 
         100% {
-          translate: 0;
           filter: opacity(1);
+          translate: 0;
         }
       }
 
       @keyframes translate-left {
         0% {
-          translate: 200%;
           filter: opacity(0);
+          translate: 200%;
         }
 
         100% {
-          translate: 0;
           filter: opacity(1);
+          translate: 0;
         }
       }
 
@@ -263,38 +267,30 @@
     }
   }
 
-  @media screen and (max-width: breakpoint.$hd + px) {
-    .column {
-      height: 40dvh;
-      padding: 0 1rem;
-    }
-
-    .sunburst {
-      padding: 1rem 3rem;
-
-      :global(svg) {
-        max-height: 40dvh;
-      }
-    }
-  }
-
-  @media screen and (max-width: breakpoint.$tablet + px) {
+  @media screen and (max-width: breakpoint.$laptop + px) and (min-height: breakpoint.$mobile + px) {
     .row {
       flex-direction: column;
+      height: 100%;
     }
 
     .sunburst {
-      padding: 1rem;
+      padding: 3rem;
     }
 
     .chips {
       z-index: z-index.$in-front;
-      max-height: 50dvh;
+      max-height: calc(50dvh - 200px);
+      padding: 1rem;
     }
   }
 
-  @media screen and (max-width: breakpoint.$mobile + px) {
+  @media screen and (max-width: breakpoint.$mobile + px) and (min-height: breakpoint.$mobile + px) {
+    .sunburst {
+      padding: 0 1rem 1rem;
+    }
+
     .chips {
+      max-height: calc(50dvh - 140px);
       padding: 0;
     }
   }

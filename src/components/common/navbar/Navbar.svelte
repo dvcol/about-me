@@ -129,6 +129,7 @@
 
     li {
       position: relative;
+      z-index: z-index.$layer-ui;
       padding-bottom: 0.75rem;
       overflow: hidden;
       font-weight: bold;
