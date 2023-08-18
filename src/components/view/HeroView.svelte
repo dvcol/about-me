@@ -31,7 +31,6 @@
       class="hero-header"
       delay={300}
       on:scrolled={e => {
-        console.info('scrolled', e);
         $scrolled$ = e.detail;
       }}
     />
