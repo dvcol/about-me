@@ -10,6 +10,11 @@
   import { BreakPoints, scrollToHash, scrollToUrlHash, useHashAnchors, useMediaQuery } from '~/utils';
   import { watchMouse } from '~/utils/mouse.utils';
 
+  let className: string = '';
+  export { className as class };
+
+  export let delay = 0;
+
   useHashAnchors();
 
   let hashTimeout: number;
@@ -52,26 +57,27 @@
 
 <nav
   id={HeaderLink.Home}
-  class="hero-nav"
+  class={['hero-nav', className].filter(Boolean).join(' ')}
   class:visible={$visible$}
   class:side-bar={$scrolled$}
   class:expand={$expand$}
   class:collapse={$collapse$}
   class:in-flight={$inFlight$}
   use:inView={{ margin: { bottom: 200 } }}
-  on:enter={({ count }) => {
-    if (count < 1 || $collapse$) {
+  on:enter={({ detail: { count } }) => {
+    if (count > 0 && $collapse$) {
       $visible$ = true;
       $scrolled$ = false;
       return;
     }
+
     $visible$ = false;
 
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       $scrolled$ = false;
       $visible$ = true;
-    }, 500 + ($headers$.length - 2) * 100);
+    }, (count ? 500 : delay) + ($headers$.length - 2) * 100);
   }}
   on:leave={() => {
     $scrolled$ = true;

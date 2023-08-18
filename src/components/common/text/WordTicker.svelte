@@ -4,7 +4,7 @@
 
   type Word = string | { value: string; color?: string };
 
-  let className: string;
+  let className: string = '';
   export { className as class };
 
   export let words: Array<Word> = [];
@@ -73,6 +73,7 @@
       display: flex;
 
       .letter {
+        text-shadow: 1px 1px 1px rgb(0 0 0 / 42%);
         transform-origin: center center 25px;
         backface-visibility: hidden;
         visibility: hidden;

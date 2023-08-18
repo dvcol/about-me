@@ -28,9 +28,9 @@
   @use 'src/theme/breakpoint';
 
   .header {
-    margin: 3rem 0;
+    margin: 4rem 0;
     font-size: 4em;
-    scroll-margin-top: 3rem;
+    scroll-margin-top: 4rem;
 
     &::after {
       display: flex;
