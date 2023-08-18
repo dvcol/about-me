@@ -19,7 +19,9 @@
     $visible$ = true;
   }}
 >
-  {$_(title)}
+  <span class="header-text">
+    {$_(title)}<span class="header-text-dot">.</span>
+  </span>
   <slot />
 </h1>
 
@@ -27,10 +29,49 @@
   @use 'src/theme/colors';
   @use 'src/theme/breakpoint';
 
+  @keyframes cursor {
+    0% {
+      opacity: 0;
+    }
+
+    40% {
+      opacity: 0;
+    }
+
+    50% {
+      opacity: 0.8;
+    }
+
+    90% {
+      opacity: 0.8;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
   .header {
     margin: 4rem 0;
     font-size: 4em;
     scroll-margin-top: 4rem;
+
+    &-text {
+      &-dot {
+        color: colors.$secondary;
+      }
+
+      &::after {
+        display: inline-block;
+        width: 4px;
+        height: 2.75rem;
+        margin-left: 0.25rem;
+        background: colors.$primary;
+        opacity: 0;
+        animation: cursor 1s infinite;
+        content: '';
+      }
+    }
 
     &::after {
       display: flex;

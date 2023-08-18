@@ -63,7 +63,7 @@
   .contact-links {
     display: flex;
     gap: 0.5rem;
-    margin-bottom: 3rem;
+    margin: 2rem 0;
 
     :global(.contact-links-fab) {
       opacity: 0;
