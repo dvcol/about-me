@@ -48,10 +48,6 @@
 <style lang="scss">
   @use 'src/theme/z-index';
 
-  :global(.section) {
-    padding-bottom: 2rem;
-  }
-
   .hero-main {
     display: flex;
     justify-content: center;
