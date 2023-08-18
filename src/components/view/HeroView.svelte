@@ -1,15 +1,20 @@
 <script lang="ts">
+  import ChevronSvg from 'line-md/svg/chevron-double-down.svg?component';
   import { onMount } from 'svelte';
 
   import { writable } from 'svelte/store';
 
   import LogoSvg from '~/assets/dvco.svg?component';
+
   import { Navbar, Section, WordTicker } from '~/components';
+  import { HeaderLink } from '~/data';
   import { useApp } from '~/stores';
+  import { scrollToHash } from '~/utils';
   import { onTilt } from '~/utils/mouse.utils';
 
   const visible$ = writable(false);
   const tilted$ = writable(false);
+  const scrolled$ = writable(false);
 
   const { app$ } = useApp();
 
@@ -22,7 +27,14 @@
 
 <Section fullscreen>
   <svelte:fragment slot="header">
-    <Navbar class="hero-header" delay={300} />
+    <Navbar
+      class="hero-header"
+      delay={300}
+      on:scrolled={e => {
+        console.info('scrolled', e);
+        $scrolled$ = e.detail;
+      }}
+    />
   </svelte:fragment>
   <svelte:fragment slot="main">
     <div class="hero-main">
@@ -48,10 +60,16 @@
               { value: 'Frontend', color: '#eb6700' },
               { value: 'Fullstack', color: '#f3ce00' },
               { value: 'Devops', color: '#4295d2' },
+              { value: 'Extension', color: '#34a853' },
             ]}
           />
         </div>
       </div>
+      <dkv class="hero-main-footer" class:visible={$visible$ && !$scrolled$}>
+        <a on:click={() => scrollToHash(HeaderLink.Projects)} href={null}>
+          <ChevronSvg style="scale: 1.5 1.25;" />
+        </a>
+      </dkv>
       <slot />
     </div>
   </svelte:fragment>
@@ -59,12 +77,57 @@
 
 <style lang="scss">
   @use 'src/theme/z-index';
+  @use 'src/theme/breakpoint';
+
+  @keyframes bounce {
+    0% {
+      transform: translateY(0%);
+    }
+
+    50% {
+      transform: translateY(50%);
+    }
+
+    100% {
+      transform: translateY(0);
+    }
+  }
 
   .hero-main {
     display: flex;
     justify-content: center;
     height: calc(100dvh - 2 * 94px);
     padding-bottom: 94px;
+
+    &-footer {
+      position: absolute;
+      bottom: 2rem;
+      opacity: 0;
+      translate: 0 -20%;
+      transition: opacity 1s, translate 1s, scale 1s;
+      animation: bounce 4s ease infinite;
+      animation-delay: 1000ms;
+      scale: 0.9;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      &.visible {
+        opacity: 0.5;
+        translate: 0;
+        transition-delay: 500ms;
+
+        &:hover,
+        &:focus {
+          opacity: 0.8;
+          scale: 1;
+          animation-play-state: paused;
+        }
+      }
+    }
 
     &-text {
       opacity: 0;
@@ -74,6 +137,10 @@
       &.visible {
         opacity: 1;
         scale: 1;
+      }
+
+      @media screen and (max-width: breakpoint.$mobile + px) {
+        padding-top: 1.5rem;
       }
     }
 

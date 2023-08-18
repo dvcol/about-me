@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy, onMount } from 'svelte';
+  import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
   import { derived, writable } from 'svelte/store';
 
@@ -53,6 +53,9 @@
           expandY: 260,
         },
   });
+
+  const dispatch = createEventDispatcher();
+  $: dispatch('scrolled', $scrolled$);
 </script>
 
 <nav
@@ -92,7 +95,7 @@
   <ul>
     {#each $headers$ as header, index}
       <li style={`--index: ${index}`}>
-        <a on:click={() => scrollToHash(header)} href={null}>
+        <a on:click={() => scrollToHash(header)} href={null} tabindex="0">
           {$_(`navbar.header.${header}`)}
         </a>
       </li>

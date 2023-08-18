@@ -8,7 +8,7 @@
   export { className as class };
 
   export let words: Array<Word> = [];
-  export let tick = 5000;
+  export let tick = 4000;
   export let step: number = null;
 
   const getPrev = (_index: number) => {
@@ -29,9 +29,11 @@
   const behind$ = derived(index$, _index => words[getNext(_index)]);
   const out$ = derived(index$, _index => words[getPrev(_index)]);
 
+  const next = () => index$.update(getNext);
+
   let interval: number;
   onMount(() => {
-    interval = setInterval(() => index$.update(getNext), tick);
+    interval = setInterval(next, tick);
   });
   onDestroy(() => clearInterval(interval));
 
@@ -73,6 +75,7 @@
       display: flex;
 
       .letter {
+        white-space: pre;
         text-shadow: 1px 1px 1px rgb(0 0 0 / 42%);
         transform-origin: center center 25px;
         backface-visibility: hidden;
