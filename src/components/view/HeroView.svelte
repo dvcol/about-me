@@ -5,14 +5,19 @@
 
   import LogoSvg from '~/assets/dvco.svg?component';
   import { Navbar, Section, WordTicker } from '~/components';
+  import { useApp } from '~/stores';
+  import { onTilt } from '~/utils/mouse.utils';
 
   const visible$ = writable(false);
+  const tilted$ = writable(false);
 
-  onMount(() =>
+  const { app$ } = useApp();
+
+  onMount(() => {
     setTimeout(() => {
       $visible$ = true;
-    }, 100),
-  );
+    }, 100);
+  });
 </script>
 
 <Section fullscreen>
@@ -21,11 +26,18 @@
   </svelte:fragment>
   <svelte:fragment slot="main">
     <div class="hero-main">
-      <div class="gradient-bg">
+      <div
+        role="img"
+        class="gradient-bg"
+        use:onTilt={{ target: 'hero-main-logo', container: $app$, delay: 850 }}
+        on:tilt={() => {
+          $tilted$ = true;
+        }}
+      >
         <!-- background -->
       </div>
       <div class="hero-main-ticker">
-        <div class="hero-main-logo" class:visible={$visible$}>
+        <div id="hero-main-logo" class="hero-main-logo" class:visible={$visible$} class:tilted={$tilted$}>
           <LogoSvg />
         </div>
         <div class="hero-main-text" class:visible={$visible$}>
@@ -71,7 +83,7 @@
       height: fit-content;
       margin: 2rem auto;
       overflow: hidden;
-      background-color: rgb(255 255 255 / 20%);
+      background: linear-gradient(320deg, rgb(255 255 255 / 10%) 0%, rgb(255 255 255 / 20%) 100%);
       border-radius: 50%;
       box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%);
       transform: rotateY(90deg);
@@ -79,12 +91,18 @@
       opacity: 0;
       backdrop-filter: blur(10px);
       transition: transform 0.75s ease-out, scale 0.75s, opacity 0.75s;
+      will-change: transform, scale, opacity;
       scale: 0.5;
 
       &.visible {
-        transform: rotateY(0);
+        transform: rotateX(0) rotateY(0);
         opacity: 1;
         scale: 1;
+      }
+
+      &.tilted {
+        transform-origin: center;
+        perspective: 100px;
       }
 
       :global(svg) {
