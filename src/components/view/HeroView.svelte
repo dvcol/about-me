@@ -198,14 +198,18 @@
     z-index: 0;
     width: 100dvw;
     height: 100dvh;
-    background: linear-gradient(-45deg, #ed9278, #e73c7e, #2c04a2, #c5b8b8);
+    background: linear-gradient(-45deg, #ff5600, #ff0667, #8400f8, #1d00ff);
     background-size: 400% 400%;
     animation: gradient 20s ease-in-out infinite;
   }
 
   @keyframes gradient {
     0% {
-      background-position: 0% 50%;
+      background-position: 0 0;
+    }
+
+    25% {
+      background-position: 50% 50%;
     }
 
     50% {

@@ -68,7 +68,15 @@
         {#if media.title || media.subtitle}
           <MediaContent>
             {#if media.type?.startsWith('video')}
-              <video class="tile-card-media-video" autoplay muted loop playsinline controls={media.controls}>
+              <video
+                class="tile-card-media-video"
+                style={[media.background ? `background: ${media.background};` : undefined, media.stylz].filter(Boolean).join(' ')}
+                autoplay
+                muted
+                loop
+                playsinline
+                controls={media.controls}
+              >
                 <source src={`${media.url?.startsWith('http') ? '' : './'}${media.url}`} type={media.type} />
               </video>
             {/if}

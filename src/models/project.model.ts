@@ -59,6 +59,7 @@ export type ProjectMedia = {
   link?: { label: string; url: string };
   aspectRatio?: 'square' | '16x9' | undefined;
   background?: string;
+  stylz?: string;
 };
 
 export class Project {

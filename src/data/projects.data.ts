@@ -49,8 +49,10 @@ const SynologyDownloadDescription = new Project({
 
 const SynologyDownloadMeda = new Project({
   media: {
-    url: 'assets/video/synology_demo.mp4',
+    url: 'assets/video/synology-download-preview.hevc.mp4',
     type: MimeType.MP4,
+    background: 'linear-gradient(180deg,#000030, black)',
+    stylz: 'object-view-box: inset(-10%)',
     title: 'data_projects.synology_download.media.title',
     subtitle: 'data_projects.synology_download.media.subtitle',
     link: { label: 'data_projects.synology_download.media.link.label', url: SynologyDownloadDescription.links.store },
@@ -60,5 +62,38 @@ const SynologyDownloadMeda = new Project({
 export const SynologyDownloadTile: StackTileProps = {
   left: SynologyDownloadDescription,
   right: SynologyDownloadMeda,
+  primary: StackTilePrimary.Right,
+};
+
+const AboutMeMeda = new Project({
+  media: {
+    url: 'assets/video/about-me-preview.hevc.mp4',
+    type: MimeType.MP4,
+    stylz: 'filter: contrast(1.1)',
+    title: 'data_projects.synology_download.media.title',
+    subtitle: 'data_projects.synology_download.media.subtitle',
+    link: { label: 'data_projects.synology_download.media.link.label', url: SynologyDownloadDescription.links.store },
+  },
+});
+
+export const AboutMeTile: StackTileProps = {
+  left: AboutMeMeda,
+  right: SynologyDownloadDescription,
+  primary: StackTilePrimary.Left,
+};
+
+const DvColMeda = new Project({
+  media: {
+    url: 'assets/video/dv-col-preview.hevc.mp4',
+    type: MimeType.MP4,
+    title: 'data_projects.synology_download.media.title',
+    subtitle: 'data_projects.synology_download.media.subtitle',
+    link: { label: 'data_projects.synology_download.media.link.label', url: SynologyDownloadDescription.links.store },
+  },
+});
+
+export const DvColTile: StackTileProps = {
+  left: SynologyDownloadDescription,
+  right: DvColMeda,
   primary: StackTilePrimary.Right,
 };

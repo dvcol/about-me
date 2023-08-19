@@ -80,7 +80,7 @@ export type TiltOptions = { target: string | HTMLElement; container?: Element | 
 export const mouseTilt = ({
   target,
   mouse,
-  max = 15,
+  max = 20,
   inertia = 30,
   container = document,
 }: {
