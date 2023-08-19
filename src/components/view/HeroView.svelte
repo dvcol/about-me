@@ -48,8 +48,10 @@
         <!-- background -->
       </div>
       <div class="hero-main-ticker">
-        <div id="hero-main-logo" class="hero-main-logo" class:visible={$visible$} class:tilted={$tilted$}>
-          <LogoSvg />
+        <div class="hero-main-logo-container">
+          <div id="hero-main-logo" class="hero-main-logo" class:visible={$visible$} class:tilted={$tilted$}>
+            <LogoSvg />
+          </div>
         </div>
         <div class="hero-main-text" class:visible={$visible$}>
           <div>Dinh-Van Colomban</div>
@@ -160,15 +162,19 @@
       will-change: transform, scale, opacity;
       scale: 0.5;
 
+      &-container {
+        perspective: 1000px;
+      }
+
       &.visible {
-        transform: rotateX(0) rotateY(0);
+        transform: rotateX(0) rotateY(0) rotateZ(0);
         opacity: 1;
         scale: 1;
       }
 
       &.tilted {
         transform-origin: center;
-        perspective: 100px;
+        transition: transform 2s ease-out, scale 0.75s, opacity 0.75s;
       }
 
       :global(svg) {

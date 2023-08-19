@@ -100,7 +100,7 @@ export const mouseTilt = ({
     rotateX,
     rotateY,
     deg: Math.round(deg * 100) / 100,
-    transform: `transform: rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+    transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
   };
 };
 
@@ -110,12 +110,12 @@ export const onTilt = (node: Element, { target, container, inertia, max, delay }
   const onMouseMove = mouse => {
     const { element, rotateX, rotateY, deg, transform } = mouseTilt({ target, mouse, container, inertia, max });
     node.dispatchEvent(new CustomEvent<TiltEvent>('tilt', { detail: { element, mouse, rotateX, rotateY, deg, transform } }));
-    if (element) element.style = transform;
+    if (element) element.style.transform = transform;
   };
   const onMouseLeave = () => {
     const element = getElement(target, container);
     node.dispatchEvent(new CustomEvent<HTMLElement>('tiltEnd', { detail: element }));
-    if (element) element.style = undefined;
+    if (element) element.style.transform = undefined;
   };
 
   const timeout = setTimeout(() => {
