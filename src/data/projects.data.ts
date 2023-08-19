@@ -51,8 +51,6 @@ const SynologyDownloadMeda = new Project({
   media: {
     url: 'assets/video/synology-download-preview.hevc.mp4',
     type: MimeType.MP4,
-    background: 'linear-gradient(180deg,#000030, black)',
-    stylz: 'object-view-box: inset(-10%)',
     title: 'data_projects.synology_download.media.title',
     subtitle: 'data_projects.synology_download.media.subtitle',
     link: { label: 'data_projects.synology_download.media.link.label', url: SynologyDownloadDescription.links.store },
@@ -69,7 +67,7 @@ const AboutMeMeda = new Project({
   media: {
     url: 'assets/video/about-me-preview.hevc.mp4',
     type: MimeType.MP4,
-    stylz: 'filter: contrast(1.1)',
+    style: 'filter: brightness(0.8)',
     title: 'data_projects.synology_download.media.title',
     subtitle: 'data_projects.synology_download.media.subtitle',
     link: { label: 'data_projects.synology_download.media.link.label', url: SynologyDownloadDescription.links.store },
@@ -86,6 +84,7 @@ const DvColMeda = new Project({
   media: {
     url: 'assets/video/dv-col-preview.hevc.mp4',
     type: MimeType.MP4,
+    style: 'filter: brightness(0.8)',
     title: 'data_projects.synology_download.media.title',
     subtitle: 'data_projects.synology_download.media.subtitle',
     link: { label: 'data_projects.synology_download.media.link.label', url: SynologyDownloadDescription.links.store },

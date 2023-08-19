@@ -70,7 +70,7 @@
             {#if media.type?.startsWith('video')}
               <video
                 class="tile-card-media-video"
-                style={[media.background ? `background: ${media.background};` : undefined, media.stylz].filter(Boolean).join(' ')}
+                style={[media.background ? `background: ${media.background};` : undefined, media.style].filter(Boolean).join(' ')}
                 autoplay
                 muted
                 loop
