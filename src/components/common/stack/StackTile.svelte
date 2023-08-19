@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte';
   import { derived, writable } from 'svelte/store';
 
   import type { Project, StackTileProps } from '~/models';
@@ -14,6 +15,10 @@
   export let primary: StackTileProps['primary'] = StackTilePrimary.Left;
 
   const open$ = writable(false);
+  const inFlight$ = writable(false);
+
+  let timeout: number;
+  onDestroy(() => clearTimeout(timeout));
 
   const spreadTile = ({ title, subtitle, description, media, links, tags }: Project = {}) => ({
     title,
@@ -34,24 +39,42 @@
 <div
   class="stack-tiles"
   data-id={`stack-tiles-${index}`}
-  use:inView={{ margin: { bottom: $reverse$ ? 700 : 500 } }}
+  use:inView={{ margin: { bottom: $reverse$ ? 700 : 400 } }}
   on:enter={() => {
+    $inFlight$ = true;
     $open$ = true;
+
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      $inFlight$ = false;
+    }, 1000);
   }}
 >
   {#key tiles}
     <Tile
       dataId={`stack-tiles-left-${index}-left`}
-      class={`stack-tile stack-tile-left${$open$ ? ' stack-tile--open' : ''}${
-        $reverse$ || primary === StackTilePrimary.Left ? ' stack-tile--primary' : ''
-      }`}
+      class={[
+        'stack-tile',
+        'stack-tile-left',
+        $open$ ? 'stack-tile--open' : undefined,
+        $inFlight$ ? 'stack-tile--in-flight' : undefined,
+        $reverse$ || primary === StackTilePrimary.Left ? 'stack-tile--primary' : undefined,
+      ]
+        .filter(Boolean)
+        .join(' ')}
       {...spreadTile($tiles.left)}
     />
     <Tile
       dataId={`stack-tiles-${index}-right`}
-      class={`stack-tile stack-tile-right${$open$ ? ' stack-tile--open' : ''}${
-        !$reverse$ && primary === StackTilePrimary.Right ? ' stack-tile--primary' : ''
-      }`}
+      class={[
+        'stack-tile',
+        'stack-tile-right',
+        $open$ ? ' stack-tile--open' : undefined,
+        $inFlight$ ? 'stack-tile--in-flight' : undefined,
+        !$reverse$ && primary === StackTilePrimary.Right ? 'stack-tile--primary' : undefined,
+      ]
+        .filter(Boolean)
+        .join(' ')}
       {...spreadTile($tiles.right)}
     />
   {/key}
@@ -83,6 +106,11 @@
         &:hover,
         &:focus {
           z-index: z-index.$in-foreground;
+        }
+
+        /* stylelint-disable-next-line -- BEM modifier */
+        &--in-flight:not(.stack-tile--primary) {
+          pointer-events: none;
         }
 
         &--primary {
