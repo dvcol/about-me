@@ -8,20 +8,26 @@ export type MarginOptions = {
   top?: number;
   bottom?: number;
 };
+
+export type InViewActionsState = { inView$?: Writable<boolean>; count$?: Writable<number> };
+
 export type InViewActionsParams = {
   margin?: MarginOptions;
   options?: IntersectionObserverInit;
-};
+} & InViewActionsState;
 
-export type InViewEvent = CustomEvent<{ entry: IntersectionObserverEntry; count: number }>;
+export type InViewEvent = { entry: IntersectionObserverEntry; count: number };
 
-export const handleIntersect: (count: Writable<number>) => IntersectionObserverCallback = count => entries => {
-  entries.forEach(entry => {
-    const eventName = entry.isIntersecting ? 'enter' : 'leave';
-    entry.target.dispatchEvent(new CustomEvent(eventName, { detail: { entry, count: get(count) } }));
-    if (eventName === 'enter') count.update(_count => _count + 1);
-  });
-};
+export const handleIntersect: (state: InViewActionsState) => IntersectionObserverCallback =
+  ({ inView$, count$ }) =>
+  entries => {
+    entries.forEach(entry => {
+      const eventName = entry.isIntersecting ? 'enter' : 'leave';
+      entry.target.dispatchEvent(new CustomEvent<InViewEvent>(eventName, { detail: { entry, count: get(count$) } }));
+      if (eventName === 'enter') count$.update(_count => _count + 1);
+      if (inView$) inView$.set(eventName === 'enter');
+    });
+  };
 
 export const parseOptions = (init: IntersectionObserverInit = {}, { right, left, top, bottom }: MarginOptions = {}) => {
   let rootMargin: string;
@@ -35,11 +41,9 @@ export const parseOptions = (init: IntersectionObserverInit = {}, { right, left,
   return { rootMargin, ...init };
 };
 
-export const setObserver = (_node: Element, _observer: IntersectionObserver, { margin, options }: InViewActionsParams) => {
+export const setObserver = (_node: Element, _observer: IntersectionObserver, { margin, options, inView$, count$ }: InViewActionsParams) => {
   if (_observer) _observer.disconnect();
-  const count = writable(0);
-
-  _observer = new IntersectionObserver(handleIntersect(count), parseOptions(options, margin));
+  _observer = new IntersectionObserver(handleIntersect({ count$: count$ ?? writable(0), inView$ }), parseOptions(options, margin));
   _observer.observe(_node);
   return _observer;
 };
@@ -58,7 +62,7 @@ export const setObserver = (_node: Element, _observer: IntersectionObserver, { m
  * @param params Optional parameters to manage trigger zone
  */
 export const inView = (node: Element, params: InViewActionsParams = {}) => {
-  let observer;
+  let observer: IntersectionObserver;
   setObserver(node, observer, params);
   return {
     update(_params: InViewActionsParams) {

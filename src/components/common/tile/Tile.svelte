@@ -257,6 +257,7 @@
 
             margin-top: -0.5rem;
             color: colors.$tertiary;
+            font-weight: bold;
           }
 
           ul {

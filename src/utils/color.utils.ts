@@ -3,5 +3,6 @@ export const getRandomColor = () => `#${Math.floor(Math.random() * 16777215).toS
 export enum Colors {
   primary = '#ff3e00',
   secondary = '#de8952',
-  tertiary = '#ffc8a4',
+  tertiary = '#ddc4a4',
+  background = '#2a2b30',
 }
