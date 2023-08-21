@@ -8,6 +8,7 @@
   </div>
   <div class="section_main">
     <slot name="main" />
+    <slot />
   </div>
 </section>
 

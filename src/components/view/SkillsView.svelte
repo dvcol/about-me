@@ -14,7 +14,7 @@
   import { inView } from '~/actions';
   import { Animation, hasChildren, Header, ScrollShadow, spliceNode, SunBurst, Tag } from '~/components/common';
 
-  import { Section } from '~/components/layout';
+  import { Paragraph, Section } from '~/components/layout';
   import { HeaderLink, skills } from '~/data';
   import { useSkillsStore } from '~/stores';
   import { BreakPoints, useMediaQuery } from '~/utils';
@@ -128,6 +128,7 @@
 <Section fullscreen={$isFullScreen$}>
   <svelte:fragment slot="header">
     <Header id={HeaderLink.Skills} title="skills.title" />
+    <Paragraph text={'data_projects.introduction'} />
   </svelte:fragment>
 
   <div
