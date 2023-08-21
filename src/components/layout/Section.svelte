@@ -16,7 +16,7 @@
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    padding-bottom: 2rem;
+    padding-bottom: 3rem;
 
     &.fullscreen {
       min-height: 100dvh;

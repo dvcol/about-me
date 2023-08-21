@@ -108,6 +108,19 @@ export const state = new Skill({
   children: [rxjs, redux, context],
 });
 
+export const workbox = new Skill({ name: 'Workbox' });
+export const vitePwa = new Skill({ name: 'Vite Pwa' });
+export const preCaching = new Skill({ name: 'Pre Caching' });
+export const backgroundSync = new Skill({ name: 'Background Sync' });
+export const pushNotification = new Skill({ name: 'Push Notification' });
+export const indexDb = new Skill({ name: 'Index Db' });
+export const mobileWebApp = new Skill({ name: 'Installable Web App' });
+
+export const pwa = new Skill({
+  name: 'Progressive Web App',
+  children: [workbox, vitePwa, preCaching, backgroundSync, pushNotification, indexDb, mobileWebApp],
+});
+
 export const jest = new Skill({ name: 'Jest' });
 export const junit = new Skill({ name: 'JUnit' });
 export const typescript = new Skill({ name: 'Typescript' });
@@ -122,7 +135,7 @@ export const quality = new Skill({
 
 export const frontend = new Skill({
   name: 'Frontend',
-  children: [angular, vue, svelte, react, solid, stencil, webEx, microFrontend, animation, css, bundler, state, quality],
+  children: [angular, vue, svelte, react, solid, stencil, webEx, pwa, microFrontend, animation, css, bundler, state, quality],
 });
 
 export const jhipster = new Skill({ name: 'Jhipster' });

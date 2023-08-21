@@ -1,15 +1,44 @@
 {
+  "introduction": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultricies leo integer malesuada nunc vel risus. Turpis egestas pretium aenean pharetra. Viverra mauris in aliquam sem fringilla. Est ullamcorper eget nulla facilisi etiam dignissim diam quis. Risus ultricies tristique nulla aliquet enim. Nam aliquam sem et tortor consequat id porta nibh venenatis. Proin fermentum leo vel orci porta non. Eu volutpat odio facilisis mauris sit amet. Sollicitudin tempor id eu nisl nunc mi ipsum faucibus. Pellentesque eu tincidunt tortor aliquam. Dui vivamus arcu felis bibendum ut tristique et. Risus in hendrerit gravida rutrum. Purus in mollis nunc sed id. Fames ac turpis egestas integer eget. Nunc sed augue lacus viverra vitae congue eu consequat ac. Consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat. Ut enim blandit volutpat maecenas volutpat. Blandit cursus risus at ultrices. Lectus mauris ultrices eros in cursus.",
   "synology_download": {
     "description": {
       "title": "Synology Download",
-      "subtitle": "Chrome extension to manage Synology NAS",
+      "subtitle": "React powered mv3 web extension",
       "description": "<p>\n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n Ultricies leo integer malesuada nunc vel risus.\n Turpis egestas pretium aenean pharetra. Viverra mauris in aliquam sem fringilla.\n Est ullamcorper eget nulla facilisi etiam dignissim diam quis.\n Risus ultricies tristique nulla aliquet enim. Nam aliquam sem et tortor consequat id porta nibh venenatis. Proin fermentum leo vel orci porta non.\n Eu volutpat odio facilisis mauris sit amet. Sollicitudin tempor id eu nisl nunc mi ipsum faucibus.\n Pellentesque eu tincidunt tortor aliquam. Dui vivamus arcu felis bibendum ut tristique et.\n Risus in hendrerit gravida rutrum. Purus in mollis nunc sed id.\n Fames ac turpis egestas integer eget. Nunc sed augue lacus viverra vitae congue eu consequat ac.\n Consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat.\n Ut enim blandit volutpat maecenas volutpat.\n Blandit cursus risus at ultrices. Lectus mauris ultrices eros in cursus.\n </p>\n\n <p>\n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n Ultricies leo integer malesuada nunc vel risus.\n Turpis egestas pretium aenean pharetra. Viverra mauris in aliquam sem fringilla.\n Est ullamcorper eget nulla facilisi etiam dignissim diam quis.\n Risus ultricies tristique nulla aliquet enim. Nam aliquam sem et tortor consequat id porta nibh venenatis. Proin fermentum leo vel orci porta non.\n Eu volutpat odio facilisis mauris sit amet. Sollicitudin tempor id eu nisl nunc mi ipsum faucibus.\n Pellentesque eu tincidunt tortor aliquam. Dui vivamus arcu felis bibendum ut tristique et.\n Risus in hendrerit gravida rutrum. Purus in mollis nunc sed id.\n Fames ac turpis egestas integer eget. Nunc sed augue lacus viverra vitae congue eu consequat ac.\n Consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat.\n Ut enim blandit volutpat maecenas volutpat.\n Blandit cursus risus at ultrices. Lectus mauris ultrices eros in cursus.\n </p>"
     },
     "media": {
-      "title": "Synology Demo",
-      "subtitle": "A chrome extension for Synology NAS",
+      "title": "Synology Download",
+      "subtitle": "Chrome extension for managing Synology NAS",
       "link": {
         "label": "See it in the chrome store"
+      }
+    }
+  },
+  "about_me": {
+    "description": {
+      "title": "About Me",
+      "subtitle": "Svelte powered lazy loaded micro-frontend",
+      "description": "<p>\n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n Ultricies leo integer malesuada nunc vel risus.\n Turpis egestas pretium aenean pharetra. Viverra mauris in aliquam sem fringilla.\n Est ullamcorper eget nulla facilisi etiam dignissim diam quis.\n Risus ultricies tristique nulla aliquet enim. Nam aliquam sem et tortor consequat id porta nibh venenatis. Proin fermentum leo vel orci porta non.\n Eu volutpat odio facilisis mauris sit amet. Sollicitudin tempor id eu nisl nunc mi ipsum faucibus.\n Pellentesque eu tincidunt tortor aliquam. Dui vivamus arcu felis bibendum ut tristique et.\n Risus in hendrerit gravida rutrum. Purus in mollis nunc sed id.\n Fames ac turpis egestas integer eget. Nunc sed augue lacus viverra vitae congue eu consequat ac.\n Consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat.\n Ut enim blandit volutpat maecenas volutpat.\n Blandit cursus risus at ultrices. Lectus mauris ultrices eros in cursus.\n </p>\n\n <p>\n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n Ultricies leo integer malesuada nunc vel risus.\n Turpis egestas pretium aenean pharetra. Viverra mauris in aliquam sem fringilla.\n Est ullamcorper eget nulla facilisi etiam dignissim diam quis.\n Risus ultricies tristique nulla aliquet enim. Nam aliquam sem et tortor consequat id porta nibh venenatis. Proin fermentum leo vel orci porta non.\n Eu volutpat odio facilisis mauris sit amet. Sollicitudin tempor id eu nisl nunc mi ipsum faucibus.\n Pellentesque eu tincidunt tortor aliquam. Dui vivamus arcu felis bibendum ut tristique et.\n Risus in hendrerit gravida rutrum. Purus in mollis nunc sed id.\n Fames ac turpis egestas integer eget. Nunc sed augue lacus viverra vitae congue eu consequat ac.\n Consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat.\n Ut enim blandit volutpat maecenas volutpat.\n Blandit cursus risus at ultrices. Lectus mauris ultrices eros in cursus.\n </p>"
+    },
+    "media": {
+      "title": "About Me",
+      "subtitle": "Svelte powered interactive portfolio",
+      "link": {
+        "label": "See the code on github"
+      }
+    }
+  },
+  "dv_col": {
+    "description": {
+      "title": "Project Showcase",
+      "subtitle": "SolidJs powered multi-framework shell",
+      "description": "<p>\n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n Ultricies leo integer malesuada nunc vel risus.\n Turpis egestas pretium aenean pharetra. Viverra mauris in aliquam sem fringilla.\n Est ullamcorper eget nulla facilisi etiam dignissim diam quis.\n Risus ultricies tristique nulla aliquet enim. Nam aliquam sem et tortor consequat id porta nibh venenatis. Proin fermentum leo vel orci porta non.\n Eu volutpat odio facilisis mauris sit amet. Sollicitudin tempor id eu nisl nunc mi ipsum faucibus.\n Pellentesque eu tincidunt tortor aliquam. Dui vivamus arcu felis bibendum ut tristique et.\n Risus in hendrerit gravida rutrum. Purus in mollis nunc sed id.\n Fames ac turpis egestas integer eget. Nunc sed augue lacus viverra vitae congue eu consequat ac.\n Consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat.\n Ut enim blandit volutpat maecenas volutpat.\n Blandit cursus risus at ultrices. Lectus mauris ultrices eros in cursus.\n </p>\n\n <p>\n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n Ultricies leo integer malesuada nunc vel risus.\n Turpis egestas pretium aenean pharetra. Viverra mauris in aliquam sem fringilla.\n Est ullamcorper eget nulla facilisi etiam dignissim diam quis.\n Risus ultricies tristique nulla aliquet enim. Nam aliquam sem et tortor consequat id porta nibh venenatis. Proin fermentum leo vel orci porta non.\n Eu volutpat odio facilisis mauris sit amet. Sollicitudin tempor id eu nisl nunc mi ipsum faucibus.\n Pellentesque eu tincidunt tortor aliquam. Dui vivamus arcu felis bibendum ut tristique et.\n Risus in hendrerit gravida rutrum. Purus in mollis nunc sed id.\n Fames ac turpis egestas integer eget. Nunc sed augue lacus viverra vitae congue eu consequat ac.\n Consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat.\n Ut enim blandit volutpat maecenas volutpat.\n Blandit cursus risus at ultrices. Lectus mauris ultrices eros in cursus.\n </p>"
+    },
+    "media": {
+      "title": "Project Showcase",
+      "subtitle": "SolidJs powered project showcase",
+      "link": {
+        "label": "See the code on github"
       }
     }
   }
