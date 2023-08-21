@@ -58,6 +58,7 @@
         'stack-tile-left',
         $open$ ? 'stack-tile--open' : undefined,
         $inFlight$ ? 'stack-tile--in-flight' : undefined,
+        $reverse$ ? 'stack-tile--reverse' : undefined,
         $reverse$ || primary === StackTilePrimary.Left ? 'stack-tile--primary' : undefined,
       ]
         .filter(Boolean)
@@ -71,6 +72,7 @@
         'stack-tile-right',
         $open$ ? ' stack-tile--open' : undefined,
         $inFlight$ ? 'stack-tile--in-flight' : undefined,
+        $reverse$ ? 'stack-tile--reverse' : undefined,
         !$reverse$ && primary === StackTilePrimary.Right ? 'stack-tile--primary' : undefined,
       ]
         .filter(Boolean)
@@ -119,6 +121,11 @@
 
         &-left {
           translate: 40%;
+
+          /* stylelint-disable-next-line -- BEM modifier */
+          &.stack-tile--reverse {
+            translate: 0;
+          }
 
           .tile-card {
             transform-origin: right;
