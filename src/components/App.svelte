@@ -1,8 +1,20 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+
   import { I18nProvider, LazyComponent } from '~/components/common';
   import { useApp } from '~/stores';
 
-  const { app$ } = useApp();
+  export let container: string;
+
+  const { app$, container$ } = useApp();
+
+  onMount(() => {
+    if (container) {
+      $container$ = document.getElementById(container);
+    } else {
+      $container$ = document;
+    }
+  });
 </script>
 
 <article id="app" bind:this={$app$}>

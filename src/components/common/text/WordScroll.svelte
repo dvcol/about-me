@@ -15,7 +15,7 @@
 
   let ref: HTMLParagraphElement;
 
-  const { app$ } = useApp();
+  const { container$ } = useApp();
   const inView$ = writable(false);
 
   const textProgress$ = writable(0);
@@ -38,11 +38,9 @@
 
   $: {
     if ($inView$) {
-      $app$.addEventListener('wheel', onScroll);
-      $app$.addEventListener('touchmove', onScroll);
+      $container$.addEventListener('scroll', onScroll);
     } else {
-      $app$.removeEventListener('wheel', onScroll);
-      $app$.removeEventListener('touchmove', onScroll);
+      $container$.removeEventListener('scroll', onScroll);
     }
   }
 
