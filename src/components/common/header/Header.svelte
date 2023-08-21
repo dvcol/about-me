@@ -20,7 +20,7 @@
     $visible$ = true;
   }}
 >
-  <TypeWriter value={$_(title)} />
+  <TypeWriter class="header-text" value={$_(title)} />
   <slot />
 </h1>
 
@@ -54,8 +54,8 @@
       font-size: 3em;
       scroll-margin-top: 2rem;
 
-      &-text::after {
-        height: 2.5rem;
+      :global(.header-text::after) {
+        height: 2.75rem;
       }
     }
 
@@ -67,8 +67,8 @@
     @media screen and (max-width: breakpoint.$tablet + px) {
       font-size: 2.5em;
 
-      &-text::after {
-        height: 2rem;
+      :global(.header-text::after) {
+        height: 2.5rem;
       }
 
       &::after {

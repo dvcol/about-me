@@ -25,7 +25,7 @@
 </script>
 
 <span
-  class={['type-writer', className].filter(Boolean).join('')}
+  class={['type-writer', className].filter(Boolean).join(' ')}
   style={`--step: ${step}ms`}
   use:inView={{ margin: { bottom: 200 } }}
   on:enter={() => {
@@ -44,7 +44,9 @@
   @use 'src/theme/breakpoint';
 
   .type-writer {
-    --step: 80ms;
+    display: inline-flex;
+
+    --step: 100ms;
 
     &-letter {
       display: inline-block;
@@ -67,8 +69,9 @@
 
     &::after {
       display: inline-block;
+      align-self: center;
       width: 4px;
-      height: 3.25rem;
+      height: 3.5rem;
       margin-left: 0.25rem;
       background: colors.$primary;
       opacity: 0;
