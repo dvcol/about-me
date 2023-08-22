@@ -126,8 +126,10 @@
           <h3 class="mdc-typography--subtitle2">{$_(subtitle)}</h3>
         {/if}
         {#if description}
-          <!-- eslint-disable-next-line svelte/no-at-html-tags -- html is sanitized -->
-          {@html DomPurify.sanitize($_(description), { USE_PROFILES: { html: true } })}
+          <p class="tile-card-content-description">
+            <!-- eslint-disable-next-line svelte/no-at-html-tags -- html is sanitized -->
+            {@html DomPurify.sanitize($_(description), { USE_PROFILES: { html: true } })}
+          </p>
         {/if}
       </Content>
     {/if}
@@ -272,6 +274,10 @@
             &-title {
               font-size: 1.1em;
             }
+          }
+
+          &-description {
+            white-space: pre-line;
           }
 
           ul {
