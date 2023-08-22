@@ -1,3 +1,4 @@
 {
-  "title": "My projects"
+  "title": "My projects",
+  "introduction": "Driven by my curiosity and desire to remain at the forefront of web development, I like to try my hand at new and emerging frontend frameworks and libraries as well as the latest tools and methodologies surrounding them. This has led me to experiment with a wide array of frontend technologies, including React, Svelte, Vue, Solid, Vite, Webpack and more. \n\nOften in the search of an excuse to try out the latest trend, I've created a collection of small open-source applications, each tailored to harness the strengths of a particular framework or language. You can freely experience these projects on GitHub or through web-based demos.\n\nThese diverse projects not only showcase my commitment to embracing new trends but also underscore my enthusiasm for addressing multifaceted challenges in the field of web development."
 }

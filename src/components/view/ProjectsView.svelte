@@ -11,7 +11,7 @@
 <Section>
   <svelte:fragment slot="header">
     <Header id={HeaderLink.Projects} title="projects.title" />
-    <Paragraph text={'data_projects.introduction'} />
+    <Paragraph text={'projects.introduction'} />
   </svelte:fragment>
 
   <svelte:fragment slot="main">

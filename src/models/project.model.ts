@@ -64,6 +64,7 @@ export type ProjectMedia = {
 
 export class Project {
   readonly id: string;
+  readonly meta?: string;
   readonly title?: string;
   readonly subtitle?: string;
   readonly description?: string;
@@ -77,6 +78,7 @@ export class Project {
 
   constructor(props?: Omit<Project, 'id'>) {
     this.id = uuid();
+    this.meta = props?.meta;
     this.title = props?.title;
     this.subtitle = props?.subtitle;
     this.description = props?.description;

@@ -1,8 +1,8 @@
 <script lang="ts">
   import ChevronSvg from 'line-md/svg/chevron-double-down.svg?component';
   import { onMount } from 'svelte';
-
   import { writable } from 'svelte/store';
+  import { _ } from 'svelte-i18n';
 
   import LogoSvg from '~/assets/dvco.svg?component';
 
@@ -54,14 +54,14 @@
           </div>
         </div>
         <div class="hero-main-text" class:visible={$visible$}>
-          <div>Dinh-Van Colomban</div>
+          <div>{$_('hero.title')}</div>
           <WordTicker
             words={[
-              'Developer',
-              { value: 'Frontend', color: '#eb6700' },
-              { value: 'Fullstack', color: '#f3ce00' },
-              { value: 'Devops', color: '#4295d2' },
-              { value: 'Extension', color: '#34a853' },
+              $_('hero.ticker.developer'),
+              { value: $_('hero.ticker.frontend'), color: '#eb6700' },
+              { value: $_('hero.ticker.fullstack'), color: '#f3ce00' },
+              { value: $_('hero.ticker.devops'), color: '#4295d2' },
+              { value: $_('hero.ticker.extension'), color: '#34a853' },
             ]}
           />
         </div>

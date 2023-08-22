@@ -6,7 +6,7 @@
   import { educations } from '~/data/education.data';
   import { jobs } from '~/data/jobs.data.js';
 
-  const mapTileProps = <T extends Project>({ title, subtitle, description, logo, links, tags, duration, address }: T = {}): TimelineTileProps => ({
+  const mapTileProps = <T extends Project>({
     title,
     subtitle,
     description,
@@ -15,13 +15,24 @@
     tags,
     duration,
     address,
+    meta,
+  }: T = {}): TimelineTileProps => ({
+    title,
+    subtitle,
+    description,
+    logo,
+    links,
+    tags,
+    duration,
+    address,
+    meta,
   });
 </script>
 
 <Section>
   <svelte:fragment slot="header">
     <Header id={HeaderLink.AboutMe} title="timeline.title" />
-    <Paragraph text={'data_projects.introduction'} />
+    <Paragraph text={'timeline.introduction'} />
   </svelte:fragment>
 
   <svelte:fragment slot="main">

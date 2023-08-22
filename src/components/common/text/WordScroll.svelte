@@ -79,6 +79,7 @@
     --max: 1;
 
     &-word {
+      white-space: pre-line;
       opacity: var(--min);
       transition: opacity 200ms;
       will-change: opacity;

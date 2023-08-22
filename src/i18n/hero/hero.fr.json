@@ -1,3 +1,10 @@
 {
-  "title": "Hero section"
+  "title": "Dinh-Van Colomban",
+  "ticker": {
+    "developer": "Developer",
+    "frontend": "Frontend",
+    "fullstack": "Fullstack",
+    "devops": "Devops",
+    "extension": "Web extension"
+  }
 }

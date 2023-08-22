@@ -58,6 +58,8 @@ const contentSquare2023 = new Job({
     new Mission({
       employer: Ippon,
       client: ContentSquare,
+      meta: ContentSquare.title,
+      links: ContentSquare.links,
       duration: new ProjectDuration({
         start: new Date('2021-09'),
       }),
@@ -112,7 +114,9 @@ const sopraSteria2017 = new Job({
     new Mission({
       employer: SopraSteria,
       client: MEA,
+      meta: MEA.title,
       logo: MEA.logo,
+      links: MEA.links,
       duration: new ProjectDuration({
         start: new Date('2020-01'),
         end: new Date('2021-08'),
@@ -130,7 +134,9 @@ const sopraSteria2017 = new Job({
     new Mission({
       employer: SopraSteria,
       client: SEA,
+      meta: SEA.title,
       logo: SEA.logo,
+      links: SEA.links,
       duration: new ProjectDuration({
         start: new Date('2019-01'),
         end: new Date('2020-01'),
@@ -148,7 +154,9 @@ const sopraSteria2017 = new Job({
     new Mission({
       employer: SopraSteria,
       client: DGA,
+      meta: DGA.title,
       logo: DGA.logo,
+      links: DGA.links,
       duration: new ProjectDuration({
         start: new Date('2017-09'),
         end: new Date('2019-01'),
@@ -172,6 +180,7 @@ export const hospinomics2015 = new Job({
     new Mission({
       employer: Hospinomics,
       client: Hospinomics,
+      links: Hospinomics.links,
       duration: new ProjectDuration({
         start: new Date('2015-10'),
         end: new Date('2016-11'),

@@ -38,6 +38,7 @@
 
   export let duration: ProjectDuration = null;
   export let address: Address = null;
+  export let meta: string = null;
 
   const dispatch = createEventDispatcher();
 
@@ -109,8 +110,17 @@
         {#if title}
           <h2 class="mdc-typography--headline6">{$_(title)}</h2>
         {/if}
-        {#if address || duration}
-          <p class="tile-card-content-meta">{[address?.short, duration?.range].filter(Boolean).join(' | ')}</p>
+        {#if address || duration || meta}
+          <p class="tile-card-content-meta">
+            {#if meta}
+              <span class="tile-card-content-meta-title">{$_(meta)}</span>
+            {/if}
+            {#if address || duration}
+              <span class="tile-card-content-meta-description"
+                >{[meta ? ' ' : undefined, address?.short, duration?.range].filter(Boolean).join(' | ')}</span
+              >
+            {/if}
+          </p>
         {/if}
         {#if subtitle}
           <h3 class="mdc-typography--subtitle2">{$_(subtitle)}</h3>
@@ -258,6 +268,10 @@
             margin-top: -0.5rem;
             color: colors.$tertiary;
             font-weight: bold;
+
+            &-title {
+              font-size: 1.1em;
+            }
           }
 
           ul {

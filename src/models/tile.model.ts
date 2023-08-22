@@ -4,6 +4,7 @@ import type { ProjectDuration, ProjectLinks, ProjectMedia, ProjectTags } from '~
 export type TileProps = {
   class?: string;
   style?: string;
+  meta?: string;
   title?: string;
   subtitle?: string;
   description?: string;

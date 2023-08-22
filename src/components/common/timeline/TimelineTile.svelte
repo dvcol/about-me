@@ -263,7 +263,7 @@
       }
 
       @media screen and (min-width: breakpoint.$laptop-min + px) {
-        .tile-card-content-meta {
+        .tile-card-content-meta-description {
           display: none;
         }
       }

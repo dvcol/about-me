@@ -128,7 +128,7 @@
 <Section fullscreen={$isFullScreen$}>
   <svelte:fragment slot="header">
     <Header id={HeaderLink.Skills} title="skills.title" />
-    <Paragraph text={'data_projects.introduction'} />
+    <Paragraph text={'skills.introduction'} />
   </svelte:fragment>
 
   <div
