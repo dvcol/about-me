@@ -2,22 +2,22 @@
   "contentsquare": {
     "title": "Fullstack Frontend Developer - Application Research & Development",
     "subtitle": "Core application team member with focus on frontend and ci-cd topics",
-    "description": "<span>Inside the core application team I've contributed to:</span>\n <ul>\n <li>The migration from a angularJs monolith to a micro-frontend, multi-framework (vue, svelte, stencil, angular) shell architecture</li>\n <li>The creation of a svelte based, web-component based, and module federated shell application</li>\n <li>The modernisation of the mono-repo ci-cd chain with code quality and test coverage automation</li>\n <li>The migration from a linear jenkins ci pipeline to a multi-threaded github action workflow</li>\n </ul> "
+    "description": "Inside the core application team I've contributed to:\n <ul>\n <li>The migration from a angularJs monolith to a micro-frontend, multi-framework (vue, svelte, stencil, angular) shell architecture</li>\n <li>The creation of a svelte based, web-component based, and module federated shell application</li>\n <li>The modernisation of the mono-repo ci-cd chain with code quality and test coverage automation</li>\n <li>The migration from a linear jenkins ci pipeline to a multi-threaded github action workflow</li>\n </ul> "
   },
   "mea": {
     "title": "Fullstack Developer - Angular / Java",
     "subtitle": "Agile developer working on frontend and backend micro services",
-    "description": "<p>For the creation a new unified information system for the ministry of armed forces, I helped in the design and development of a new micro service backend and a frontend portal.</p>\n <span>The mission included:</span>\n <ul>\n <li>The development of spring based micro services (using the jhipster stack)\n <li>The development of frontend UI modules\n <li>The creation of a custom no-code form generator\n <li>The implementation of a secure intra-net/inter-net micro service bridge\n </ul>"
+    "description": "For the creation a new unified information system for the ministry of armed forces, I helped in the design and development of a new micro service backend and a frontend portal. \n\n The mission included:\n <ul>\n <li>The development of spring based micro services (using the jhipster stack)\n <li>The development of frontend UI modules\n <li>The creation of a custom no-code form generator\n <li>The implementation of a secure intra-net/inter-net micro service bridge\n </ul>"
   },
   "sea": {
     "title": "Fullstack Developer - Java / Angular",
     "subtitle": "Lead developer in charge of the frontend portal",
-    "description": "<p>In the context of the creation of a new digital platform for the SEA (Système Centralisé d'Appui à la Logistique Pétrolière), I contributed to the creation of a new frontend portal for ordering and following product delivery.</p>\n <span>The mission involved:</span>\n <ul>\n <li>Analysing operational needs and requirements\n <li>Redaction of technical conceptions and specification\n <li>Developing backend services to bridge Soap endpoints with REST micro services\n <li>Developing frontend UI modules\n </ul>"
+    "description": "In the context of the creation of a new digital platform for the SEA (Système Centralisé d'Appui à la Logistique Pétrolière), I contributed to the creation of a new frontend portal for ordering and following product delivery.\n\n The mission involved:\n <ul>\n <li>Analysing operational needs and requirements\n <li>Redaction of technical conceptions and specification\n <li>Developing backend services to bridge Soap endpoints with REST micro services\n <li>Developing frontend UI modules\n </ul>"
   },
   "dga": {
     "title": "Backend Developer - Java",
     "subtitle": "Interchange services developer in charge of batch Processing flat file transfers",
-    "description": "<p>Within the interchange team, I contributed to the development of a centralized batch processing application tasked with computing the compensation for the four armed forces military personnels.</p>\n <span>The mission involved:</span>\n <ul>\n <li>Development of Spring Batch processing nodes to ingest and standardized flat file pay slips\n <li>Optimisation of the parallel processing of multiple asynchronous data steams\n <li>Software delivery and installation support\n </ul>"
+    "description": "Within the interchange team, I contributed to the development of a centralized batch processing application tasked with computing the compensation for the four armed forces military personnels.\n\n The mission involved:\n <ul>\n <li>Development of Spring Batch processing nodes to ingest and standardized flat file pay slips\n <li>Optimisation of the parallel processing of multiple asynchronous data steams\n <li>Software delivery and installation support\n </ul>"
   },
   "hospinomics": {
     "title": "Research assistant",

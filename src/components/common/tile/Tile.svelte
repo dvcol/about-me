@@ -261,7 +261,7 @@
           h3 {
             @include line-clamp(4);
 
-            margin: 0 0 1rem;
+            margin: 0 0 0.25rem;
           }
 
           &-meta {
@@ -284,6 +284,7 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            margin-bottom: 0;
           }
         }
 
