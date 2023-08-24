@@ -53,7 +53,7 @@ jobs:
           pnpm run release:changelog
 
       - name: Fetch latest tag
-        if: ${{ github.event.inputs.tag-name == '' }}
+        if: ${{ inputs.tag-name == '' }}
         id: latest-tag
         run: |
           # =================  Fetch tag  =================
@@ -65,7 +65,7 @@ jobs:
       - name: Push Release to github
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.event.inputs.tag-name || steps.latest-tag.outputs.TAG_NAME }}
+          tag_name: ${{ inputs.tag-name || steps.latest-tag.outputs.TAG_NAME }}
           body_path: RELEASE.md
 
       - uses: actions/cache/save@v3
