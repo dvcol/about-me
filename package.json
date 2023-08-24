@@ -82,6 +82,7 @@
     "eslint-plugin-markdown": "^2.2.1",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-svelte": "^2.32.2",
+    "eslint-plugin-vitest": "^0.2.8",
     "eslint-plugin-yml": "^1.0.0",
     "extract-changelog-release": "^1.0.2",
     "husky": "^8.0.3",
