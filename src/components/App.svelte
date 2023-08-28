@@ -4,7 +4,7 @@
   import { I18nProvider, LazyComponent } from '~/components/common';
   import { useApp } from '~/stores';
 
-  export let container: string;
+  export let container: string = null;
 
   const { app$, container$ } = useApp();
 
@@ -18,22 +18,23 @@
 </script>
 
 <article id="app" bind:this={$app$}>
-  <I18nProvider />
-  <LazyComponent component={import('~/components/view/HeroView.svelte')}>
-    <slot name="hero" />
-  </LazyComponent>
-  <LazyComponent component={import('~/components/view/ProjectsView.svelte')}>
-    <slot name="projects" />
-  </LazyComponent>
-  <LazyComponent component={import('~/components/view/SkillsView.svelte')}>
-    <slot name="skills" />
-  </LazyComponent>
-  <LazyComponent component={import('~/components/view/TimelineView.svelte')}>
-    <slot name="timeline" />
-  </LazyComponent>
-  <LazyComponent component={import('~/components/view/ContactView.svelte')}>
-    <slot name="contact" />
-  </LazyComponent>
+  <I18nProvider>
+    <LazyComponent component={import('~/components/view/HeroView.svelte')}>
+      <slot name="hero" />
+    </LazyComponent>
+    <LazyComponent component={import('~/components/view/ProjectsView.svelte')}>
+      <slot name="projects" />
+    </LazyComponent>
+    <LazyComponent component={import('~/components/view/SkillsView.svelte')}>
+      <slot name="skills" />
+    </LazyComponent>
+    <LazyComponent component={import('~/components/view/TimelineView.svelte')}>
+      <slot name="timeline" />
+    </LazyComponent>
+    <LazyComponent component={import('~/components/view/ContactView.svelte')}>
+      <slot name="contact" />
+    </LazyComponent>
+  </I18nProvider>
 </article>
 
 <style lang="scss" global>
