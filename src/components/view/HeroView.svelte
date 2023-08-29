@@ -208,16 +208,28 @@
       background-position: 0 0;
     }
 
-    25% {
-      background-position: 50% 50%;
+    20% {
+      background-position: 0 50%;
     }
 
-    50% {
+    40% {
       background-position: 100% 50%;
     }
 
+    50% {
+      background-position: 100% 75%;
+    }
+
+    60% {
+      background-position: 100% 50%;
+    }
+
+    80% {
+      background-position: 0 50%;
+    }
+
     100% {
-      background-position: 0% 50%;
+      background-position: 0 0;
     }
   }
 </style>
