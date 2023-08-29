@@ -31,14 +31,14 @@ jobs:
       url: https://dvcol.github.io/about-me/
 
     steps:
+      - name: Checkout branch ${{ github.ref }}
+        uses: actions/checkout@v3
+
       - uses: actions/cache/restore@v3
         id: cache
         with:
           path: dist
           key: ${{ github.ref }}-${{ github.run_id }}-build
-
-      - name: Checkout branch ${{ github.ref }}
-        uses: actions/checkout@v3
 
       - name: Build
         if: ${{ steps.cache.outputs.cache-hit != 'true' }}
