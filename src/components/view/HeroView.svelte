@@ -1,9 +1,10 @@
 <script lang="ts">
   import ChevronSvg from 'line-md/svg/chevron-double-down.svg?component';
-  import { onMount } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import { writable } from 'svelte/store';
   import { _ } from 'svelte-i18n';
 
+  import AvatarSvg from '~/assets/avatar.svg?component';
   import LogoSvg from '~/assets/dvco.svg?component';
 
   import { Navbar, Section, WordTicker } from '~/components';
@@ -13,15 +14,59 @@
   import { onTilt } from '~/utils/mouse.utils';
 
   const visible$ = writable(false);
+  const inFlight$ = writable(false);
   const tilted$ = writable(false);
   const scrolled$ = writable(false);
 
   const { app$ } = useApp();
 
+  const flipped$ = writable(false);
+  const flipping$ = writable(false);
+
+  let timeoutFlip: number;
+
+  const flipped = () => {
+    clearTimeout(timeoutFlip);
+    timeoutFlip = setTimeout(() => {
+      $inFlight$ = false;
+    }, 250);
+  };
+
+  const flipping = () => {
+    clearTimeout(timeoutFlip);
+    timeoutFlip = setTimeout(() => {
+      $flipping$ = false;
+      $flipped$ = !$flipped$;
+      flipped();
+    }, 250);
+  };
+
+  const flip = () => {
+    $inFlight$ = true;
+    $flipping$ = true;
+    flipping();
+  };
+
+  let visibleTimeout: number;
+  let inFlightTimeout: number;
+  let flipInterval: number;
+
   onMount(() => {
-    setTimeout(() => {
+    flipInterval = setInterval(flip, 20000);
+    visibleTimeout = setTimeout(() => {
+      $inFlight$ = true;
       $visible$ = true;
+
+      inFlightTimeout = setTimeout(() => {
+        $inFlight$ = false;
+      }, 750);
     }, 100);
+  });
+
+  onDestroy(() => {
+    clearTimeout(visibleTimeout);
+    clearTimeout(inFlightTimeout);
+    clearInterval(flipInterval);
   });
 </script>
 
@@ -49,8 +94,23 @@
       </div>
       <div class="hero-main-ticker">
         <div class="hero-main-logo-container">
-          <div id="hero-main-logo" class="hero-main-logo" class:visible={$visible$} class:tilted={$tilted$}>
-            <LogoSvg />
+          <div
+            id="hero-main-logo"
+            role="button"
+            tabindex="0"
+            class="hero-main-logo"
+            class:visible={$visible$}
+            class:in-flight={$inFlight$}
+            class:tilted={$tilted$}
+            class:flipping={$flipping$}
+            on:click={flip}
+            on:keydown={flip}
+          >
+            {#if $flipped$}
+              <AvatarSvg class="hero-main-logo-avatar" />
+            {:else}
+              <LogoSvg class="hero-main-logo-dvco" />
+            {/if}
           </div>
         </div>
         <div class="hero-main-text" class:visible={$visible$}>
@@ -114,6 +174,7 @@
         color: inherit;
         text-decoration: none;
         cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
       }
 
       &.visible {
@@ -153,6 +214,7 @@
       overflow: hidden;
       background: linear-gradient(320deg, rgb(255 255 255 / 10%) 0%, rgb(255 255 255 / 20%) 100%);
       border-radius: 50%;
+      outline: none;
       box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%);
       transform: rotateY(90deg);
       transform-origin: bottom;
@@ -161,26 +223,65 @@
       transition: transform 0.75s ease-out, scale 0.75s, opacity 0.75s;
       will-change: transform, scale, opacity;
       scale: 0.5;
+      -webkit-tap-highlight-color: transparent;
 
       &-container {
         perspective: 1000px;
+      }
+
+      &-svg {
+        display: flex;
+      }
+
+      :global &-avatar {
+        width: 16rem;
+        height: 16rem;
+        border-radius: 50%;
+      }
+
+      :global &-dvco {
+        width: 12rem;
+        height: 12rem;
+        padding: 2rem;
       }
 
       &.visible {
         transform: rotateX(0) rotateY(0) rotateZ(0);
         opacity: 1;
         scale: 1;
+
+        &:hover,
+        &:focus {
+          cursor: pointer;
+        }
       }
 
       &.tilted {
         transform-origin: center;
-        transition: transform 2s ease-out, scale 0.75s, opacity 0.75s;
+
+        &.in-flight {
+          transition: transform 0.25s ease-out, scale 2s, opacity 0.75s;
+        }
+
+        &:not(.in-flight) {
+          transition: transform 2s ease-out, scale 2s, opacity 0.75s;
+        }
+
+        &:hover,
+        &:focus {
+          transform: rotateX(0) rotateY(0) rotateZ(0);
+          scale: 1.05;
+        }
       }
 
-      :global(svg) {
-        width: 12rem;
-        height: 12rem;
-        padding: 2rem;
+      &.flipping {
+        :global(svg) {
+          opacity: 0;
+          transition: 1s ease-in;
+        }
+
+        transform: rotateX(0) rotateY(90deg) rotateZ(0) !important;
+        transition: transform 0.25s ease-in, scale 2s, opacity 0.5s !important;
       }
     }
 

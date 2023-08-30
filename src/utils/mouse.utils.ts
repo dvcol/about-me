@@ -107,7 +107,7 @@ export const mouseTilt = ({
 export type TiltEvent = { element: HTMLElement; mouse: MouseEvent; rotateX: number; rotateY: number; deg: number; transform: string };
 
 export const onTilt = (node: Element, { target, container, inertia, max, delay }: { delay?: number } & TiltOptions) => {
-  const onMouseMove = mouse => {
+  const onMouseMove = (mouse: MouseEvent) => {
     const { element, rotateX, rotateY, deg, transform } = mouseTilt({ target, mouse, container, inertia, max });
     node.dispatchEvent(new CustomEvent<TiltEvent>('tilt', { detail: { element, mouse, rotateX, rotateY, deg, transform } }));
     if (element) element.style.transform = transform;

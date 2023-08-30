@@ -1,6 +1,6 @@
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
      width="512" height="512" viewBox="0 -26 260 300" preserveAspectRatio="xMidYMid meet"
-     color-interpolation-filters="sRGB" style="margin: auto;">
+     color-interpolation-filters="sRGB" style="margin: auto; filter: drop-shadow(rgba(0, 0, 0, 0.25) 1px 4px 4px)">
 
 
     <g id="D" transform="translate(0, 0)" >
