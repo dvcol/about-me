@@ -7,6 +7,7 @@
   import { inView } from '~/actions';
 
   import { Tile } from '~/components/index.js';
+  import { BreakPoints, useMediaQuery } from '~/utils';
 
   export let secondary = false;
   export let marker = false;
@@ -27,6 +28,8 @@
   const onLeave = (event: MouseEvent) => dispatch('mouseleave', { event: event.detail, tile, index });
 
   const open$ = writable(false);
+
+  const isMobile$ = useMediaQuery(`(max-width: ${BreakPoints.mobile}px)`);
 </script>
 
 <div
@@ -46,7 +49,7 @@
     {#if tile}
       {@const { logo, ..._tile } = tile}
       <div class="timeline-tile-line">
-        {#if logo}
+        {#if logo && !$isMobile$}
           <div
             class="timeline-tile-line-marker timeline-tile-line-logo"
             class:timeline-tile-line-marker--open={$open$}
@@ -54,7 +57,7 @@
           >
             <img src={logo.url} alt={`${logo.title ?? 'timeline-tile'}-${index}-logo`} />
           </div>
-        {:else if marker}
+        {:else if marker || (logo && $isMobile$)}
           <span class="timeline-tile-line-marker" class:timeline-tile-line-marker--open={$open$}>
             <!-- empty marker -->
           </span>
@@ -182,10 +185,14 @@
         margin: 0 2rem;
       }
 
+      @media screen and (max-width: breakpoint.$mobile + px) {
+        margin: 0 1rem 0 0;
+      }
+
       &-marker {
         position: absolute;
         top: calc(4rem + 4.5px);
-        left: -9px;
+        left: -7px;
         z-index: z-index.$in-front;
         display: flex;
         align-items: center;
