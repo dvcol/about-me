@@ -334,7 +334,7 @@
       @media screen and (max-width: breakpoint.$mobile + px) {
         /* stylelint-disable-next-line -- library class */
         :global(.mdc-card__actions) {
-          flex-wrap: wrap;
+          flex-flow: column wrap;
         }
 
         :global(.tile-card-actions-links) {
