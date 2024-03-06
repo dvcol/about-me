@@ -177,7 +177,7 @@
         display: flex;
         flex: 1 1 auto;
         border-radius: 8px;
-        transition: scale 0.5s;
+        transition: scale 0.5s ease-out, box-shadow 0.5s ease-out;
         scale: 0.975;
 
         &-media {
@@ -319,6 +319,7 @@
         &:hover,
         &:focus {
           scale: 1;
+          box-shadow: 0 1px 2px -2px rgba(0 0 0 / 24%), 0 3px 6px 0 rgba(0 0 0 / 18%), 0 5px 12px 4px rgba(0 0 0 / 12%);
 
           .tile-card-media-content {
             translate: 0;

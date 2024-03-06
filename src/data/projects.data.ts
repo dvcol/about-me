@@ -138,7 +138,7 @@ const DvColMeda = new Project({
     style: 'filter: brightness(0.8)',
     title: 'data_projects.dv_col.media.title',
     subtitle: 'data_projects.dv_col.media.subtitle',
-    link: { label: 'data_projects.dv_col.media.link.label', url: DvColDescription.links.store },
+    link: { label: 'data_projects.dv_col.media.link.label', url: DvColDescription.links.github },
   },
 });
 

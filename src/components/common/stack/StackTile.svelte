@@ -92,7 +92,7 @@
     align-items: center;
     justify-content: center;
     padding: 2rem 0;
-    overflow: hidden;
+    overflow: unset;
 
     :global {
       .stack-tile {
