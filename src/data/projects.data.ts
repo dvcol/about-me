@@ -13,6 +13,7 @@ import {
   multiFramework,
   multipleRuntime,
   mv3,
+  naiveUi,
   preCaching,
   react,
   reactMui,
@@ -33,6 +34,8 @@ import {
   typescript,
   vite,
   vitePwa,
+  vitest,
+  vue,
   webComponent,
   webEx,
   webexMessaging,
@@ -40,6 +43,37 @@ import {
   workbox,
 } from '~/data/skills.data';
 import { MimeType, Project, StackTilePrimary } from '~/models';
+
+const SideTraktDescription = new Project({
+  title: 'data_projects.side_trakt.description.title',
+  subtitle: 'data_projects.side_trakt.description.subtitle',
+  description: 'data_projects.side_trakt.description.description',
+  tags: {
+    skills: [vue, webEx, animation, vite, vitest],
+    hidden: [naiveUi, mv3, syncStorage, sass, typescript, eslint, stylelint],
+  },
+  links: {
+    store: 'https://chrome.google.com/webstore/detail/pdodapikbijcfickiofjkjgkkmlcnbba',
+    github: 'https://github.com/dvcol/trakt-extension',
+    website: 'https://dvcol.github.io/#/trakt/demo',
+  },
+});
+
+const SideTraktMeda = new Project({
+  media: {
+    url: 'assets/video/trakt-extension-preview.hevc.mp4',
+    type: MimeType.MP4,
+    title: 'data_projects.side_trakt.media.title',
+    subtitle: 'data_projects.side_trakt.media.subtitle',
+    link: { label: 'data_projects.side_trakt.media.link.label', url: SideTraktDescription.links.store },
+  },
+});
+
+export const SideTraktTile: StackTileProps = {
+  left: SideTraktMeda,
+  right: SideTraktDescription,
+  primary: StackTilePrimary.Left,
+};
 
 const SynologyDownloadDescription = new Project({
   title: 'data_projects.synology_download.description.title',
@@ -66,7 +100,7 @@ const SynologyDownloadDescription = new Project({
     ],
   },
   links: {
-    store: 'https://chrome.google.com/webstore/detail/download-station-client-f/ebbdkledlkjpgbbmmopgbnnjmklnkcef',
+    store: 'https://chrome.google.com/webstore/detail/ebbdkledlkjpgbbmmopgbnnjmklnkcef',
     github: 'https://github.com/dvcol/synology-download',
     website: 'https://dvcol.github.io/#/synology/demo',
   },

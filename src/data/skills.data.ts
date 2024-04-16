@@ -11,6 +11,7 @@ export const angular = new Skill({
   children: [ngRgx, ngXs, angularMaterial, angularAnimation, angularServiceWorker],
 });
 
+export const naiveUi = new Skill({ name: 'Naive UI' });
 export const vue2 = new Skill({ name: 'Vue 2' });
 // export const vue3 = new Skill({ name: 'Vue 3'},
 export const compositionApi = new Skill({ name: 'Composition API' });
@@ -21,7 +22,7 @@ export const vueI18n = new Skill({ name: 'Vue i18n' });
 
 export const vue = new Skill({
   name: 'Vue',
-  children: [vue2, compositionApi, vuex, vueI18n],
+  children: [vue2, compositionApi, vuex, vueI18n, naiveUi],
 });
 
 export const svelteNavigator = new Skill({ name: 'Svelte navigator' });
@@ -65,10 +66,11 @@ export const shell = new Skill({ name: 'Shell Architecture' });
 export const iframeIsolation = new Skill({ name: 'Iframe isolation' });
 export const multipleRuntime = new Skill({ name: 'Multi framework runtime' });
 export const multiFramework = new Skill({ name: 'Multi framework routing' });
+export const importMap = new Skill({ name: 'Import map' });
 
 export const microFrontend = new Skill({
   name: 'Micro Frontend',
-  children: [moduleFederation, webComponent, remoteEntry, shell, iframeIsolation, multipleRuntime, multiFramework],
+  children: [moduleFederation, webComponent, remoteEntry, shell, iframeIsolation, multipleRuntime, multiFramework, importMap],
 });
 
 export const motion = new Skill({ name: 'Motion one' });
@@ -122,6 +124,7 @@ export const pwa = new Skill({
 });
 
 export const jest = new Skill({ name: 'Jest' });
+export const vitest = new Skill({ name: 'Vitest' });
 export const junit = new Skill({ name: 'JUnit' });
 export const typescript = new Skill({ name: 'Typescript' });
 export const eslint = new Skill({ name: 'Eslint' });
@@ -130,7 +133,7 @@ export const sonarlint = new Skill({ name: 'Sonarlint' });
 
 export const quality = new Skill({
   name: 'Quality',
-  children: [jest, typescript, eslint, stylelint, sonarlint, junit],
+  children: [vitest, jest, typescript, eslint, stylelint, sonarlint, junit],
 });
 
 export const frontend = new Skill({

@@ -2,7 +2,7 @@
   "contentsquare": {
     "title": "Fullstack Frontend Developer - Application Research & Development",
     "subtitle": "Core application team member with focus on frontend and ci-cd topics",
-    "description": "Inside the core application team I've contributed to:\n <ul>\n <li>The migration from a angularJs monolith to a micro-frontend, multi-framework (vue, svelte, stencil, angular) shell architecture</li>\n <li>The creation of a svelte based, web-component based, and module federated shell application</li>\n <li>The modernisation of the mono-repo ci-cd chain with code quality and test coverage automation</li>\n <li>The migration from a linear jenkins ci pipeline to a multi-threaded github action workflow</li>\n </ul> "
+    "description": "Inside the core application team I've contributed to:\n <ul>\n <li>The migration from a angularJs monolith to a micro-frontend, multi-framework (vue, svelte, stencil, angular) shell architecture</li>\n <li>The creation of a svelte based, web-component based, and module federated shell application</li>\n <li>The modernisation of the mono-repo ci-cd chain with code quality and test coverage automation</li>\n <li>The migration from a linear jenkins ci pipeline to a multi-threaded github action workflow</li>\n  <li>The migration of a compile time, chunk based, module federation, to a deploy time, import-map based one</li>\n </ul> "
   },
   "mea": {
     "title": "Fullstack Developer - Angular / Java",

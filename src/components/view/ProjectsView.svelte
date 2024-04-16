@@ -2,10 +2,10 @@
   import type { StackTileProps } from '~/models';
 
   import { Header, Paragraph, Section, Stack } from '~/components';
-  import { AboutMeTile, DvColTile, HeaderLink } from '~/data';
+  import { AboutMeTile, DvColTile, HeaderLink, SideTraktTile } from '~/data';
   import { SynologyDownloadTile } from '~/data/projects.data';
 
-  const stacks: StackTileProps[] = [SynologyDownloadTile, AboutMeTile, DvColTile];
+  const stacks: StackTileProps[] = [SideTraktTile, SynologyDownloadTile, AboutMeTile, DvColTile];
 </script>
 
 <Section>
