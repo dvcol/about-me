@@ -56,4 +56,28 @@
     flex: 1 1 auto;
     flex-direction: column;
   }
+
+  /* Avoid ugly unbalanced word wrap */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+
+  /* Avoid ugly orphan word wrap */
+  p,
+  li,
+  figcaption {
+    text-wrap: pretty;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :has(:target) {
+      scroll-behavior: smooth;
+      scroll-padding-top: 3rem;
+    }
+  }
 </style>

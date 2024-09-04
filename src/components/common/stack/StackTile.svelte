@@ -17,7 +17,7 @@
   const open$ = writable(false);
   const inFlight$ = writable(false);
 
-  let timeout: number;
+  let timeout: ReturnType<typeof setTimeout>;
   onDestroy(() => clearTimeout(timeout));
 
   const spreadTile = ({ title, subtitle, description, media, links, tags }: Project = {}) => ({
@@ -38,6 +38,7 @@
 
 <div
   class="stack-tiles"
+  class:stack-tiles--open={$open$}
   data-id={`stack-tiles-${index}`}
   use:inView={{ margin: { bottom: $reverse$ ? 700 : 400 } }}
   on:enter={() => {
@@ -91,8 +92,22 @@
     flex-flow: row wrap;
     align-items: center;
     justify-content: center;
+    margin: 0;
     padding: 2rem 0;
     overflow: unset;
+    transition: margin 1s cubic-bezier(0.28, 0.06, 0.34, 0.91);
+
+    @media (width >= breakpoint.$hd + px) {
+      &--open {
+        &:nth-child(odd) {
+          margin-right: 4svw;
+        }
+
+        &:nth-child(even) {
+          margin-left: 4svw;
+        }
+      }
+    }
 
     :global {
       .stack-tile {
@@ -101,7 +116,8 @@
         flex: 1 1 50%;
         flex-direction: column;
         align-self: stretch;
-        max-width: 50vw;
+        max-width: min(50vw, 46rem);
+        min-height: 30rem;
         transition: translate 1s cubic-bezier(0.28, 0.06, 0.34, 0.91);
         will-change: translate;
 
@@ -146,7 +162,7 @@
 
         @media screen and (max-width: breakpoint.$hd + px) {
           flex: 1 1 100%;
-          max-width: 100vw;
+          max-width: min(52rem, 100svh);
           min-height: 40vh;
 
           &-left {
