@@ -81,7 +81,7 @@
     &-word {
       white-space: pre-line;
       opacity: var(--min);
-      transition: opacity 200ms;
+      transition: opacity 500ms;
       will-change: opacity;
 
       &.visible {
@@ -91,6 +91,12 @@
       &.near:not(.visible) {
         opacity: clamp(var(--min), var(--near), var(--max));
       }
+    }
+
+    &:hover .word-scroll-word,
+    &:focus .word-scroll-word {
+      opacity: var(--max);
+      transition: opacity 1000ms;
     }
   }
 </style>
