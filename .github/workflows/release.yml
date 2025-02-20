@@ -40,12 +40,12 @@ jobs:
           fetch-depth: 0
 
       - name: Setup pnpm ${{ env.pnpm_version }}
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
           version: ${{ env.pnpm_version }}
 
       - name: Setup Node.js ${{ env.node_version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.node_version }}
           registry-url: 'https://registry.npmjs.org'
