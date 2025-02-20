@@ -1,12 +1,14 @@
 import type { StackTileProps } from '~/models';
 
 import {
+  accessibility,
   animation,
   backgroundScript,
   contentScript,
   context,
   dndKit,
   eslint,
+  glassmorphism,
   microFrontend,
   mobileWebApp,
   motion,
@@ -14,6 +16,7 @@ import {
   multipleRuntime,
   mv3,
   naiveUi,
+  neomorphism,
   preCaching,
   react,
   reactMui,
@@ -22,27 +25,92 @@ import {
   reactTransitionGroup,
   redux,
   remoteEntry,
+  router,
   rxjs,
   sass,
   shell,
   solid,
   stylelint,
   svelte,
+  svelte5,
   svelteI18n,
   svelteMui,
   syncStorage,
   typescript,
+  uiLibrary,
   vite,
   vitePwa,
   vitest,
   vue,
   webComponent,
+  webDesign,
   webEx,
   webexMessaging,
   webpack,
   workbox,
 } from '~/data/skills.data';
 import { MimeType, Project, StackTilePrimary } from '~/models';
+
+const NeoSvelteDescription = new Project({
+  title: 'data_projects.neo_svelte.description.title',
+  subtitle: 'data_projects.neo_svelte.description.subtitle',
+  description: 'data_projects.neo_svelte.description.description',
+  tags: {
+    skills: [svelte, svelte5, neomorphism, glassmorphism, uiLibrary],
+    hidden: [webDesign, sass, typescript, eslint, stylelint, animation, vite, vitest, accessibility],
+  },
+  links: {
+    github: 'https://github.com/dvcol/neo-svelte',
+    website: 'https://dvcol.github.io/neo-svelte',
+  },
+});
+
+const NeoSvelteMedia = new Project({
+  media: {
+    url: 'assets/video/neo-svelte.hevc.mp4',
+    type: MimeType.MP4,
+    color: '#212124',
+    title: 'data_projects.neo_svelte.media.title',
+    subtitle: 'data_projects.neo_svelte.media.subtitle',
+    link: { label: 'data_projects.neo_svelte.media.link.label', url: NeoSvelteDescription.links.website },
+  },
+});
+
+export const NeoSvelteTile: StackTileProps = {
+  left: NeoSvelteMedia,
+  right: NeoSvelteDescription,
+  primary: StackTilePrimary.Left,
+};
+
+const SvelteSimpleRouterDescription = new Project({
+  title: 'data_projects.svelte_simple_router.description.title',
+  subtitle: 'data_projects.svelte_simple_router.description.subtitle',
+  description: 'data_projects.svelte_simple_router.description.description',
+  tags: {
+    skills: [svelte, svelte5, router],
+    hidden: [sass, typescript, eslint, stylelint, animation, microFrontend, shell, vite, vitest],
+  },
+  links: {
+    github: 'https://github.com/dvcol/svelte-simple-router',
+    website: 'https://dvcol.github.io/svelte-simple-router',
+  },
+});
+
+const SvelteSimpleRouterMedia = new Project({
+  media: {
+    url: 'assets/video/svelte-simple-router.hevc.mp4',
+    type: MimeType.MP4,
+    title: 'data_projects.svelte_simple_router.media.title',
+    subtitle: 'data_projects.svelte_simple_router.media.subtitle',
+    link: { label: 'data_projects.svelte_simple_router.media.link.label', url: SvelteSimpleRouterDescription.links.website },
+  },
+});
+
+export const SvelteSimpleRouterTile: StackTileProps = {
+  left: SvelteSimpleRouterDescription,
+  right: SvelteSimpleRouterMedia,
+  primary: StackTilePrimary.Right,
+};
 
 const SideTraktDescription = new Project({
   title: 'data_projects.side_trakt.description.title',

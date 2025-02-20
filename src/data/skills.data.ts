@@ -28,10 +28,11 @@ export const vue = new Skill({
 export const svelteNavigator = new Skill({ name: 'Svelte navigator' });
 export const svelteI18n = new Skill({ name: 'Svelte i18n' });
 export const svelteMui = new Skill({ name: 'Svelte Material UI' });
+export const svelte5 = new Skill({ name: 'Svelte 5' });
 
 export const svelte = new Skill({
   name: 'Svelte',
-  children: [svelteNavigator, svelteI18n, svelteMui],
+  children: [svelteNavigator, svelteI18n, svelteMui, svelte5],
 });
 
 export const reactMui = new Skill({ name: 'React Material UI (5+)' });
@@ -67,10 +68,11 @@ export const iframeIsolation = new Skill({ name: 'Iframe isolation' });
 export const multipleRuntime = new Skill({ name: 'Multi framework runtime' });
 export const multiFramework = new Skill({ name: 'Multi framework routing' });
 export const importMap = new Skill({ name: 'Import map' });
+export const router = new Skill({ name: 'Router' });
 
 export const microFrontend = new Skill({
   name: 'Micro Frontend',
-  children: [moduleFederation, webComponent, remoteEntry, shell, iframeIsolation, multipleRuntime, multiFramework, importMap],
+  children: [moduleFederation, webComponent, remoteEntry, shell, iframeIsolation, multipleRuntime, multiFramework, importMap, router],
 });
 
 export const motion = new Skill({ name: 'Motion one' });
@@ -91,6 +93,14 @@ export const css = new Skill({
   name: 'css',
   children: [sass, bem, atomicCss, componentLibrary, boostrap, angularMaterial, reactMui, svelteMui],
 });
+
+export const uiLibrary = new Skill({ name: 'UI Library' });
+export const accessibility = new Skill({ name: 'Accessibility' });
+export const designSystem = new Skill({ name: 'Design System' });
+export const neomorphism = new Skill({ name: 'Neomorphism' });
+export const glassmorphism = new Skill({ name: 'Glassmorphism' });
+
+export const webDesign = new Skill({ name: 'Web Design', children: [uiLibrary, accessibility, designSystem, neomorphism, glassmorphism] });
 
 export const webpack = new Skill({ name: 'Webpack' });
 export const rollup = new Skill({ name: 'Rollup' });
@@ -138,7 +148,7 @@ export const quality = new Skill({
 
 export const frontend = new Skill({
   name: 'Frontend',
-  children: [angular, vue, svelte, react, solid, stencil, webEx, pwa, microFrontend, animation, css, bundler, state, quality],
+  children: [angular, vue, svelte, react, solid, stencil, webEx, pwa, microFrontend, animation, css, bundler, state, quality, webDesign],
 });
 
 export const jhipster = new Skill({ name: 'Jhipster' });

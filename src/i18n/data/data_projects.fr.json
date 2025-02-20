@@ -1,4 +1,32 @@
 {
+  "neo_svelte": {
+    "description": {
+      "title": "Neo Svelte",
+      "subtitle": "Neomorphic ui library for svelte 5",
+      "description": "\"<b>Neo Svelte</b>\" is a modern UI library for Svelte 5, designed to bring a sleek, soft, and futuristic look to web applications with neumorphism and glassmorphism design elements. It provides a collection of pre-styled, accessible, and highly customizable components that make it easy to build visually appealing UIs with minimal effort.\n\nWith Neo Svelte, developers can quickly create smooth, depth-rich interfaces that balance aesthetics and usability, all while leveraging the power and reactivity of Svelte 5. Whether you're crafting a full-fledged web app or just enhancing an existing project, Neo Svelte makes the process fast, simple, and visually stunning."
+    },
+    "media": {
+      "title": "Neo Svelte",
+      "subtitle": "Neomorphic and Glassmorphic ui library for svelte 5",
+      "link": {
+        "label": "See it in action"
+      }
+    }
+  },
+  "svelte_simple_router": {
+    "description": {
+      "title": "Svelte Simple Router",
+      "subtitle": "Svelte 5 single page router",
+      "description": "\"<b>Svelte Simple Router</b>\" is a native Single Page Application (SPA) router for Svelte 5, designed for seamless client-side navigation while leveraging Svelte's reactivity and transitions.\n\nIt supports both History API and hash routing, offering flexible URL management with  robust path matching, query parameter handling, and dynamic interpolation. Packed with features like nested views, route guards, lazy loading, dynamic routing, and full integration with Svelte’s Transition API and the View Transitions API, it enables smooth and interactive navigation experiences.\n\nBuilt to be easy to use yet powerful, Svelte Simple Router is the perfect solution for developers looking to add routing to their Svelte applications without unnecessary complexity."
+    },
+    "media": {
+      "title": "Svelte Simple Router",
+      "subtitle": "Svelte 5 single page router",
+      "link": {
+        "label": "See it in action"
+      }
+    }
+  },
   "side_trakt": {
     "description": {
       "title": "Side Trakt",

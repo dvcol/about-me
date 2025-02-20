@@ -83,12 +83,12 @@
             {/if}
             <div class="tile-card-media-content">
               {#if media.title}
-                <h2 class="tile-card-media-title mdc-typography--headline6p">
+                <h2 class="tile-card-media-title mdc-typography--headline6p" style:color={media.color}>
                   {$_(media.title)}
                 </h2>
               {/if}
               {#if media.subtitle}
-                <h3 class="tile-card-media-subtitle mdc-typography--subtitle2">{$_(media.subtitle)}</h3>
+                <h3 class="tile-card-media-subtitle mdc-typography--subtitle2" style:color={media.color}>{$_(media.subtitle)}</h3>
               {/if}
               {#if media.link}
                 <AnimatedButton class="tile-card-media-link" url={media.link.url}>
