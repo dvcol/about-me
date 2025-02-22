@@ -2,8 +2,6 @@
   import { ActionButtons } from '@smui/card';
   import { Text } from '@smui/chips';
 
-  import { onMount } from 'svelte';
-
   import { _ } from 'svelte-i18n';
 
   import type { Skill } from '~/models';
@@ -17,14 +15,10 @@
 
   const { colors$, nodes$, onHover$, onLeave$, onSelect$ } = useSkillsStore();
   const { onSelect, onEnter, onLeave } = useTagsStore();
-
-  let onScroll: (scrollContainer: HTMLDivElement) => void;
-
-  onMount(() => setTimeout(onScroll));
 </script>
 
 <div class="tile-tags">
-  <ScrollShadow bind:onScroll>
+  <ScrollShadow>
     <ActionButtons>
       {#key $colors$}
         {#if skills}

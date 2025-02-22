@@ -12,7 +12,7 @@
   import type { SunburstData } from '~/models';
 
   import { inView } from '~/actions';
-  import { Animation, hasChildren, Header, ScrollShadow, spliceNode, SunBurst, Tag } from '~/components/common';
+  import { hasChildren, Header, ScrollShadow, spliceNode, SunBurst, Tag } from '~/components/common';
 
   import { Paragraph, Section } from '~/components/layout';
   import { HeaderLink, skills } from '~/data';
@@ -65,8 +65,6 @@
 
   let back: SunburstApi['back'];
 
-  let onScroll: (scrollContainer: HTMLDivElement) => void;
-
   enum Direction {
     In = 'in',
     Out = 'out',
@@ -86,8 +84,6 @@
   const onInit = ({ detail }: CustomEvent<SunburstData>) => {
     $parent$ = detail;
     updateVisible(parseData(detail));
-
-    setTimeout(onScroll, Animation.Speed);
   };
 
   const onClick = ({ detail }: CustomEvent<SunburstData>) => {
@@ -97,7 +93,6 @@
       updateVisible(parseData(detail));
     }
     selected(detail);
-    setTimeout(onScroll, Animation.Speed);
   };
 
   const onHover = ({ detail }: CustomEvent<SunburstData>) => {
@@ -155,7 +150,7 @@
     </div>
 
     <div class="column chips" class:chips--visible={$inView$}>
-      <ScrollShadow bind:onScroll>
+      <ScrollShadow>
         <Set chips={$visible$} let:chip>
           <Tag
             class={`translate-${$direction$ === Direction.In ? 'left' : 'right'}`}
