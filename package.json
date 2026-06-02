@@ -106,7 +106,7 @@
     "vite": "^4.4.9",
     "vite-plugin-dts": "^2.3.0",
     "vite-plugin-i18n-resources": "^1.0.3",
-    "vitest": "^0.34.0",
+    "vitest": "^4.1.0",
     "yaml-eslint-parser": "^1.0.0"
   },
   "lint-staged": {
