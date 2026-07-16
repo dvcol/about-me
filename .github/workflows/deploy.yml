@@ -35,7 +35,7 @@ jobs:
 
     steps:
       - name: Checkout branch ${{ github.ref }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Build
         uses: ./.github/actions/build
@@ -44,17 +44,17 @@ jobs:
           pnpm_version: ${{ env.pnpm_version }}
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           # Upload entire repository
           path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
       - name: Setup credentials
         run: |
