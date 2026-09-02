@@ -43,11 +43,11 @@
     "release:changelog": "extract-changelog-release > RELEASE.md"
   },
   "dependencies": {
-    "@smui/button": "7.0.0-beta.15",
-    "@smui/card": "7.0.0-beta.15",
+    "@smui/button": "7.0.0",
+    "@smui/card": "7.0.0",
     "@smui/chips": "^7.0.0-beta.14",
     "@smui/fab": "^7.0.0-beta.14",
-    "@smui/icon-button": "7.0.0-beta.15",
+    "@smui/icon-button": "7.0.0",
     "d3": "^7.8.4",
     "dompurify": "^3.0.5",
     "line-md": "^0.2.10",
@@ -82,7 +82,7 @@
     "eslint-plugin-markdown": "^2.2.1",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-svelte": "^2.32.2",
-    "eslint-plugin-vitest": "^0.3.0",
+    "eslint-plugin-vitest": "^0.5.0",
     "eslint-plugin-yml": "^1.0.0",
     "extract-changelog-release": "^1.0.2",
     "husky": "^8.0.3",
